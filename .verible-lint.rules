@@ -1,0 +1,20 @@
+# .verible-lint.rules
+# Based on systemverilog.io style guide
+
+# Allow traditional lowercase_with_underscore for variables, modules, classes
+-parameter-name-style
+
+# Allow lowercase_with_underscore for modules
+-module-filename
+
+# Keep line length check enabled
++line-length=length:100
+
+# Enforce explicit parameter types
++explicit-parameter-storage-type
+
+# Keep trailing whitespace check
++no-trailing-spaces
+
+# Keep check for proper file endings
++posix-eof

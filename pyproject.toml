@@ -1,0 +1,107 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "optical-flow-fpga"
+version = "0.1.0-dev"
+description = "Real-time Lucas-Kanade optical flow implementation for FPGA with test utilities."
+authors = [{name = "Joshua Rothe", email = "21348884+rothej@users.noreply.github.com"}]
+maintainers = [{name = "Joshua Rothe", email = "21348884+rothej@users.noreply.github.com"}]
+keywords = [
+    "optical-flow",
+    "lucas-kanade",
+    "fpga",
+    "computer-vision",
+    "rtl",
+    "systemverilog",
+    "nexys-a7"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Education",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Image Processing",
+    "Topic :: System :: Hardware",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=1.24.0",
+    "opencv-python>=4.8.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pre-commit>=3.6.0",
+    "black>=23.12.0",
+    "isort>=5.13.0",
+    "flake8>=7.0.0",
+    "mypy>=1.8.0",
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "types-PyYAML>=6.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/rothej/optical-flow-fpga"
+Repository = "https://github.com/rothej/optical-flow-fpga"
+Portfolio = "https://joshrothe.us"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["python*"]
+exclude = ["python.tests*"]
+
+[tool.black]
+line-length = 100
+target-version = ['py312']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+strict_equality = true
+check_untyped_defs = true
+disable_error_code = ["misc"]
+
+[[tool.mypy.overrides]]
+module = [
+    "cv2.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers --cov=python --cov-report=term-missing"
+testpaths = ["python/tests"]
+pythonpath = ["python"]
+
+[tool.coverage.run]
+source = ["python"]
+omit = [
+    "*/tests/*",
+    "*/__pycache__/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]

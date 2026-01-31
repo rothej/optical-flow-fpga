@@ -1,0 +1,69 @@
+# Vivado generated files
+*.jou
+*.log
+*.str
+*.zip
+*.tmp
+
+# Vivado project files (only keeps .xpr)
+.Xil/
+*.jou
+*.log
+*.cache/
+*.hw/
+*.ip_user_files/
+*.sim/
+*.runs/
+*.gen/
+
+# Simulation waveform databases
+*.wdb
+*.wcfg
+
+# Synthesis/Implementation outputs
+*.bit
+*.bin
+*.mcs
+*.prm
+*.dcp
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+venv/
+env/
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
+
+# Editor artifacts
+.vscode/
+.idea/
+*.sublime-*
+
+# Test outputs
+# tb/test_frames/*.mem
+
+# Python virtual environment
+.venv/
+.direnv/
+
+# Pre-commit
+.pre-commit-config.yaml.backup
+.tools/
+
+# Coverage reports
+.coverage
+htmlcov/
+coverage.xml
+
+# Misc
+copy_files.py
+combined_files.txt
