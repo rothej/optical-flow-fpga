@@ -52,7 +52,7 @@ jobs:
 
       - name: Upload results on failure
         if: failure()
-        uses: actions/upload-artifact@4
+        uses: actions/upload-artifact@v4
         with:
           name: verification-results
           path: python/verification_results.md
