@@ -1,0 +1,58 @@
+name: Optical Flow Verification
+
+on:
+  pull_request:
+    paths:
+      - 'python/**'
+      - 'rtl/**'
+  push:
+    branches: [main, dev]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dev dependencies
+        run: pip install -e .[dev]
+
+      - name: Lint with flake8 (critical errors only)
+        run: |
+          flake8 python/ --count --select=E9,F63,F7,F82 --show-source --statistics
+        continue-on-error: false # Fail on syntax errors
+
+      - name: Type check with mypy
+        run: |
+          mypy python/ --config-file pyproject.toml
+        continue-on-error: true # Don't fail on type warnings
+
+      - name: Generate test patterns
+        run: python python/generate_test_suite.py
+
+      - name: Run verification with regression check
+        run: |
+          python python/optical_flow_verifier.py \
+            --compare-baseline \
+            --no-visualizations \
+            --regression-threshold 10.0
+
+      - name: Upload results on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verification-results
+          path: python/verification_results.md

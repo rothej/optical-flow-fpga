@@ -1,0 +1,16 @@
+# .gitlab-ci.yml
+verify_optical_flow:
+  stage: test
+  image: python:3.11
+  script:
+    - pip install -e .[dev]
+    - python python/generate_test_suite.py
+    - python python/optical_flow_verifier.py --compare-baseline --no-visualizations
+  artifacts:
+    when: on_failure
+    paths:
+      - python/verification_results.md
+  only:
+    changes:
+      - python/**
+      - rtl/**

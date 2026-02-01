@@ -1,0 +1,383 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-02-01T21:56:56.166197+00:00",
+  "patterns": {
+    "translate_small": {
+      "pattern_name": "translate_small",
+      "ground_truth": {
+        "u": 0.5,
+        "v": 0.5
+      },
+      "num_test_pixels": 66000,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 0.311813622713089,
+          "mae_v": 0.26687854528427124,
+          "rmse": 0.5222509503364563,
+          "epe": 0.4436231851577759,
+          "aae": 14.911707878112793
+        },
+        "status": "Pass"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 0.6505956649780273,
+          "mae_v": 0.7206244468688965,
+          "rmse": 2.128518581390381,
+          "epe": 1.087524652481079,
+          "aae": 32.80108642578125
+        },
+        "status": "Warning",
+        "config": "default"
+      }
+    },
+    "translate_medium": {
+      "pattern_name": "translate_medium",
+      "ground_truth": {
+        "u": 2.0,
+        "v": 0.0
+      },
+      "num_test_pixels": 66000,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 1.3401340246200562,
+          "mae_v": 0.7652643322944641,
+          "rmse": 2.1717894077301025,
+          "epe": 1.6801190376281738,
+          "aae": 40.20503616333008
+        },
+        "status": "Warning"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 0.5250397324562073,
+          "mae_v": 0.3744489848613739,
+          "rmse": 3.2240915298461914,
+          "epe": 0.7034943103790283,
+          "aae": 6.876394748687744
+        },
+        "status": "Warning",
+        "config": "default"
+      }
+    },
+    "translate_large": {
+      "pattern_name": "translate_large",
+      "ground_truth": {
+        "u": 15.0,
+        "v": 0.0
+      },
+      "num_test_pixels": 66000,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 14.823783874511719,
+          "mae_v": 2.063746452331543,
+          "rmse": 15.293818473815918,
+          "epe": 15.121513366699219,
+          "aae": 84.09007263183594
+        },
+        "status": "Fail"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 6.039209842681885,
+          "mae_v": 4.900485992431641,
+          "rmse": 14.80628490447998,
+          "epe": 8.758886337280273,
+          "aae": 28.954776763916016
+        },
+        "status": "Fail",
+        "config": "default"
+      }
+    },
+    "translate_vertical": {
+      "pattern_name": "translate_vertical",
+      "ground_truth": {
+        "u": 0.0,
+        "v": 10.0
+      },
+      "num_test_pixels": 66000,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 1.656869649887085,
+          "mae_v": 8.800853729248047,
+          "rmse": 9.723971366882324,
+          "epe": 9.249227523803711,
+          "aae": 69.5036849975586
+        },
+        "status": "Fail"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 5.511838912963867,
+          "mae_v": 2.5608489513397217,
+          "rmse": 23.242809295654297,
+          "epe": 6.6472320556640625,
+          "aae": 14.651816368103027
+        },
+        "status": "Fail",
+        "config": "default"
+      }
+    },
+    "translate_diagonal": {
+      "pattern_name": "translate_diagonal",
+      "ground_truth": {
+        "u": 10.0,
+        "v": 10.0
+      },
+      "num_test_pixels": 66000,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 9.579360961914062,
+          "mae_v": 8.91382884979248,
+          "rmse": 13.775948524475098,
+          "epe": 13.38869571685791,
+          "aae": 73.523193359375
+        },
+        "status": "Fail"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 7.279618740081787,
+          "mae_v": 4.774196147918701,
+          "rmse": 21.24827766418457,
+          "epe": 9.746882438659668,
+          "aae": 24.541593551635742
+        },
+        "status": "Fail",
+        "config": "default"
+      }
+    },
+    "rotate_small": {
+      "pattern_name": "rotate_small",
+      "ground_truth": {
+        "u": 0.0,
+        "v": 0.0
+      },
+      "num_test_pixels": 6400,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 1.2075351476669312,
+          "mae_v": 1.1412596702575684,
+          "rmse": 2.0026237964630127,
+          "epe": 1.825993299484253,
+          "aae": 57.165367126464844
+        },
+        "status": "Warning"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 0.775459349155426,
+          "mae_v": 0.9405179023742676,
+          "rmse": 1.528860092163086,
+          "epe": 1.3405925035476685,
+          "aae": 48.9213981628418
+        },
+        "status": "Pass",
+        "config": "default"
+      }
+    },
+    "rotate_medium": {
+      "pattern_name": "rotate_medium",
+      "ground_truth": {
+        "u": 0.0,
+        "v": 0.0
+      },
+      "num_test_pixels": 6400,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 1.0903207063674927,
+          "mae_v": 1.5669584274291992,
+          "rmse": 2.3613719940185547,
+          "epe": 2.0958409309387207,
+          "aae": 59.15232467651367
+        },
+        "status": "Warning"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 1.7799426317214966,
+          "mae_v": 1.8873186111450195,
+          "rmse": 3.0402438640594482,
+          "epe": 2.819035291671753,
+          "aae": 67.04733276367188
+        },
+        "status": "Warning",
+        "config": "default"
+      }
+    },
+    "rotate_large": {
+      "pattern_name": "rotate_large",
+      "ground_truth": {
+        "u": 0.0,
+        "v": 0.0
+      },
+      "num_test_pixels": 6400,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 0.9188798666000366,
+          "mae_v": 1.6023077964782715,
+          "rmse": 2.407503128051758,
+          "epe": 2.0266857147216797,
+          "aae": 56.88795471191406
+        },
+        "status": "Warning"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 5.228123188018799,
+          "mae_v": 5.395917892456055,
+          "rmse": 8.810845375061035,
+          "epe": 8.156494140625,
+          "aae": 81.07262420654297
+        },
+        "status": "Fail",
+        "config": "default"
+      }
+    },
+    "zoom_in": {
+      "pattern_name": "zoom_in",
+      "ground_truth": {
+        "u": 0.0,
+        "v": 0.0
+      },
+      "num_test_pixels": 6400,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 1.1705913543701172,
+          "mae_v": 1.7435545921325684,
+          "rmse": 2.6419739723205566,
+          "epe": 2.3223226070404053,
+          "aae": 61.50725173950195
+        },
+        "status": "Warning"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 2.0236153602600098,
+          "mae_v": 2.101386547088623,
+          "rmse": 3.3914685249328613,
+          "epe": 3.172602653503418,
+          "aae": 69.52294158935547
+        },
+        "status": "Warning",
+        "config": "default"
+      }
+    },
+    "zoom_out": {
+      "pattern_name": "zoom_out",
+      "ground_truth": {
+        "u": 0.0,
+        "v": 0.0
+      },
+      "num_test_pixels": 6400,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 1.109564185142517,
+          "mae_v": 1.6598244905471802,
+          "rmse": 2.580742120742798,
+          "epe": 2.2122085094451904,
+          "aae": 59.7514533996582
+        },
+        "status": "Warning"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 2.0742342472076416,
+          "mae_v": 2.229105234146118,
+          "rmse": 3.615201234817505,
+          "epe": 3.3317272663116455,
+          "aae": 69.9220199584961
+        },
+        "status": "Warning",
+        "config": "default"
+      }
+    },
+    "translate_rotate": {
+      "pattern_name": "translate_rotate",
+      "ground_truth": {
+        "u": 5.0,
+        "v": 5.0
+      },
+      "num_test_pixels": 6400,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 4.775784492492676,
+          "mae_v": 4.84915018081665,
+          "rmse": 7.2487311363220215,
+          "epe": 7.00234842300415,
+          "aae": 76.16438293457031
+        },
+        "status": "Warning"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 1.1349787712097168,
+          "mae_v": 1.2942897081375122,
+          "rmse": 2.106886625289917,
+          "epe": 1.8877999782562256,
+          "aae": 9.749526023864746
+        },
+        "status": "Pass",
+        "config": "default"
+      }
+    },
+    "no_motion": {
+      "pattern_name": "no_motion",
+      "ground_truth": {
+        "u": 0.0,
+        "v": 0.0
+      },
+      "num_test_pixels": 66000,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 0.0,
+          "mae_v": 0.0,
+          "rmse": 0.0,
+          "epe": 0.0,
+          "aae": 0.0
+        },
+        "status": "Pass"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 0.0,
+          "mae_v": 0.0,
+          "rmse": 0.0,
+          "epe": 0.0,
+          "aae": 0.0
+        },
+        "status": "Pass",
+        "config": "default"
+      }
+    },
+    "translate_extreme": {
+      "pattern_name": "translate_extreme",
+      "ground_truth": {
+        "u": 30.0,
+        "v": 20.0
+      },
+      "num_test_pixels": 66000,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 29.64916229248047,
+          "mae_v": 18.930492401123047,
+          "rmse": 36.05946731567383,
+          "epe": 35.58547592163086,
+          "aae": 80.78190612792969
+        },
+        "status": "Fail"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 34.24076461791992,
+          "mae_v": 21.145320892333984,
+          "rmse": 77.51263427734375,
+          "epe": 44.21773147583008,
+          "aae": 69.32986450195312
+        },
+        "status": "Fail",
+        "config": "default"
+      }
+    }
+  }
+}

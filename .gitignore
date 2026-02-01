@@ -1,0 +1,130 @@
+# .gitignore
+
+#############################################################################
+# Python
+#############################################################################
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+.venv/
+.direnv/
+venv/
+env/
+ENV/
+
+# Distribution / packaging
+*.egg-info/
+dist/
+build/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+*.cover
+.hypothesis/
+
+#############################################################################
+# Vivado / FPGA Tools
+#############################################################################
+# Project artifacts
+.Xil/
+*.cache/
+*.hw/
+*.ip_user_files/
+*.sim/
+*.runs/
+*.gen/
+
+# Log files
+*.jou
+*.log
+*.str
+
+# Synthesis/Implementation outputs
+*.bit
+*.bin
+*.ltx
+*.mcs
+*.prm
+*.dcp
+
+# Simulation artifacts
+*.wdb
+*.wcfg
+*.pb
+
+# Temporary/backup files
+*.tmp
+*.zip
+*.bak
+*_backup/
+
+#############################################################################
+# Verible / Linting
+#############################################################################
+.tools/
+
+#############################################################################
+# Editors / IDEs
+#############################################################################
+# VSCode
+.vscode/
+*.code-workspace
+
+# JetBrains (PyCharm, IntelliJ)
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim/Neovim
+*.swp
+*.swo
+*~
+.*.sw[a-z]
+
+# Emacs
+\#*\#
+.\#*
+
+#############################################################################
+# OS Artifacts
+#############################################################################
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+.directory
+
+#############################################################################
+# Project-Specific
+#############################################################################
+# Test frames
+#tb/test_frames/*.mem
+
+# Temporary scripts/outputs
+copy_files.py
+combined_files.txt
+
+# Generated test data
+python/test_suite/
+
+#############################################################################
+# Git / Version Control
+#############################################################################
+.pre-commit-config.yaml.backup

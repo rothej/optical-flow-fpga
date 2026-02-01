@@ -1,0 +1,65 @@
+# pre-commit-config.yaml
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+
+  - repo: https://github.com/psf/black
+    rev: 26.1.0
+    hooks:
+      - id: black
+        language_version: python3.12
+        args: ['--line-length=100']
+
+  - repo: https://github.com/pycqa/isort
+    rev: 7.0.0
+    hooks:
+      - id: isort
+        args: ['--profile=black', '--line-length=100']
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.3.0
+    hooks:
+      - id: flake8
+        args: ['--max-line-length=100', '--extend-ignore=E203,W503']
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.19.1
+    hooks:
+      - id: mypy
+        additional_dependencies:
+          - numpy
+          - types-Pillow
+          - opencv-python
+          - scipy
+          - matplotlib
+        args: [--config-file=pyproject.toml]
+
+  - repo: local
+    hooks:
+      - id: verible-verilog-format
+        name: Verible Verilog Formatter
+        description: Auto-format SystemVerilog/Verilog files
+        entry: .tools/verible/bin/verible-verilog-format
+        language: system
+        files: '\.sv$|\.v$'
+        args:
+          - '--inplace'
+          - '--indentation_spaces=4'
+          - '--column_limit=100'
+
+      - id: verible-verilog-lint
+        name: Verible Verilog Linter
+        description: Lint SystemVerilog/Verilog files per systemverilog.io style
+        entry: .tools/verible/bin/verible-verilog-lint
+        language: system
+        files: '\.sv$|\.v$'
+        args: ['--rules_config=.verible-lint.rules']
