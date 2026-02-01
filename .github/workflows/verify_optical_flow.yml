@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'python/**'
+      - 'rtl/**'
   push:
     branches: [main]
 
@@ -19,8 +20,10 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: |
-          pip install -e .[dev]
+        run: pip install -e .[dev]
+
+      - name: Generate test patterns
+        run: python python/generate_test_suite.py
 
       - name: Run verification with regression check
         run: |
@@ -28,3 +31,10 @@ jobs:
             --compare-baseline \
             --no-visualizations \
             --regression-threshold 10.0
+
+      - name: Upload results on failure
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: verification-results
+          path: python/verification_results.md

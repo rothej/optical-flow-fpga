@@ -25,6 +25,55 @@ thresholds:
     mae_pass: 2.0
     mae_warning: 5.0
 
+# Pattern categorization for threshold selection
+pattern_categories:
+  translation:
+    - translate_small
+    - translate_medium
+    - translate_large
+    - translate_extreme
+    - translate_vertical
+    - translate_diagonal
+    - no_motion # Zero translation
+
+  rotation:
+    - rotate_small
+    - rotate_medium
+    - rotate_large
+
+  zoom:
+    - zoom_in
+    - zoom_out
+
+  combined:
+    - translate_rotate
+
+# Regression testing
+regression:
+  baseline_file: "python/verification_baseline.json"
+  default_threshold: 10.0 # percent change allowed
+
+  # Per-metric thresholds (defaults to default_threshold)
+  metric_thresholds:
+    mae_u: 10.0
+    mae_v: 10.0
+    epe: 10.0
+    aae: 15.0
+
+# Implementation selection
+implementations:
+  enabled:
+    - single_scale
+    - pyramidal
+
+  # Per-implementation settings
+  single_scale:
+    window_size: 5
+    sigma: 1.0
+
+  pyramidal:
+    default_config: "default" # References pyramids.default
+
 # Pyramid configurations for pyramidal L-K
 pyramids:
   # Default configuration
@@ -67,8 +116,20 @@ visualization:
 
   # Flow field quiver plot settings
   quiver:
-    subsample_step: 10 # pixels - arrow spacing
-    scale: 1.0         # arrow length scale factor
+    subsample_step: 8 # pixels - arrow spacing
+    scale: 10.0       # arrow length scale factor
+    width: 0.003      # Arrow shaft width
+    headwidth: 3      # Arrow head width (relative to shaft)
+    headlength: 5     # Arrow head length
+    color: 'blue'     # Predicted flow color
+    alpha: 0.8        # Transparency
+
+  # Ground truth overlay
+  ground_truth:
+    enabled: true
+    color: 'red'
+    alpha: 0.5
+    linestyle: '--'
 
   # Color map limits
   colormap:

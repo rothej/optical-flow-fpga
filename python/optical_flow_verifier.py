@@ -71,6 +71,23 @@ def load_test_pattern(pattern_dir: Path) -> dict[str, Any]:
     }
 
 
+def get_thresholds_for_pattern(pattern_name: str, config: dict) -> tuple[float, float]:
+    """Return (pass_threshold, warning_threshold) for pattern."""
+    # Find category
+    categories = config["pattern_categories"]
+    for category, patterns in categories.items():
+        if pattern_name in patterns:
+            thresholds = config["thresholds"][category]
+            return thresholds["mae_pass"], thresholds["mae_warning"]
+
+    # Default to translation if unknown
+    print(f"Warning: Unknown pattern '{pattern_name}', using translation thresholds")
+    return (
+        config["thresholds"]["translation"]["mae_pass"],
+        config["thresholds"]["translation"]["mae_warning"],
+    )
+
+
 # ============================================================================
 # Test Region Handling
 # ============================================================================
@@ -159,7 +176,7 @@ def classify_result(
     mae_u: float,
     mae_v: float,
     pattern_type: str,
-    thresholds: dict[str, Any],
+    config: dict[str, Any],
 ) -> str:
     """
     Classify result as pass/warning/fail based on MAE.
@@ -168,23 +185,12 @@ def classify_result(
         mae_u: Mean absolute error in horizontal flow
         mae_v: Mean absolute error in vertical flow
         pattern_type: Pattern name to determine threshold category
-        thresholds: Threshold configuration dict
+        config: Threshold configuration dict
 
     Returns:
         One of: "Pass", "Warning", "Fail"
     """
-    # Determine threshold category
-    if "rotate" in pattern_type:
-        category = "rotation"
-    elif "zoom" in pattern_type:
-        category = "zoom"
-    elif "translate_rotate" in pattern_type:
-        category = "combined"
-    else:
-        category = "translation"
-
-    mae_pass = thresholds[category]["mae_pass"]
-    mae_warning = thresholds[category]["mae_warning"]
+    mae_pass, mae_warning = get_thresholds_for_pattern(pattern_type, config)
 
     # Use worst-case MAE (max of u and v)
     mae_max = max(mae_u, mae_v)
@@ -276,13 +282,13 @@ def verify_pattern(
         metrics_single["mae_u"],
         metrics_single["mae_v"],
         pattern_name,
-        config["thresholds"],
+        config,
     )
     status_pyr = classify_result(
         metrics_pyr["mae_u"],
         metrics_pyr["mae_v"],
         pattern_name,
-        config["thresholds"],
+        config,
     )
 
     if verbose:
@@ -907,10 +913,6 @@ def main() -> None:
         if not regression_passed:
             print("\n   Regression detected! Review changes before committing.")
             sys.exit(1)  # Fail for CI/CD
-
-    print("\n" + "=" * 60)
-    print("Verification Complete!")
-    print("=" * 60)
 
     print("\n" + "=" * 60)
     print("Verification Complete!")

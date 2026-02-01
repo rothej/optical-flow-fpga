@@ -12,8 +12,8 @@ optical-flow-fpga/
 ├── constraints/   # Timing constraints (XDC)
 ├── docs/          # Documentation
 ├── prj/           # Vivado project files
-│ ├── unopt/ # Unoptimized build artifacts
-│ └── opt/ # Optimized build artifacts
+│ ├── unopt/       # Unoptimized build artifacts
+│ └── opt/         # Optimized build artifacts
 ├── python/        # Test generation and reference implementation
 ├── rtl/           # RTL source files (SystemVerilog)
 │ ├── common/      # Shared modules (line buffers, frame buffer)
@@ -429,18 +429,6 @@ Then, install necessary dev tools:
 ./scripts/setup_verible.sh
 pip install -e ".[dev]"
 pre-commit install
-```
-
-Linters can be ran manually using:
-
-#### RTL
-```bash
-verible-verilog-lint
-```
-
-#### Python
-```bash
-mypy
 ```
 
 These tools are not required for building or simulating the design.
