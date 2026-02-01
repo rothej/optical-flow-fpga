@@ -2,6 +2,8 @@
 
 Real-time Lucas-Kanade optical flow implementation on Nexys A7-100T FPGA.
 
+---
+
 ## Folder Structure
 ```
 optical-flow-fpga/
@@ -10,94 +12,140 @@ optical-flow-fpga/
 ├── constraints/   # Timing constraints (XDC)
 ├── docs/          # Documentation
 ├── prj/           # Vivado project files
+│ ├── unopt/ # Unoptimized build artifacts
+│ └── opt/ # Optimized build artifacts
 ├── python/        # Test generation and reference implementation
 ├── rtl/           # RTL source files (SystemVerilog)
-├── scripts/       # TCL automation scripts
+│ ├── common/      # Shared modules (line buffers, frame buffer)
+│ ├── unopt/       # Unoptimized implementation (fails timing)
+│ └── opt/         # Optimized implementation (meets timing)
+├── scripts/       # Build automation scripts
 └── tb/            # Testbenches and test data
-  └── test_Frames/ # Generated .mem files
+  └── test_frames/ # Generated .mem files
 ```
+
+---
 
 ## Table of Contents
 
 - [Hardware](#hardware)
 - [Architecture](#architecture)
 - [Tools](#tools)
+- [Building](#building)
 - [Testing](#testing)
 - [Setup](#setup)
 - [License](#license)
 - [Author](#author)
 
+---
+
 ## Hardware
 
 - **Board:** Digilent Nexys A7-100T
 - **FPGA:** Xilinx Artix-7 (xc7a100tcsg324-1)
-- **Clock:** 100 MHz system clock
-- **Memory:** 128 MB DDR2
+- **Resources:** 15,850 slices, 240 DSP48E1 slices, 4,860 Kb BRAM
+
+---
 
 ## Architecture
 
+### Lucas-Kanade Optical Flow
+
+3-stage pipeline:
+
+1. Gradient Compute: Sobel operators -> spatial gradients (Ix, Iy) + temporal difference (It)
+2. Window Accumulator: 5×5 sliding window -> structure tensor components (Σ Ix², Σ Iy², Σ IxIy, etc.)
+3. Flow Solver: Cramer's rule -> solve 2×2 system for (u, v) flow vectors
+
+---
+
 ## Tools
 
-- Vivado: 2022.2
-- Python: 3.12 with NumPy, OpenCV
-- OS: Linux Mint 21.3
+### Required:
+- Vivado: 2022.2+ (Xilinx/AMD)
+- Python: 3.12+ with NumPy, SciPy, Matplotlib
+- Linting: Verible (SystemVerilog), mypy (Python)
+- Environment: [direnv](https://direnv.net/) for automatic venv activation
+- OS: Linux Mint 21.3 (any Debian-based should work)
 
-Other debian-based OSes should be fine. Project may also work with other Vivado and Python versions, but this is not guaranteed. You can use `pyenv` to handle multiple python versions on your system.
+> **Note**: Other Vivado/Python versions may work but are untested.
+
+---
+
+## Building
+
+This repo uses configuration-based builds to demonstrate timing optimization.
+
+Unoptimized:
+```bash
+./scripts/build.sh unopt
+```
+
+Optimized:
+```bash
+./scripts/build.sh opt
+```
+
+Reports generated in `prj/<config>/`:
+
+- Critical path analysis - `timing_summary_<config>.rpt`
+- Resource usage - `utilization_<config>.rpt`
+
+---
 
 ## Testing
 
-### Python
+### Python Reference Model
 
-To run all tests, use:
+Generate test frames (moving checkerboard pattern):
+
 ```bash
-pytest
+python python/generate_test_frames.py --displacement-x 2
 ```
 
-To run a specific test, use:
-```bash
-pytest python/tests/test_generate_frames.py -v
-```
-Change the file name as necessary.
+Run Lucas-Kanade reference:
 
-### Vivado
+```bash
+python python/lucas_kanade_reference.py
+```
+
+### RTL Simulation
+
+#### Option 1: Vivado GUI
 
 Open the Vivado project:
 ```bash
-cd ../
-vivado optical_flow_fpga.xpr
+vivado prj/optical_flow_fpga_prj/optical_flow_fpga_prj.xpr
 ```
 From within the project, run the simulation using **Flow Navigator -> Run Simulation -> Run Behavioral Simulation**
 
+#### Option 2: Command Line
+
+TODO: Write tcl script for this !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+---
+
 ## Setup
 
-### Prerequisites
+### Environmental Setup (Required)
 
-- Python 3.12+
-- [direnv](https://direnv.net/) (recommended) or manual venv management
+#### Method 1: With direnv
 
-### Installation
+Repository uses `direnv` to manage the Python virtual environment and dependencies.
 
-#### Development Only
-
-In addition to the below steps; if developing, run the following to set up Verible for use in pre-commit.
+If `direnv` is not already installed, run:
 ```bash
-./scripts/setup_verible.sh
+sudo apt install direnv
+echo 'eval "$(direnv hook bash)"' >> ~/.bashrc
+source ~/.bashrc
 ```
 
-#### With direnv
-
-Repository uses `direnv` to manage the virtual environment and dependencies. From within the repository folder, run:
+From within the cloned repository folder, set up the virtual environment and install dependencies using:
 ```bash
 direnv allow .
 ```
 
-If you do not have `direnv`, it can be installed and added to `.bashrc` using:
-```bash
-sudo apt install direnv
-eval "$(direnv hook bash)"
-```
-
-#### Without direnv
+#### Method 2: Without direnv
 
 From within the repository folder, run:
 ```bash
@@ -107,10 +155,40 @@ pip install -e ".[dev]"
 pre-commit install
 ```
 
+### Development Setup (Optional)
+
+For contributors that want to modify RTL or Python code to be pushed up to this repository.
+
+Uncomment the Vivado path exports in `.envrc`.
+
+Then, install necessary dev tools:
+```bash
+./scripts/setup_verible.sh
+pip install -e ".[dev]"
+pre-commit install
+```
+
+Linters can be ran manually using:
+
+#### RTL
+```bash
+verible-verilog-lint
+```
+
+#### Python
+```bash
+mypy
+```
+
+These tools are not required for building or simulating the design.
+
+---
 
 ## License
 
 MIT License (MIT) - See LICENSE file for details.
+
+---
 
 ## Author
 
