@@ -6,6 +6,7 @@ Coarse-to-fine refinement for handling larger displacements.
 """
 
 import argparse
+import os
 from pathlib import Path
 from typing import Tuple
 
@@ -66,7 +67,7 @@ def warp_image(
     """
     Warp image according to flow field using bilinear interpolation.
 
-    This "moves" the image backwards by the flow vectors, effectively
+    This "moves" the image forward by the flow vectors, effectively
     compensating for the motion so the residual flow is smaller.
 
     Args:
@@ -82,9 +83,9 @@ def warp_image(
     # Create coordinate grids
     yy, xx = np.meshgrid(np.arange(height), np.arange(width), indexing="ij")
 
-    # Compute warped coordinates (subtract flow to move image backwards)
-    x_warped = xx - flow_u
-    y_warped = yy - flow_v
+    # Compute warped coordinates (add flow to move pixels forward)
+    x_warped = xx + flow_u
+    y_warped = yy + flow_v
 
     # Bilinear interpolation
     warped_any = map_coordinates(image, [y_warped, x_warped], order=1, mode="constant", cval=0.0)
@@ -217,6 +218,9 @@ def lucas_kanade_pyramidal(
                 print(f"  Converged after {iteration+1} iterations")
                 break
 
+        # Save visualization
+        visualize_pyramid_level(flow_u, flow_v, level, num_levels)
+
     return flow_u, flow_v
 
 
@@ -226,7 +230,7 @@ def visualize_flow_comparison(
     flow_u_pyr: npt.NDArray[np.float32],
     flow_v_pyr: npt.NDArray[np.float32],
     output_path: Path,
-    scale: float = 10.0,
+    scale: float = 1.0,
 ) -> None:
     """
     Create side-by-side comparison of single-scale vs pyramidal flow.
@@ -298,8 +302,49 @@ def visualize_flow_comparison(
     ax2.set_ylabel("Y (pixels)")
 
     plt.tight_layout()
-    plt.savefig(output_path, dpi=150)
+    plt.savefig(output_path, dpi=100)
     print(f"Comparison visualization saved: {output_path}")
+
+
+def visualize_pyramid_level(
+    flow_u: np.ndarray,
+    flow_v: np.ndarray,
+    level: int,
+    num_levels: int = 3,
+    output_dir: str = "python/output",
+) -> None:
+    """Visualize flow field at a specific pyramid level."""
+    import matplotlib.pyplot as plt
+    from matplotlib.colors import Normalize
+
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Compute flow magnitude for color coding
+    magnitude = np.sqrt(flow_u**2 + flow_v**2)
+
+    fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+
+    # U component
+    im0 = axes[0].imshow(flow_u, cmap="RdBu_r", norm=Normalize(vmin=-20, vmax=20))
+    axes[0].set_title(f"Level {level}: U (horizontal)")
+    axes[0].axis("off")
+    plt.colorbar(im0, ax=axes[0], label="pixels")
+
+    # V component
+    im1 = axes[1].imshow(flow_v, cmap="RdBu_r", norm=Normalize(vmin=-20, vmax=20))
+    axes[1].set_title(f"Level {level}: V (vertical)")
+    axes[1].axis("off")
+    plt.colorbar(im1, ax=axes[1], label="pixels")
+
+    # Magnitude
+    im2 = axes[2].imshow(magnitude, cmap="viridis", norm=Normalize(vmin=0, vmax=20))
+    axes[2].set_title(f"Level {level}: Magnitude")
+    axes[2].axis("off")
+    plt.colorbar(im2, ax=axes[2], label="pixels")
+
+    plt.tight_layout()
+    plt.savefig(f"{output_dir}/pyramid_level_{level}.png", dpi=100, bbox_inches="tight")
+    plt.close()
 
 
 def main() -> None:
@@ -378,7 +423,7 @@ def main() -> None:
     print("=" * 60)
     print(f"Mean flow in test region: u={u_mean:.3f}, v={v_mean:.3f}")
     print(f"Std dev in test region:   u={u_std:.3f}, v={v_std:.3f}")
-    print("Expected: u=2.0, v=0.0")
+    print("Expected: u=15.0, v=0.0 (from generate_test_frames_natural.py --displacement-x 15)")
 
     # Save pyramidal flow
     u_pyr.tofile(output_dir / "flow_u_pyramidal.bin")
