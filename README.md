@@ -109,6 +109,8 @@ Run Lucas-Kanade reference:
 python python/lucas_kanade_reference.py
 ```
 
+Note: The `python/test_data/` directory contains cached image(s) used for test frame generation. Source: Wikimedia Commons.
+
 ### RTL Simulation
 
 #### Option 1: Vivado GUI

@@ -2,7 +2,6 @@
 """Generate test frames using natural image patterns."""
 
 import argparse
-import urllib.request
 from pathlib import Path
 from typing import Any
 
@@ -10,26 +9,18 @@ import numpy as np
 from numpy.typing import NDArray
 from PIL import Image
 
-# Cache directory for downloaded image(s)
+# Cache directory for image(s)
 CACHE_DIR = Path(__file__).parent / "test_data"
 CACHED_IMAGE = CACHE_DIR / "mountain_texture.jpg"
 
 
-def download_test_image() -> NDArray[np.uint8]:
-    """Download a sample textured image (cached)."""
-    CACHE_DIR.mkdir(parents=True, exist_ok=True)
-
-    # Download only if not cached
+def load_test_image() -> np.ndarray:
+    """Load the cached natural texture image."""
     if not CACHED_IMAGE.exists():
-        print(f"Downloading image to {CACHED_IMAGE}...")
-        url = (
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/"
-            "3/3f/Fronalpstock_big.jpg/320px-Fronalpstock_big.jpg"
+        raise FileNotFoundError(
+            f"Natural texture image not found at {CACHED_IMAGE}. "
+            "Please ensure natural_texture.jpg exists in python/test_data/"
         )
-        urllib.request.urlretrieve(url, CACHED_IMAGE)
-        print("Download complete.")
-    else:
-        print(f"Using cached image: {CACHED_IMAGE}")
 
     img = Image.open(CACHED_IMAGE).convert("L")
     return np.array(img, dtype=np.uint8)
@@ -41,9 +32,9 @@ def generate_natural_pattern(width: int = 320, height: int = 240) -> NDArray[np.
 
     Alternative: Use OpenCV's structured patterns.
     """
-    # Download image (with caching)
+    # Load image
     try:
-        img = download_test_image()
+        img = load_test_image()
         # Crop/resize to desired dimensions
         img_resized = Image.fromarray(img).resize((width, height))
         return np.array(img_resized, dtype=np.uint8)
