@@ -121,6 +121,9 @@ Desktop.ini
 copy_files.py
 combined_files.txt
 
+# Generated test data
+python/test_suite/
+
 #############################################################################
 # Git / Version Control
 #############################################################################

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # python/lucas_kanade_core.py
 """
 Core Lucas-Kanade single-scale implementation.

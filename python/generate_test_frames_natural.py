@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# python/generate_test_frames_natural.py
 """Generate test frames using natural image patterns."""
 
 import argparse
@@ -19,7 +20,7 @@ def load_test_image() -> np.ndarray:
     if not CACHED_IMAGE.exists():
         raise FileNotFoundError(
             f"Natural texture image not found at {CACHED_IMAGE}. "
-            "Please ensure natural_texture.jpg exists in python/test_data/"
+            "Please ensure mountain_texture.jpg exists in python/test_data/"
         )
 
     img = Image.open(CACHED_IMAGE).convert("L")

@@ -26,20 +26,6 @@ optical-flow-fpga/
 
 ---
 
-## Table of Contents
-
-- [Hardware](#hardware)
-- [Architecture](#architecture)
-- [Verification](#verification)
-- [Tools](#tools)
-- [Building](#building)
-- [Testing](#testing)
-- [Setup](#setup)
-- [License](#license)
-- [Author](#author)
-
----
-
 ## Hardware
 
 - **Board:** Digilent Nexys A7-100T
@@ -128,6 +114,8 @@ The pyramidal implementation successfully recovers large motions where single-sc
     </tr>
   </table>
 </div>
+
+**Note**: Poor performance is expected at edges.
 
 #### Convergence Behavior
 
