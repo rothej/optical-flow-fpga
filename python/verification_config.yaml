@@ -1,0 +1,85 @@
+# python/verification_config.yaml
+# Optical Flow Verification Configuration
+# Used by optical_flow_verifier.py
+
+# Accuracy thresholds for pass/warning/fail classification
+thresholds:
+  # Translation patterns (pure horizontal/vertical/diagonal motion)
+  translation:
+    mae_pass: 0.5      # pixels - Pass
+    mae_warning: 2.0   # pixels - Warning
+    # Anything above warning is Fail
+
+  # Rotation patterns (violates brightness constancy assumption)
+  rotation:
+    mae_pass: 1.0
+    mae_warning: 3.0
+
+  # Zoom patterns (scale changes)
+  zoom:
+    mae_pass: 1.0
+    mae_warning: 3.0
+
+  # Combined motion (translation + rotation)
+  combined:
+    mae_pass: 2.0
+    mae_warning: 5.0
+
+# Pyramid configurations for pyramidal L-K
+pyramids:
+  # Default configuration
+  default:
+    levels: 3
+    window_size: 5 # Same window size at all levels
+    iterations: 3  # Iterations per level
+    description: "3-level pyramid, 5x5 window, 3 iterations/level"
+
+  # Alternative configurations for RTL timing experiments
+  shallow:
+    levels: 2
+    window_size: 5
+    iterations: 3
+    description: "2-level pyramid (faster, less memory)"
+
+  deep:
+    levels: 4
+    window_size: 5
+    iterations: 3
+    description: "4-level pyramid (handles larger motion)"
+
+  large_window:
+    levels: 3
+    window_size: 7 # Larger window = more computation
+    iterations: 3
+    description: "3-level pyramid, 7x7 window"
+
+# Test region for patterns with variable flow (rotation/zoom)
+test_region:
+  center_crop: 80 # pixels - test 80x80 region at image center
+
+# Visualization settings
+visualization:
+  # Patterns to generate full visualizations for
+  showcase_patterns:
+    - translate_medium
+    - rotate_small
+    - translate_extreme
+
+  # Flow field quiver plot settings
+  quiver:
+    subsample_step: 10 # pixels - arrow spacing
+    scale: 1.0         # arrow length scale factor
+
+  # Color map limits
+  colormap:
+    flow_range: [-20, 20] # pixels
+    error_range: [0, 5]   # pixels
+
+# Output paths (relative to project root)
+output:
+  results_json: "python/verification_results.json"
+  results_markdown: "python/verification_results.md"
+  visualizations_dir: "python/verification_plots"
+
+# Suite location
+test_suite_dir: "python/test_suite"

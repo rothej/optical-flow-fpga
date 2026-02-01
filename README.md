@@ -50,6 +50,63 @@ This RTL implements single-scale Lucas-Kanade, suitable for motions <5 pixels. P
 
 ## Verification
 
+### Verification
+
+#### Quick Start
+
+```bash
+# Generate test patterns
+python python/generate_test_suite.py
+
+# Run verification suite
+python python/optical_flow_verifier.py
+
+# Test specific patterns
+python python/optical_flow_verifier.py --pattern translate_medium rotate_small
+```
+
+#### Regression Testing
+
+Automated baseline comparison for catching algorithm changes.
+```bash
+# Create initial baseline (run once after validating results)
+python python/optical_flow_verifier.py --update-baseline
+
+# Compare current implementation against baseline
+python python/optical_flow_verifier.py --compare-baseline
+
+# Adjust sensitivity (default: 10% threshold)
+python python/optical_flow_verifier.py --compare-baseline --regression-threshold 5.0
+
+# Update baseline after verified algorithm improvements
+python python/optical_flow_verifier.py --update-baseline
+```
+
+What gets flagged:
+- MAE (horizontal/vertical) changes >10%
+- EPE (endpoint error) changes >10%
+
+Example output:
+
+```
+========================================================
+Regression Testing: Comparing Against Baseline
+========================================================
+
+translate_medium (Single-Scale):
+    Regression detected:
+    - mae_u: +12.3% change (current=1.51, baseline=1.34)
+
+translate_medium (Pyramidal):
+    Pass
+
+========================================================
+Regression detected in 1 test(s)
+========================================================
+```
+
+Baseline location: `python/verification_baseline.json` (committed to repo).
+
 ### Python Reference Models
 
 Two implementations provided for algorithm development and RTL verification:
@@ -66,24 +123,88 @@ Two implementations provided for algorithm development and RTL verification:
 - Handles large motions (tested up to 20 pixels)
 - Demonstrates aperture problem mitigation
 
-### Performance Comparison
+### Automated Test Suite
 
-Generate test pattern with large motion (15):
+Comprehensive verification across 13 synthetic patterns:
+
 ```bash
-python python/generate_test_frames_natural.py --displacement-x 15
+# Generate test patterns
+python python/generate_test_suite.py
+
+# Run verification suite
+python python/optical_flow_verifier.py
+
+# Test specific patterns
+python python/optical_flow_verifier.py --pattern translate_medium rotate_small
 ```
 
-Compare methods:
-```bash
-python python/lucas_kanade_pyramidal.py --compare
-```
+#### Tabulated Results
 
-| Motion | Single-Scale | Pyramidal | Ground Truth |
-| ------ | ------------ | --------- | ------------ |
-| 2 px   | 1.99 px      | 2.00 px   | 2.00 px      |
-| 15 px  | 17.84 px     | 15.08 px  | 15.00 px     |
+| Pattern           | Ground Truth | Single-Scale MAE | Pyramidal MAE | Single Status | Pyramidal Status |
+|-------------------|--------------|------------------|---------------|---------------|------------------|
+| translate_small   | (0.5, 0.5)   | 0.31 / 0.27      | 0.65 / 0.72   | Pass          | Warning          |
+| translate_medium  | (2.0, 0.0)   | 1.34 / 0.77      | 0.53 / 0.37   | Warning       | Warning          |
+| translate_large   | (15.0, 0.0)  | 14.82 / 2.06     | 6.04 / 4.90   | Fail          | Fail             |
+| rotate_small      | (0.0, 0.0)   | 1.21 / 1.14      | 0.78 / 0.94   | Warning       | Pass             |
+| rotate_medium     | (0.0, 0.0)   | 1.09 / 1.57      | 1.78 / 1.89   | Warning       | Warning          |
+| zoom_in           | (0.0, 0.0)   | 1.17 / 1.74      | 2.02 / 2.10   | Warning       | Warning          |
+| translate_rotate  | (5.0, 5.0)   | 4.78 / 4.85      | 1.13 / 1.29   | Fail          | Warning          |
+| no_motion         | (0.0, 0.0)   | 0.00 / 0.00      | 0.00 / 0.00   | Pass          | Pass             |
+| translate_extreme | (30.0, 20.0) | 29.65 / 18.93    | 34.24 / 21.15 | Fail          | Fail             |
 
-The pyramidal implementation successfully recovers large motions where single-scale fails due to brightness constancy violations (aperture problem). Only sees a ~0.53% error at 15 px.
+*MAE (Mean Absolute Error) format: horizontal / vertical (pixels). Full metrics in `python/verification_results.md`.*
+
+##### Summary of Results
+- Single-scale excels at sub-pixel motion (0.31px MAE on small translation)
+- Pyramidal approach reduces error by ~59% on large translations (14.8 to 6.0px)
+- Combined motion benefits most from pyramid (4.8 to 1.3px MAE improvement)
+- Both methods struggle with extreme motion (>20px) which is expected
+
+#### Visual Comparison: Medium Translation (2px)
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="python/verification_plots/translate_medium/flow_single.png" alt="Single-scale flow field" width="400"/>
+        <br><em>Single-Scale: MAE = 1.34px (horizontal)</em>
+      </td>
+      <td align="center">
+        <img src="python/verification_plots/translate_medium/flow_pyramidal.png" alt="Pyramidal flow field" width="400"/>
+        <br><em>Pyramidal: MAE = 0.53px (horizontal)</em>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="python/verification_plots/translate_medium/error_single.png" alt="Single-scale error heatmap" width="400"/>
+        <br><em>Error distribution: single-scale</em>
+      </td>
+      <td align="center">
+        <img src="python/verification_plots/translate_medium/error_pyramidal.png" alt="Pyramidal error heatmap" width="400"/>
+        <br><em>Error distribution: pyramidal (more uniform)</em>
+      </td>
+    </tr>
+  </table>
+</div>
+
+#### Visual Comparison: Small Rotation (2°)
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="python/verification_plots/rotate_small/flow_single.png" alt="Single-scale rotation" width="400"/>
+        <br><em>Single-Scale: Circular flow pattern</em>
+      </td>
+      <td align="center">
+        <img src="python/verification_plots/rotate_small/flow_pyramidal.png" alt="Pyramidal rotation" width="400"/>
+        <br><em>Pyramidal: Smoother flow recovery</em>
+      </td>
+    </tr>
+  </table>
+</div>
+
+**Note:** Rotation patterns show elevated MAE even for small angles due to Lucas-Kanade's constant motion assumption. This is expected behavior - the algorithm assumes uniform translation within the window, but rotation creates spatially-varying flow.
 
 ### Verification Results
 

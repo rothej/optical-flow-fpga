@@ -1,0 +1,30 @@
+name: Optical Flow Verification
+
+on:
+  pull_request:
+    paths:
+      - 'python/**'
+  push:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install -e .[dev]
+
+      - name: Run verification with regression check
+        run: |
+          python python/optical_flow_verifier.py \
+            --compare-baseline \
+            --no-visualizations \
+            --regression-threshold 10.0

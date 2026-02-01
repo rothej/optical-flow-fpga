@@ -36,6 +36,7 @@ dependencies = [
     "opencv-python>=4.8.0",
     "scipy>=1.11.0",
     "matplotlib>=3.8.0",
+    "PyYAML>=6.0",
 ]
 
 [project.optional-dependencies]
@@ -86,6 +87,7 @@ module = [
     "cv2.*",
     "scipy.*",
     "matplotlib.*",
+    "yaml",
 ]
 ignore_missing_imports = true
 
