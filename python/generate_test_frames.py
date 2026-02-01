@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# python/generate_test_frames.py
 """
 Generate test frames for optical flow verification.
 Creates simple patterns with known motion for easy verification.
@@ -22,7 +23,8 @@ def generate_moving_square(
     displacement_y: int = 0,
 ) -> Tuple[npt.NDArray[np.uint8], npt.NDArray[np.uint8]]:
     """
-    Generate two frames with a moving white square on black background.
+    Generate two frames with a moving textured square on black background.
+    Square contains a checkerboard pattern for optical flow texture.
 
     Args:
         width: Frame width in pixels
@@ -36,15 +38,26 @@ def generate_moving_square(
     Returns:
         Tuple of (frame0, frame1) as uint8 numpy arrays
     """
+    # Create textured square (checkerboard pattern, 4x4 pixel checks)
+    check_size = 4
+    texture = np.zeros((square_size, square_size), dtype=np.uint8)
+    for i in range(0, square_size, check_size):
+        for j in range(0, square_size, check_size):
+            # Alternate between 180 and 255 for better gradient detection
+            if ((i // check_size) + (j // check_size)) % 2 == 0:
+                texture[i : i + check_size, j : j + check_size] = 255
+            else:
+                texture[i : i + check_size, j : j + check_size] = 180
+
     # Frame 0: Square at initial position
     frame0 = np.zeros((height, width), dtype=np.uint8)
-    frame0[position_y : position_y + square_size, position_x : position_x + square_size] = 255
+    frame0[position_y : position_y + square_size, position_x : position_x + square_size] = texture
 
     # Frame 1: Square displaced
     frame1 = np.zeros((height, width), dtype=np.uint8)
     new_x = position_x + displacement_x
     new_y = position_y + displacement_y
-    frame1[new_y : new_y + square_size, new_x : new_x + square_size] = 255
+    frame1[new_y : new_y + square_size, new_x : new_x + square_size] = texture
 
     return frame0, frame1
 
@@ -139,8 +152,10 @@ def main() -> None:
 
     # Print statistics
     print("\nFrame statistics:")
-    print(f"  White pixels (frame 0): {np.sum(frame0 == 255)}")
-    print(f"  White pixels (frame 1): {np.sum(frame1 == 255)}")
+    print(f"  Bright pixels (frame 0): {np.sum(frame0 == 255)}")
+    print(f"  Bright pixels (frame 1): {np.sum(frame1 == 255)}")
+    print(f"  Medium pixels (frame 0): {np.sum(frame0 == 180)}")
+    print(f"  Medium pixels (frame 1): {np.sum(frame1 == 180)}")
     print(f"  Expected flow in square region: u={args.displacement_x}, v={args.displacement_y}")
 
 

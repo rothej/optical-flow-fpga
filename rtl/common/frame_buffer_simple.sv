@@ -5,7 +5,7 @@
  * Licensed under the MIT License (MIT)
  *************************************************************************************************/
 /*
- * Filename: frame_buffer_simple.sv
+ * Filename: rtl/common/frame_buffer_simple.sv
  *
  * Description: Simulation-only dual frame buffer using $readmemh.
  *              Streams out pixels from two frames sequentially.

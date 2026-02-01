@@ -1,4 +1,5 @@
 #!/bin/bash
+# scripts/setup_verible.sh
 set -e
 
 VERIBLE_VERSION="v0.0-4051-g9fdb4057"
