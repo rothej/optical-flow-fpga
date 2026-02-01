@@ -119,9 +119,32 @@ vivado prj/optical_flow_fpga_prj/optical_flow_fpga_prj.xpr
 ```
 From within the project, run the simulation using **Flow Navigator -> Run Simulation -> Run Behavioral Simulation**
 
-#### Option 2: Command Line
+#### Option 2: Terminal (Recommended)
 
-TODO: Write tcl script for this !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Run:
+```bash
+./scripts/run_sim.sh tb_optical_flow_top
+```
+
+To enable waveform dump, run this instead:
+```bash
+./scripts/run_sim.sh tb_optical_flow_top 1
+```
+
+Expected output:
+```bash
+============================================
+Optical Flow Accelerator Testbench
+============================================
+...
+Flow Statistics (Test Region):
+  Mean:     u= 2.013, v= 0.042
+  Expected: u= 2.000, v= 0.000
+  Error:    u= 0.013, v= 0.042
+
+*** TEST PASSED ***
+Flow vectors within tolerance (±0.5 pixels)
+```
 
 ---
 

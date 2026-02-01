@@ -216,6 +216,41 @@ def main() -> None:
     print("Computing optical flow...")
     u, v = lucas_kanade_window(Ix, Iy, It, window_size=args.window_size)
 
+    # Window analysis
+    print("\nWindow analysis:")
+    half_win = args.window_size // 2
+    valid_region = np.s_[half_win:-half_win, half_win:-half_win]
+    total_valid_windows = (args.height - 2 * half_win) * (args.width - 2 * half_win)
+    computed_windows = np.sum(u[valid_region] != 0)
+
+    print(f"  Total possible windows: {total_valid_windows}")
+    print(f"  Windows with non-zero flow: {computed_windows}")
+    print("  Windows at square region: analyzing...")
+
+    # Analyze square boundary windows
+    square_y_range = range(100, 140)
+    square_x_range = range(50, 90)
+
+    # Count windows that overlap square edges
+    edge_windows = 0
+    interior_windows = 0
+    for y in range(half_win, args.height - half_win):
+        for x in range(half_win, args.width - half_win):
+            # Window spans y-half_win to y+half_win, x-half_win to x+half_win
+            win_y_min, win_y_max = y - half_win, y + half_win + 1
+            win_x_min, win_x_max = x - half_win, x + half_win + 1
+
+            # Check if window center is in square region
+            if y in square_y_range and x in square_x_range:
+                # Check if window extends beyond square boundaries
+                if win_y_min < 100 or win_y_max > 140 or win_x_min < 50 or win_x_max > 90:
+                    edge_windows += 1
+                else:
+                    interior_windows += 1
+
+    print(f"  Square edge windows (partial overlap): {edge_windows}")
+    print(f"  Square interior windows (full overlap): {interior_windows}")
+
     # Analyze results in the square region (should show rightward motion)
     # Square is at y=100:140, x=50:90 in frame 0, displaced +2 in x
     square_region = np.s_[105:135, 55:85]  # Interior of square (avoid edges)

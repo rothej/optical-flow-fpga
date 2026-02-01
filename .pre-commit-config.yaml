@@ -35,7 +35,12 @@ repos:
     rev: v1.19.1
     hooks:
       - id: mypy
-        additional_dependencies: [numpy]
+        additional_dependencies:
+          - numpy
+          - types-Pillow
+          - opencv-python
+          - scipy
+          - matplotlib
         args: [--config-file=pyproject.toml]
 
   - repo: local

@@ -28,7 +28,7 @@ module line_buffer_5x5 #(
     input logic signed [DATA_WIDTH-1:0] data_in,
     input logic                         data_valid,
 
-    output logic signed [DATA_WIDTH-1:0] window      [4][4],
+    output logic signed [DATA_WIDTH-1:0] window      [5][5],
     output logic                         window_valid
 );
 
@@ -39,7 +39,7 @@ module line_buffer_5x5 #(
     logic signed [DATA_WIDTH-1:0] line3[WIDTH];
 
     // Shift registers for current line
-    logic signed [DATA_WIDTH-1:0] current[4];
+    logic signed [DATA_WIDTH-1:0] current[5];
 
     // Position tracking
     logic [$clog2(WIDTH)-1:0] col;

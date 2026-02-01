@@ -36,13 +36,13 @@ module gradient_compute #(
      * 3x3 Line Buffer for Spatial Gradients
      * Note: Sobel only needs 3x3 window, but this computes on averaged frame.
      */
-    logic [PIXEL_WIDTH-1:0] window_curr[2][2];
-    logic [PIXEL_WIDTH-1:0] window_prev[2][2];
+    logic [PIXEL_WIDTH-1:0] window_curr[3][3];
+    logic [PIXEL_WIDTH-1:0] window_prev[3][3];
     logic window_valid;
 
     // Instantiate 3x3 line buffers (extracts from 5x5)
-    logic [PIXEL_WIDTH-1:0] window_curr_5x5[4][4];
-    logic [PIXEL_WIDTH-1:0] window_prev_5x5[4][4];
+    logic [PIXEL_WIDTH-1:0] window_curr_5x5[5][5];
+    logic [PIXEL_WIDTH-1:0] window_prev_5x5[5][5];
 
     line_buffer_5x5 #(
         .WIDTH(320),  // TODO: Parameterize from top
