@@ -16,8 +16,10 @@
 `timescale 1ns / 1ps
 
 module gradient_compute #(
+    parameter int WIDTH       = 320,
+    parameter int HEIGHT      = 240,
     parameter int PIXEL_WIDTH = 8,
-    parameter int GRAD_WIDTH  = 12  // S12 signed gradient
+    parameter int GRAD_WIDTH  = 12    // S12 signed gradient
 ) (
     input logic clk,
     input logic rst_n,
@@ -45,8 +47,8 @@ module gradient_compute #(
     logic [PIXEL_WIDTH-1:0] window_prev_5x5[5][5];
 
     line_buffer_5x5 #(
-        .WIDTH(320),  // TODO: Parameterize from top
-        .HEIGHT(240),
+        .WIDTH(WIDTH),
+        .HEIGHT(HEIGHT),
         .DATA_WIDTH(PIXEL_WIDTH)
     ) u_linebuf_curr (
         .clk(clk),
@@ -58,8 +60,8 @@ module gradient_compute #(
     );
 
     line_buffer_5x5 #(
-        .WIDTH(320),
-        .HEIGHT(240),
+        .WIDTH(WIDTH),
+        .HEIGHT(HEIGHT),
         .DATA_WIDTH(PIXEL_WIDTH)
     ) u_linebuf_prev (
         .clk(clk),
@@ -90,8 +92,11 @@ module gradient_compute #(
     logic signed [GRAD_WIDTH-1:0] temporal_comb;
 
     always_comb begin
+        logic signed [PIXEL_WIDTH:0] avg_window[3][3];
+        logic signed [GRAD_WIDTH+2:0] sobel_x_accum;
+        logic signed [GRAD_WIDTH+2:0] sobel_y_accum;
+
         // Average the two frames for spatial gradients (reduces noise)
-        logic signed [PIXEL_WIDTH:0] avg_window[2][2];
         for (int i = 0; i < 3; i++) begin
             for (int j = 0; j < 3; j++) begin
                 avg_window[i][j] = (window_curr[i][j] + window_prev[i][j]) >> 1;
@@ -99,21 +104,19 @@ module gradient_compute #(
         end
 
         // Sobel X (vertical edges)
-        logic signed [GRAD_WIDTH+2:0] sobel_x_accum;
         sobel_x_accum = -$signed({1'b0, avg_window[0][0]}) - 2 * $signed({1'b0, avg_window[1][0]}) -
             $signed({1'b0, avg_window[2][0]}) + $signed({1'b0, avg_window[0][2]}) +
             2 * $signed({1'b0, avg_window[1][2]}) + $signed({1'b0, avg_window[2][2]});
         sobel_x_comb = sobel_x_accum >>> 3;  // Divide by 8
 
         // Sobel Y (horizontal edges)
-        logic signed [GRAD_WIDTH+2:0] sobel_y_accum;
         sobel_y_accum = -$signed({1'b0, avg_window[0][0]}) - 2 * $signed({1'b0, avg_window[0][1]}) -
             $signed({1'b0, avg_window[0][2]}) + $signed({1'b0, avg_window[2][0]}) +
             2 * $signed({1'b0, avg_window[2][1]}) + $signed({1'b0, avg_window[2][2]});
         sobel_y_comb = sobel_y_accum >>> 3;
 
-        // Temporal gradient (center pixel difference)
-        temporal_comb = $signed({1'b0, window_prev[1][1]}) - $signed({1'b0, window_curr[1][1]});
+        // Temporal gradient: It = I_curr - I_prev
+        temporal_comb = $signed({1'b0, window_curr[1][1]}) - $signed({1'b0, window_prev[1][1]});
     end
 
     // Register outputs

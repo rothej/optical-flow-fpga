@@ -115,11 +115,12 @@ module window_accumulator #(
                 logic signed [2*GRAD_WIDTH-1:0] prod_IxIt;
                 logic signed [2*GRAD_WIDTH-1:0] prod_IyIt;
 
-                prod_IxIx  = window_Ix[i][j] * window_Ix[i][j];
-                prod_IyIy  = window_Iy[i][j] * window_Iy[i][j];
-                prod_IxIy  = window_Ix[i][j] * window_Iy[i][j];
-                prod_IxIt  = window_Ix[i][j] * window_It[i][j];
-                prod_IyIt  = window_Iy[i][j] * window_It[i][j];
+                // Explicit signed multiplication (for synth)
+                prod_IxIx  = $signed(window_Ix[i][j]) * $signed(window_Ix[i][j]);
+                prod_IyIy  = $signed(window_Iy[i][j]) * $signed(window_Iy[i][j]);
+                prod_IxIy  = $signed(window_Ix[i][j]) * $signed(window_Iy[i][j]);
+                prod_IxIt  = $signed(window_Ix[i][j]) * $signed(window_It[i][j]);
+                prod_IyIt  = $signed(window_Iy[i][j]) * $signed(window_It[i][j]);
 
                 // Accumulate (linear chain)
                 accum_IxIx = accum_IxIx + prod_IxIx;

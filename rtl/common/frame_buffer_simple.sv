@@ -11,6 +11,8 @@
  *              Streams out pixels from two frames sequentially.
  */
 
+`timescale 1ns / 1ps
+
 module frame_buffer_simple #(
     parameter int    PIXEL_WIDTH  = 8,
     parameter int    IMAGE_WIDTH  = 320,
@@ -83,4 +85,4 @@ module frame_buffer_simple #(
         end
     end
 
-endmodule
+endmodule : frame_buffer_simple

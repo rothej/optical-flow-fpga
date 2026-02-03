@@ -26,6 +26,13 @@ set_property top ${tb_name} [get_filesets sim_1]
 # Update compile order
 update_compile_order -fileset sim_1
 
+# Copy test frames to simulation directory
+set sim_work_dir "${sim_dir}/sim_project.sim/sim_1/behav/xsim"
+file mkdir ${sim_work_dir}/tb/test_frames
+file copy -force tb/test_frames/frame_00.mem ${sim_work_dir}/tb/test_frames/
+file copy -force tb/test_frames/frame_01.mem ${sim_work_dir}/tb/test_frames/
+puts "Copied test frames to ${sim_work_dir}/tb/test_frames/"
+
 # Launch simulation
 launch_simulation
 

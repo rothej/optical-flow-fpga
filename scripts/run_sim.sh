@@ -10,7 +10,7 @@ echo "=========================================="
 
 # Generate test frames
 echo "Generating test frames..."
-python python/generate_test_frames.py --displacement-x 2
+python python/generate_test_frames_natural.py --displacement-x 2
 
 if [ $? -ne 0 ]; then
     echo "ERROR: Test frame generation failed"

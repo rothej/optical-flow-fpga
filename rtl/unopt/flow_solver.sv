@@ -49,8 +49,12 @@ module flow_solver #(
     logic solvable;
 
     always_comb begin
-        // Compute determinant: det = IxIx * IyIy - IxIy * IxIy
+        // Declare intermediate variables at top of block
         logic signed [2*ACCUM_WIDTH-1:0] prod1, prod2;
+        logic signed [2*ACCUM_WIDTH-1:0] temp1, temp2;
+        logic signed [ACCUM_WIDTH+FRAC_BITS-1:0] scaled_num_u, scaled_num_v;
+
+        // Compute determinant: det = IxIx * IyIy - IxIy * IxIy
         prod1 = sum_IxIx * sum_IyIy;
         prod2 = sum_IxIy * sum_IxIy;
         det = prod1[ACCUM_WIDTH-1:0] - prod2[ACCUM_WIDTH-1:0];
@@ -61,7 +65,6 @@ module flow_solver #(
         // Compute numerators using Cramer's rule:
         // u = (IyIy * (-IxIt) - IxIy * (-IyIt)) / det
         // v = (IxIx * (-IyIt) - IxIy * (-IxIt)) / det
-        logic signed [2*ACCUM_WIDTH-1:0] temp1, temp2;
 
         // Numerator for u
         temp1 = sum_IyIy * (-sum_IxIt);
@@ -73,10 +76,8 @@ module flow_solver #(
         temp2 = sum_IxIy * (-sum_IxIt);
         numerator_v = temp1[ACCUM_WIDTH-1:0] - temp2[ACCUM_WIDTH-1:0];
 
-        // Division (NON-PIPELINED - massive critical path!)
-        // Scale to fixed-point S8.7 format
+        // Division (non-pipelined) - scale to fixed-point S8.7 format
         if (solvable) begin
-            logic signed [ACCUM_WIDTH+FRAC_BITS-1:0] scaled_num_u, scaled_num_v;
             scaled_num_u = numerator_u <<< FRAC_BITS;
             scaled_num_v = numerator_v <<< FRAC_BITS;
 
