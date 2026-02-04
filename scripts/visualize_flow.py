@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 # scripts/visualize_flow.py
 """
-Visualize optical flow results from RTL simulation and Python reference.
+Visualize optical flow results from RTL simulation.
 
-Creates overlay plots with flow vectors, error maps, and comparison figures.
+Creates comprehensive 4-panel diagnostic plot:
+  - Flow field quiver overlay
+  - Magnitude heatmap
+  - Component distribution histogram
+  - Error magnitude vs ground truth
 """
 
 import argparse
@@ -56,126 +60,118 @@ def parse_flow_field(
     return x, y, u, v, metadata
 
 
-def load_flow_field(
-    file_path: str,
-    width: int = 320,
-    height: int = 240,
-) -> Tuple[np.ndarray, np.ndarray]:
-    """Load flow field and reshape to image dimensions."""
-    x, y, u_vals, v_vals, _ = parse_flow_field(file_path)
-
-    # Initialize full flow field
-    u_field: np.ndarray = np.zeros((height, width))
-    v_field: np.ndarray = np.zeros((height, width))
-
-    # Fill in values (handle potential sparse data)
-    for i in range(len(x)):
-        xi = int(x[i])
-        yi = int(y[i])
-        if 0 <= xi < width and 0 <= yi < height:
-            u_field[yi, xi] = u_vals[i]
-            v_field[yi, xi] = v_vals[i]
-
-    return u_field, v_field
-
-
-def plot_flow_overlay(
+def create_diagnostic_plot(
     frame_path: str,
     flow_file: str,
     output_path: str,
-    title: str,
+    ground_truth_u: float = 2.0,
+    ground_truth_v: float = 0.0,
     stride: int = 10,
     scale: float = 20.0,
 ) -> None:
-    """Create flow overlay visualization on grayscale frame."""
+    """
+    Create comprehensive 4-panel diagnostic visualization.
+
+    Args:
+        frame_path: Path to grayscale frame PNG
+        flow_file: Path to flow field text file
+        output_path: Where to save output
+        ground_truth_u: Expected horizontal flow
+        ground_truth_v: Expected vertical flow
+        stride: Arrow subsampling stride
+        scale: Arrow scale factor
+    """
     # Load frame
     frame = Image.open(frame_path)
     frame_array = np.array(frame)
+    height, width = frame_array.shape
 
     # Load flow field
     x, y, u, v, metadata = parse_flow_field(flow_file)
 
-    # Create figure
-    fig, ax = plt.subplots(figsize=(12, 9), dpi=150)
+    # Compute flow magnitude
+    magnitude = np.sqrt(u**2 + v**2)
 
-    # Show grayscale frame
-    extent_tuple: Tuple[float, float, float, float] = (
-        0.0,
-        float(frame_array.shape[1]),
-        float(frame_array.shape[0]),
-        0.0,
-    )
-    ax.imshow(frame_array, cmap="gray", extent=extent_tuple)
+    # Create flow field grids for heatmaps
+    u_field = np.zeros((height, width))
+    v_field = np.zeros((height, width))
+    mag_field = np.zeros((height, width))
 
-    # Overlay flow vectors (subsample for clarity)
+    for i in range(len(x)):
+        xi = int(x[i])
+        yi = int(y[i])
+        if 0 <= xi < width and 0 <= yi < height:
+            u_field[yi, xi] = u[i]
+            v_field[yi, xi] = v[i]
+            mag_field[yi, xi] = magnitude[i]
+
+    # Compute error vs ground truth
+    error_u = u_field - ground_truth_u
+    error_v = v_field - ground_truth_v
+    error_mag = np.sqrt(error_u**2 + error_v**2)
+
+    # Extract test region statistics
+    if all(k in metadata for k in ["test_x_min", "test_y_min", "test_x_max", "test_y_max"]):
+        x_min = metadata["test_x_min"]
+        x_max = metadata["test_x_max"]
+        y_min = metadata["test_y_min"]
+        y_max = metadata["test_y_max"]
+
+        u_test = u_field[y_min : y_max + 1, x_min : x_max + 1]
+        v_test = v_field[y_min : y_max + 1, x_min : x_max + 1]
+        mag_test = mag_field[y_min : y_max + 1, x_min : x_max + 1]
+
+        # Filter out zero values (no flow computed)
+        mask = mag_test > 0
+        u_test_valid = u_test[mask]
+        v_test_valid = v_test[mask]
+        mag_test_valid = mag_test[mask]
+
+        mean_u = np.mean(u_test_valid) if len(u_test_valid) > 0 else 0
+        mean_v = np.mean(v_test_valid) if len(v_test_valid) > 0 else 0
+        std_u = np.std(u_test_valid) if len(u_test_valid) > 0 else 0
+        std_v = np.std(v_test_valid) if len(v_test_valid) > 0 else 0
+        mean_mag = np.mean(mag_test_valid) if len(mag_test_valid) > 0 else 0
+        std_mag = np.std(mag_test_valid) if len(mag_test_valid) > 0 else 0
+        num_vectors = len(u_test_valid)
+    else:
+        # No test region defined
+        mean_u = np.mean(u)
+        mean_v = np.mean(v)
+        std_u = np.std(u)
+        std_v = np.std(v)
+        mean_mag = np.mean(magnitude)
+        std_mag = np.std(magnitude)
+        num_vectors = len(u)
+
+    # Create 2x2 subplot figure
+    fig = plt.figure(figsize=(16, 12), dpi=150)
+    gs = fig.add_gridspec(2, 2, hspace=0.3, wspace=0.3)
+
+    # --- Top-Left: Flow Field Quiver ---
+    ax1 = fig.add_subplot(gs[0, 0])
+    extent = (0, width, height, 0)
+    ax1.imshow(frame_array, cmap="gray", extent=extent)
+
+    # Subsample for quiver
     indices = np.arange(0, len(x), stride)
-    ax.quiver(
+    ax1.quiver(
         x[indices],
         y[indices],
         u[indices],
         v[indices],
-        color="cyan",
-        scale=scale,
+        magnitude[indices],
+        angles="xy",
         scale_units="xy",
+        scale=1.0 / scale,
+        cmap="jet",
         width=0.003,
         headwidth=3,
-        headlength=4,
         alpha=0.8,
     )
 
-    # Highlight test region if metadata available
-    if all(key in metadata for key in ["test_x_min", "test_y_min", "test_x_max", "test_y_max"]):
-        rect = Rectangle(
-            (metadata["test_x_min"], metadata["test_y_min"]),
-            metadata["test_x_max"] - metadata["test_x_min"],
-            metadata["test_y_max"] - metadata["test_y_min"],
-            linewidth=2,
-            edgecolor="yellow",
-            facecolor="none",
-            linestyle="--",
-        )
-        ax.add_patch(rect)
-
-    ax.set_title(title, fontsize=14, pad=10)
-    ax.set_xlabel("X (pixels)")
-    ax.set_ylabel("Y (pixels)")
-    ax.grid(False)
-    ax.set_aspect("equal")
-
-    plt.tight_layout()
-    plt.savefig(output_path, dpi=150, bbox_inches="tight")
-    plt.close()
-
-
-def plot_error_map(
-    flow_rtl_file: str,
-    flow_ref_file: str,
-    output_path: str,
-    width: int = 320,
-    height: int = 240,
-) -> None:
-    """Create error magnitude heatmap."""
-    # Load both flow fields
-    u_rtl, v_rtl = load_flow_field(flow_rtl_file, width, height)
-    u_ref, v_ref = load_flow_field(flow_ref_file, width, height)
-
-    # Calculate error magnitude
-    error_u = u_rtl - u_ref
-    error_v = v_rtl - v_ref
-    error_mag = np.sqrt(error_u**2 + error_v**2)
-
-    # Get test region bounds
-    _, _, _, _, metadata = parse_flow_field(flow_rtl_file)
-
-    # Create figure
-    fig, ax = plt.subplots(figsize=(12, 9), dpi=150)
-
-    # Plot error heatmap
-    extent_tuple: Tuple[float, float, float, float] = (0.0, float(width), float(height), 0.0)
-    im = ax.imshow(error_mag, cmap="hot", extent=extent_tuple, vmin=0, vmax=1.0)
-
     # Highlight test region
-    if metadata:
+    if "test_x_min" in metadata:
         rect = Rectangle(
             (metadata["test_x_min"], metadata["test_y_min"]),
             metadata["test_x_max"] - metadata["test_x_min"],
@@ -185,158 +181,129 @@ def plot_error_map(
             facecolor="none",
             linestyle="--",
         )
-        ax.add_patch(rect)
+        ax1.add_patch(rect)
+        ax1.text(
+            metadata["test_x_min"] + 2,
+            metadata["test_y_min"] + 2,
+            "Test Region",
+            color="cyan",
+            fontsize=10,
+            bbox=dict(boxstyle="round,pad=0.3", facecolor="black", alpha=0.7),
+        )
 
-    # Add colorbar
-    cbar = plt.colorbar(im, ax=ax)
-    cbar.set_label("Error Magnitude (pixels)", rotation=270, labelpad=20)
+    ax1.set_title("Optical Flow Field (Quiver Plot)", fontsize=12, pad=10)
+    ax1.set_xlabel("X (pixels)")
+    ax1.set_ylabel("Y (pixels)")
+    ax1.set_aspect("equal")
 
-    ax.set_title("Flow Error: |RTL - Python Reference|", fontsize=14, pad=10)
-    ax.set_xlabel("X (pixels)")
-    ax.set_ylabel("Y (pixels)")
-    ax.set_aspect("equal")
+    # --- Top-Right: Magnitude Heatmap ---
+    ax2 = fig.add_subplot(gs[0, 1])
+    im2 = ax2.imshow(mag_field, cmap="hot", extent=extent, vmin=0, vmax=np.max(magnitude))
 
-    plt.tight_layout()
+    if "test_x_min" in metadata:
+        rect2 = Rectangle(
+            (metadata["test_x_min"], metadata["test_y_min"]),
+            metadata["test_x_max"] - metadata["test_x_min"],
+            metadata["test_y_max"] - metadata["test_y_min"],
+            linewidth=2,
+            edgecolor="cyan",
+            facecolor="none",
+            linestyle="--",
+        )
+        ax2.add_patch(rect2)
+
+    ax2.set_title("Flow Magnitude Heatmap", fontsize=12, pad=10)
+    ax2.set_xlabel("X (pixels)")
+    ax2.set_ylabel("Y (pixels)")
+    ax2.set_aspect("equal")
+
+    cbar2 = plt.colorbar(im2, ax=ax2, fraction=0.046, pad=0.04)
+    cbar2.set_label("Magnitude (pixels)", rotation=270, labelpad=15)
+
+    # --- Bottom-Left: Component Distribution ---
+    ax3 = fig.add_subplot(gs[1, 0])
+
+    # Histogram of u and v components (test region only if available)
+    if "test_x_min" in metadata and len(u_test_valid) > 0:
+        u_hist = u_test_valid
+        v_hist = v_test_valid
+    else:
+        u_hist = u
+        v_hist = v
+
+    ax3.hist(u_hist, bins=50, alpha=0.6, color="blue", label="u (horizontal)", edgecolor="black")
+    ax3.hist(v_hist, bins=50, alpha=0.6, color="red", label="v (vertical)", edgecolor="black")
+
+    # Ground truth lines
+    ax3.axvline(
+        ground_truth_u,
+        color="blue",
+        linestyle="--",
+        linewidth=2,
+        label=f"GT u={ground_truth_u:.1f}",
+    )
+    ax3.axvline(
+        ground_truth_v, color="red", linestyle="--", linewidth=2, label=f"GT v={ground_truth_v:.1f}"
+    )
+
+    ax3.set_xlabel("Flow Component (pixels)")
+    ax3.set_ylabel("Frequency")
+    ax3.set_title("Flow Component Distribution", fontsize=12, pad=10)
+    ax3.legend(loc="upper right")
+    ax3.grid(True, alpha=0.3)
+
+    # Add statistics text
+    stats_text = (
+        f"Flow Statistics:\n"
+        f"Mean: u={mean_u:.3f}, v={mean_v:.3f}\n"
+        f"Std:  u={std_u:.3f}, v={std_v:.3f}\n"
+        f"Magnitude: {mean_mag:.3f} ± {std_mag:.3f}\n"
+        f"Total vectors: {len(u)}\n"
+        f"\n"
+        f"Test Region ({num_vectors} vectors):\n"
+        f"Mean: u={mean_u:.3f}, v={mean_v:.3f}\n"
+        f"Magnitude: {mean_mag:.3f} ± {std_mag:.3f}\n"
+        f"Error vs GT: u={mean_u - ground_truth_u:.3f}, v={mean_v - ground_truth_v:.3f}"
+    )
+
+    ax3.text(
+        0.02,
+        0.98,
+        stats_text,
+        transform=ax3.transAxes,
+        fontsize=9,
+        verticalalignment="top",
+        bbox=dict(boxstyle="round,pad=0.5", facecolor="wheat", alpha=0.8),
+        family="monospace",
+    )
+
+    # --- Bottom-Right: Error Magnitude ---
+    ax4 = fig.add_subplot(gs[1, 1])
+    im4 = ax4.imshow(error_mag, cmap="viridis", extent=extent, vmin=0, vmax=np.max(error_mag))
+
+    if "test_x_min" in metadata:
+        rect4 = Rectangle(
+            (metadata["test_x_min"], metadata["test_y_min"]),
+            metadata["test_x_max"] - metadata["test_x_min"],
+            metadata["test_y_max"] - metadata["test_y_min"],
+            linewidth=2,
+            edgecolor="cyan",
+            facecolor="none",
+            linestyle="--",
+        )
+        ax4.add_patch(rect4)
+
+    ax4.set_title("Error Magnitude vs Ground Truth", fontsize=12, pad=10)
+    ax4.set_xlabel("X (pixels)")
+    ax4.set_ylabel("Y (pixels)")
+    ax4.set_aspect("equal")
+
+    cbar4 = plt.colorbar(im4, ax=ax4, fraction=0.046, pad=0.04)
+    cbar4.set_label("Error (pixels)", rotation=270, labelpad=15)
+
+    # Save figure
     plt.savefig(output_path, dpi=150, bbox_inches="tight")
     plt.close()
-
-
-def plot_comparison_grid(
-    frame0_path: str,
-    frame1_path: str,
-    flow_rtl_file: str,
-    flow_ref_file: str,
-    output_path: str,
-    width: int = 320,
-    height: int = 240,
-) -> None:
-    """Create 2x2 comparison grid."""
-    # Load frames
-    frame0 = np.array(Image.open(frame0_path))
-    frame1 = np.array(Image.open(frame1_path))
-
-    # Load flow fields
-    x_rtl, y_rtl, u_rtl, v_rtl, metadata = parse_flow_field(flow_rtl_file)
-    x_ref, y_ref, u_ref, v_ref, _ = parse_flow_field(flow_ref_file)
-
-    # Create 2x2 grid
-    fig, axes = plt.subplots(2, 2, figsize=(16, 12), dpi=150)
-
-    extent_tuple: Tuple[float, float, float, float] = (0.0, float(width), float(height), 0.0)
-
-    # Top-left: Frame 0
-    axes[0, 0].imshow(frame0, cmap="gray", extent=extent_tuple)
-    axes[0, 0].set_title("Frame 0 (t)", fontsize=12)
-    axes[0, 0].set_xlabel("X (pixels)")
-    axes[0, 0].set_ylabel("Y (pixels)")
-
-    # Top-right: Frame 1
-    axes[0, 1].imshow(frame1, cmap="gray", extent=extent_tuple)
-    axes[0, 1].set_title("Frame 1 (t+1)", fontsize=12)
-    axes[0, 1].set_xlabel("X (pixels)")
-    axes[0, 1].set_ylabel("Y (pixels)")
-
-    # Bottom-left: RTL flow
-    axes[1, 0].imshow(frame0, cmap="gray", extent=extent_tuple)
-    stride = 10
-    indices_rtl = np.arange(0, len(x_rtl), stride)
-    axes[1, 0].quiver(
-        x_rtl[indices_rtl],
-        y_rtl[indices_rtl],
-        u_rtl[indices_rtl],
-        v_rtl[indices_rtl],
-        color="cyan",
-        scale=20.0,
-        scale_units="xy",
-        width=0.003,
-        headwidth=3,
-        alpha=0.8,
-    )
-    axes[1, 0].set_title("RTL Flow Output", fontsize=12)
-    axes[1, 0].set_xlabel("X (pixels)")
-    axes[1, 0].set_ylabel("Y (pixels)")
-
-    # Bottom-right: Python reference flow
-    axes[1, 1].imshow(frame0, cmap="gray", extent=extent_tuple)
-    indices_ref = np.arange(0, len(x_ref), stride)
-    axes[1, 1].quiver(
-        x_ref[indices_ref],
-        y_ref[indices_ref],
-        u_ref[indices_ref],
-        v_ref[indices_ref],
-        color="lime",
-        scale=20.0,
-        scale_units="xy",
-        width=0.003,
-        headwidth=3,
-        alpha=0.8,
-    )
-    axes[1, 1].set_title("Python Reference Flow", fontsize=12)
-    axes[1, 1].set_xlabel("X (pixels)")
-    axes[1, 1].set_ylabel("Y (pixels)")
-
-    # Highlight test region on all plots
-    if all(key in metadata for key in ["test_x_min", "test_y_min", "test_x_max", "test_y_max"]):
-        for ax_row in axes:
-            for ax in ax_row:
-                rect = Rectangle(
-                    (metadata["test_x_min"], metadata["test_y_min"]),
-                    metadata["test_x_max"] - metadata["test_x_min"],
-                    metadata["test_y_max"] - metadata["test_y_min"],
-                    linewidth=1.5,
-                    edgecolor="yellow",
-                    facecolor="none",
-                    linestyle="--",
-                )
-                ax.add_patch(rect)
-                ax.set_aspect("equal")
-
-    rect_tuple: Tuple[float, float, float, float] = (0.0, 0.0, 1.0, 1.0)
-    plt.tight_layout(rect=rect_tuple)
-    plt.savefig(output_path, dpi=150, bbox_inches="tight")
-    plt.close()
-
-
-def print_statistics(
-    flow_rtl_file: str,
-    flow_ref_file: str,
-    width: int = 320,
-    height: int = 240,
-) -> None:
-    """Print flow statistics and comparison."""
-    # Load flow fields
-    u_rtl, v_rtl = load_flow_field(flow_rtl_file, width, height)
-    u_ref, v_ref = load_flow_field(flow_ref_file, width, height)
-
-    # Get test region
-    _, _, _, _, metadata = parse_flow_field(flow_rtl_file)
-
-    if all(key in metadata for key in ["test_x_min", "test_y_min", "test_x_max", "test_y_max"]):
-        x_min = metadata["test_x_min"]
-        x_max = metadata["test_x_max"]
-        y_min = metadata["test_y_min"]
-        y_max = metadata["test_y_max"]
-
-        # Extract test region
-        u_rtl_region = u_rtl[y_min : y_max + 1, x_min : x_max + 1]
-        v_rtl_region = v_rtl[y_min : y_max + 1, x_min : x_max + 1]
-        u_ref_region = u_ref[y_min : y_max + 1, x_min : x_max + 1]
-        v_ref_region = v_ref[y_min : y_max + 1, x_min : x_max + 1]
-
-        # Calculate statistics
-        print("\n=== Flow Statistics (Test Region) ===")
-        print(f"RTL Mean:      u={np.mean(u_rtl_region):.3f}, v={np.mean(v_rtl_region):.3f}")
-        print(f"Python Mean:   u={np.mean(u_ref_region):.3f}, v={np.mean(v_ref_region):.3f}")
-
-        # Error metrics
-        error_u = u_rtl_region - u_ref_region
-        error_v = v_rtl_region - v_ref_region
-        error_mag = np.sqrt(error_u**2 + error_v**2)
-
-        print(f"\nMean Absolute Error:     {np.mean(np.abs(error_mag)):.3f} pixels")
-        print(f"RMS Error:               {np.sqrt(np.mean(error_mag**2)):.3f} pixels")
-        print(f"Max Error:               {np.max(error_mag):.3f} pixels")
-        print(f"Median Error:            {np.median(error_mag):.3f} pixels")
 
 
 def main() -> None:
@@ -347,11 +314,6 @@ def main() -> None:
         help="Flow field file to visualize",
     )
     parser.add_argument(
-        "--python-flow",
-        default="python/output/flow_field_python.txt",
-        help="Python reference flow field file (for comparison)",
-    )
-    parser.add_argument(
         "--frame",
         default="tb/test_frames/frame_00.png",
         help="Frame to overlay flow on (PNG)",
@@ -360,6 +322,18 @@ def main() -> None:
         "--output",
         default="results/flow_visualization.png",
         help="Output visualization file",
+    )
+    parser.add_argument(
+        "--ground-truth-u",
+        type=float,
+        default=2.0,
+        help="Ground truth horizontal flow (pixels)",
+    )
+    parser.add_argument(
+        "--ground-truth-v",
+        type=float,
+        default=0.0,
+        help="Ground truth vertical flow (pixels)",
     )
     parser.add_argument(
         "--stride",
@@ -373,67 +347,36 @@ def main() -> None:
         default=20.0,
         help="Arrow scale factor",
     )
-    parser.add_argument(
-        "--compare",
-        action="store_true",
-        help="Generate comparison with Python reference",
-    )
 
     args = parser.parse_args()
 
-    # Verify input file exists
+    # Verify input files exist
     if not Path(args.flow_file).exists():
         print(f"ERROR: Flow file not found: {args.flow_file}")
         return
 
-    print("Generating visualizations...")
+    if not Path(args.frame).exists():
+        print(f"ERROR: Frame file not found: {args.frame}")
+        print("Run: python scripts/convert_frames.py")
+        return
+
+    print("Generating 4-panel diagnostic visualization...")
 
     # Ensure output directory exists
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
 
-    # Create main visualization
-    print(f"  Creating flow overlay from {args.flow_file}...")
-    plot_flow_overlay(
+    # Create diagnostic plot
+    create_diagnostic_plot(
         args.frame,
         args.flow_file,
         args.output,
-        "RTL Optical Flow Output",
+        ground_truth_u=args.ground_truth_u,
+        ground_truth_v=args.ground_truth_v,
         stride=args.stride,
         scale=args.scale,
     )
+
     print(f"Generated: {args.output}")
-
-    # Optional comparison mode
-    if args.compare:
-        if not Path(args.python_flow).exists():
-            print(f"Warning: Python reference not found: {args.python_flow}")
-            print("Run: python python/lucas_kanade_reference.py")
-            return
-
-        print("  Creating comparison plots...")
-
-        output_dir = Path(args.output).parent
-
-        # Python overlay
-        plot_flow_overlay(
-            args.frame,
-            args.python_flow,
-            str(output_dir / "flow_overlay_python.png"),
-            "Python Reference Flow",
-            stride=args.stride,
-            scale=args.scale,
-        )
-
-        # Error map
-        plot_error_map(
-            args.flow_file,
-            args.python_flow,
-            str(output_dir / "flow_error_map.png"),
-        )
-
-        # Statistics
-        print_statistics(args.flow_file, args.python_flow)
-
     print("\nVisualization complete!")
 
 
