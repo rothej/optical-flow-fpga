@@ -28,6 +28,11 @@ module gradient_compute #(
     input logic [PIXEL_WIDTH-1:0] pixel_prev,  // Previous frame pixel
     input logic                   pixel_valid,
 
+    input  logic [9:0] pixel_x_in,
+    input  logic [8:0] pixel_y_in,
+    output logic [9:0] pixel_x_out,
+    output logic [8:0] pixel_y_out,
+
     output logic signed [GRAD_WIDTH-1:0] grad_x,     // Spatial gradient X (Ix)
     output logic signed [GRAD_WIDTH-1:0] grad_y,     // Spatial gradient Y (Iy)
     output logic signed [GRAD_WIDTH-1:0] grad_t,     // Temporal gradient (It)
@@ -46,6 +51,10 @@ module gradient_compute #(
     logic [PIXEL_WIDTH-1:0] window_curr_5x5[5][5];
     logic [PIXEL_WIDTH-1:0] window_prev_5x5[5][5];
 
+    // Coordinate outputs
+    logic [$clog2(WIDTH)-1:0] window_x_curr, window_x_prev;
+    logic [$clog2(HEIGHT)-1:0] window_y_curr, window_y_prev;
+
     line_buffer_5x5 #(
         .WIDTH(WIDTH),
         .HEIGHT(HEIGHT),
@@ -56,7 +65,9 @@ module gradient_compute #(
         .data_in(pixel_curr),
         .data_valid(pixel_valid),
         .window(window_curr_5x5),
-        .window_valid(window_valid)
+        .window_valid(window_valid),
+        .window_x(window_x_curr),
+        .window_y(window_y_curr)
     );
 
     line_buffer_5x5 #(
@@ -69,7 +80,9 @@ module gradient_compute #(
         .data_in(pixel_prev),
         .data_valid(pixel_valid),
         .window(window_prev_5x5),
-        .window_valid(  /* unused */)
+        .window_valid(  /* unused */),
+        .window_x(window_x_prev),
+        .window_y(window_y_prev)
     );
 
     // Extract center 3x3 from 5x5 windows
@@ -122,15 +135,19 @@ module gradient_compute #(
     // Register outputs
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            grad_x     <= '0;
-            grad_y     <= '0;
-            grad_t     <= '0;
-            grad_valid <= 1'b0;
+            grad_x      <= '0;
+            grad_y      <= '0;
+            grad_t      <= '0;
+            grad_valid  <= 1'b0;
+            pixel_x_out <= '0;
+            pixel_y_out <= '0;
         end else begin
-            grad_x     <= sobel_x_comb;
-            grad_y     <= sobel_y_comb;
-            grad_t     <= temporal_comb;
-            grad_valid <= window_valid;
+            grad_x      <= sobel_x_comb;
+            grad_y      <= sobel_y_comb;
+            grad_t      <= temporal_comb;
+            grad_valid  <= window_valid;
+            pixel_x_out <= {1'b0, window_x_curr};
+            pixel_y_out <= {1'b0, window_y_curr};
         end
     end
 

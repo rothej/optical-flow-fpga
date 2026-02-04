@@ -26,8 +26,20 @@ else
 fi
 
 if [ $? -eq 0 ]; then
+    # Copy flow_field.txt from simulation directory to project root
+    SIM_FLOW_FILE="prj/sim_${TB_NAME}/sim_project.sim/sim_1/behav/xsim/flow_field.txt"
+
+    if [ -f "$SIM_FLOW_FILE" ]; then
+        cp "$SIM_FLOW_FILE" flow_field_rtl.txt
+        echo ""
+        echo "Flow field copied to: flow_field_rtl.txt"
+    else
+        echo ""
+        echo "Warning: Flow field not found at $SIM_FLOW_FILE"
+    fi
+
     echo ""
-    echo "Simulation complete. Check logs in sim_${TB_NAME}/"
+    echo "Simulation complete. Check logs in prj/sim_${TB_NAME}/"
 else
     echo "Simulation FAILED"
     exit 1

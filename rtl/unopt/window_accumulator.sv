@@ -30,6 +30,8 @@ module window_accumulator #(
     input logic signed [GRAD_WIDTH-1:0] grad_t,
     input logic                         grad_valid,
 
+    output logic        [            9:0] accum_x_coord,
+    output logic        [            8:0] accum_y_coord,
     output logic signed [ACCUM_WIDTH-1:0] sum_IxIx,
     output logic signed [ACCUM_WIDTH-1:0] sum_IyIy,
     output logic signed [ACCUM_WIDTH-1:0] sum_IxIy,
@@ -45,6 +47,8 @@ module window_accumulator #(
     logic signed [GRAD_WIDTH-1:0] window_Iy[WINDOW_SIZE][WINDOW_SIZE];
     logic signed [GRAD_WIDTH-1:0] window_It[WINDOW_SIZE][WINDOW_SIZE];
     logic window_valid;
+    logic [$clog2(WIDTH)-1:0] window_x_Ix;
+    logic [$clog2(HEIGHT)-1:0] window_y_Ix;
 
     line_buffer_5x5 #(
         .WIDTH(WIDTH),
@@ -56,7 +60,9 @@ module window_accumulator #(
         .data_in(grad_x),
         .data_valid(grad_valid),
         .window(window_Ix),
-        .window_valid(window_valid)
+        .window_valid(window_valid),
+        .window_x(window_x_Ix),
+        .window_y(window_y_Ix)
     );
 
     line_buffer_5x5 #(
@@ -141,6 +147,8 @@ module window_accumulator #(
             sum_IxIt    <= '0;
             sum_IyIt    <= '0;
             accum_valid <= 1'b0;
+            accum_x_coord <= '0;
+            accum_y_coord <= '0;
         end else begin
             sum_IxIx    <= accum_IxIx;
             sum_IyIy    <= accum_IyIy;
@@ -148,6 +156,8 @@ module window_accumulator #(
             sum_IxIt    <= accum_IxIt;
             sum_IyIt    <= accum_IyIt;
             accum_valid <= window_valid;
+            accum_x_coord <= {1'b0, window_x_Ix};
+            accum_y_coord <= {1'b0, window_y_Ix};
         end
     end
 

@@ -27,8 +27,10 @@ module line_buffer_5x5 #(
     input logic signed [DATA_WIDTH-1:0] data_in,
     input logic                         data_valid,
 
-    output logic signed [DATA_WIDTH-1:0] window      [5][5],
-    output logic                         window_valid
+    output logic signed [    DATA_WIDTH-1:0] window      [5][5],
+    output logic                             window_valid,
+    output logic        [ $clog2(WIDTH)-1:0] window_x,
+    output logic        [$clog2(HEIGHT)-1:0] window_y
 );
 
     // Line buffer storage (4 lines + current row)
@@ -138,4 +140,9 @@ module line_buffer_5x5 #(
 
     assign window_valid = valid_q;
 
-endmodule
+    // Window center position (corresponds to window[2][2])
+    // Current pixel is at (col, row), but window is centered 2 pixels/lines back
+    assign window_x = (col >= 2) ? (col - 2) : (WIDTH + col - 2);
+    assign window_y = (row >= 2) ? (row - 2) : (HEIGHT + row - 2);
+
+endmodule : line_buffer_5x5

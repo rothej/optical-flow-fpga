@@ -128,9 +128,5 @@ python/test_suite/
 # Git / Version Control
 #############################################################################
 .pre-commit-config.yaml.backup
-sim_tb_optical_flow_top/flow_field.txt
-
-# Simulation output directories
-sim_tb_optical_flow_top/
-# Simulation output directories
-sim_tb_optical_flow_top/
+flow_field_rtl.txt
+python/output/

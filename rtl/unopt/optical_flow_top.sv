@@ -31,6 +31,8 @@ module optical_flow_top #(
     output logic done,   // Frame complete
 
     // Flow output (streaming)
+    output logic        [           9:0] flow_x,
+    output logic        [           8:0] flow_y,
     output logic signed [FLOW_WIDTH-1:0] flow_u,
     output logic signed [FLOW_WIDTH-1:0] flow_v,
     output logic                         flow_valid

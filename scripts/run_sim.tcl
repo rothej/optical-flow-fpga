@@ -10,7 +10,7 @@ if {$argc != 1} {
 }
 
 set tb_name [lindex $argv 0]
-set sim_dir "sim_${tb_name}"
+set sim_dir "prj/sim_${tb_name}"
 
 # Create simulation project
 create_project -force sim_project ${sim_dir} -part xc7a100tcsg324-1

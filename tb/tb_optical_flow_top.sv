@@ -45,8 +45,8 @@ module tb_optical_flow_top ();
     localparam real DIRECTION_TOLERANCE = 30.0;  // ±30° tolerance
 
     // Test regions (avoid edges where flow is zero)
-    localparam int TEST_REGION_Y_MIN = 105;
-    localparam int TEST_REGION_Y_MAX = 135;
+    localparam int TEST_REGION_Y_MIN = 50;
+    localparam int TEST_REGION_Y_MAX = 80;
     localparam int TEST_REGION_X_MIN = 55;
     localparam int TEST_REGION_X_MAX = 85;
 
@@ -116,9 +116,11 @@ module tb_optical_flow_top ();
     localparam int REGISTER_STAGES = 2;  // grad_compute output + flow_solver output
     // Total latency: frame_buffer starts at pixel 0, first valid flow corresponds to:
     // Pixel that entered grad line buffers at: GRAD_LINE_BUF_LATENCY
-    // That gradient enters accum line buffers, valid at: GRAD_LINE_BUF_LATENCY + ACCUM_LINE_BUF_LATENCY
-    $display("  Test region: x[%0d:%0d], y[%0d:%0d]", TEST_REGION_X_MIN, TEST_REGION_X_MAX,
-             TEST_REGION_Y_MIN, TEST_REGION_Y_MAX);
+    // That gradient enters accum line buffers, valid at: GRAD_LINE_BUF_LATENCY +
+    // ACCUM_LINE_BUF_LATENCY + register delays
+    localparam int PIPELINE_LATENCY =
+            GRAD_LINE_BUF_LATENCY + ACCUM_LINE_BUF_LATENCY + REGISTER_STAGES;
+    // Convert latency to (x,y) position
     localparam int FIRST_VALID_Y = PIPELINE_LATENCY / IMAGE_WIDTH;
     localparam int FIRST_VALID_X = PIPELINE_LATENCY % IMAGE_WIDTH;
 

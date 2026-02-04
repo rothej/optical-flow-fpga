@@ -498,17 +498,23 @@ This validates correct RTL implementation with expected Lucas-Kanade algorithmic
 To regenerate (developers):
 
 ```bash
-# Run simulation (exports flow data)
+# Run simulation (exports flow_field_rtl.txt)
 ./scripts/run_sim.sh tb_optical_flow_top
 
-# Convert .mem to PNG
-python3 scripts/convert_frames.py
+# Generate Python reference (for comparison)
+python python/lucas_kanade_reference.py
 
-# Generate plot
-python3 scripts/visualize_flow.py \
-    sim_tb_optical_flow_top/flow_field.txt \
-    --frame tb/test_frames/frame_00.png \
-    --output results/flow_visualization.png
+# Convert .mem frames to PNG
+python scripts/convert_frames.py
+
+# Visualize RTL results
+python scripts/visualize_flow.py flow_field_rtl.txt
+```
+
+Optional comparision of RTL and Python:
+
+```bash
+python scripts/visualize_flow.py flow_field_rtl.txt --compare
 ```
 
 ---

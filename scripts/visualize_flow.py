@@ -124,7 +124,7 @@ def plot_flow_overlay(
     )
 
     # Highlight test region if metadata available
-    if metadata:
+    if all(key in metadata for key in ["test_x_min", "test_y_min", "test_x_max", "test_y_max"]):
         rect = Rectangle(
             (metadata["test_x_min"], metadata["test_y_min"]),
             metadata["test_x_max"] - metadata["test_x_min"],
@@ -276,7 +276,7 @@ def plot_comparison_grid(
     axes[1, 1].set_ylabel("Y (pixels)")
 
     # Highlight test region on all plots
-    if metadata:
+    if all(key in metadata for key in ["test_x_min", "test_y_min", "test_x_max", "test_y_max"]):
         for ax_row in axes:
             for ax in ax_row:
                 rect = Rectangle(
@@ -311,7 +311,7 @@ def print_statistics(
     # Get test region
     _, _, _, _, metadata = parse_flow_field(flow_rtl_file)
 
-    if metadata:
+    if all(key in metadata for key in ["test_x_min", "test_y_min", "test_x_max", "test_y_max"]):
         x_min = metadata["test_x_min"]
         x_max = metadata["test_x_max"]
         y_min = metadata["test_y_min"]
@@ -343,87 +343,96 @@ def main() -> None:
     """Main visualization script."""
     parser = argparse.ArgumentParser(description="Visualize optical flow results")
     parser.add_argument(
-        "--rtl-flow",
-        default="sim_tb_optical_flow_top/flow_field.txt",
-        help="RTL flow field file",
+        "flow_file",
+        help="Flow field file to visualize",
     )
     parser.add_argument(
         "--python-flow",
-        default="python/flow_field_python.txt",
-        help="Python reference flow field file",
+        default="python/output/flow_field_python.txt",
+        help="Python reference flow field file (for comparison)",
     )
     parser.add_argument(
-        "--frame0",
+        "--frame",
         default="tb/test_frames/frame_00.png",
-        help="First frame (PNG)",
+        help="Frame to overlay flow on (PNG)",
     )
     parser.add_argument(
-        "--frame1",
-        default="tb/test_frames/frame_01.png",
-        help="Second frame (PNG)",
+        "--output",
+        default="results/flow_visualization.png",
+        help="Output visualization file",
     )
     parser.add_argument(
-        "--output-dir",
-        default=".",
-        help="Output directory for plots",
+        "--stride",
+        type=int,
+        default=10,
+        help="Arrow subsampling stride",
+    )
+    parser.add_argument(
+        "--scale",
+        type=float,
+        default=20.0,
+        help="Arrow scale factor",
+    )
+    parser.add_argument(
+        "--compare",
+        action="store_true",
+        help="Generate comparison with Python reference",
     )
 
     args = parser.parse_args()
 
-    # Verify input files exist
-    for file_path in [args.rtl_flow, args.python_flow, args.frame0, args.frame1]:
-        if not Path(file_path).exists():
-            print(f"ERROR: File not found: {file_path}")
-            return
+    # Verify input file exists
+    if not Path(args.flow_file).exists():
+        print(f"ERROR: Flow file not found: {args.flow_file}")
+        return
 
     print("Generating visualizations...")
 
-    # Create output directory
-    output_dir = Path(args.output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
+    # Ensure output directory exists
+    Path(args.output).parent.mkdir(parents=True, exist_ok=True)
 
-    # 1. RTL flow overlay
-    print("  Creating RTL flow overlay...")
+    # Create main visualization
+    print(f"  Creating flow overlay from {args.flow_file}...")
     plot_flow_overlay(
-        args.frame0,
-        args.rtl_flow,
-        str(output_dir / "flow_overlay_rtl.png"),
-        "RTL Flow Output",
+        args.frame,
+        args.flow_file,
+        args.output,
+        "RTL Optical Flow Output",
+        stride=args.stride,
+        scale=args.scale,
     )
-    print("Generated: flow_overlay_rtl.png")
+    print(f"Generated: {args.output}")
 
-    # 2. Python reference overlay
-    print("  Creating Python reference overlay...")
-    plot_flow_overlay(
-        args.frame0,
-        args.python_flow,
-        str(output_dir / "flow_overlay_python.png"),
-        "Python Reference Flow",
-    )
-    print("Generated: flow_overlay_python.png")
+    # Optional comparison mode
+    if args.compare:
+        if not Path(args.python_flow).exists():
+            print(f"Warning: Python reference not found: {args.python_flow}")
+            print("Run: python python/lucas_kanade_reference.py")
+            return
 
-    # 3. Error map
-    print("  Creating error map...")
-    plot_error_map(
-        args.rtl_flow,
-        args.python_flow,
-        str(output_dir / "flow_error_map.png"),
-    )
-    print("Generated: flow_error_map.png")
+        print("  Creating comparison plots...")
 
-    # 4. Comparison grid
-    print("  Creating comparison grid...")
-    plot_comparison_grid(
-        args.frame0,
-        args.frame1,
-        args.rtl_flow,
-        args.python_flow,
-        str(output_dir / "comparison_vertical.png"),
-    )
-    print("Generated: comparison_vertical.png")
+        output_dir = Path(args.output).parent
 
-    # 5. Print statistics
-    print_statistics(args.rtl_flow, args.python_flow)
+        # Python overlay
+        plot_flow_overlay(
+            args.frame,
+            args.python_flow,
+            str(output_dir / "flow_overlay_python.png"),
+            "Python Reference Flow",
+            stride=args.stride,
+            scale=args.scale,
+        )
+
+        # Error map
+        plot_error_map(
+            args.flow_file,
+            args.python_flow,
+            str(output_dir / "flow_error_map.png"),
+        )
+
+        # Statistics
+        print_statistics(args.flow_file, args.python_flow)
 
     print("\nVisualization complete!")
 
