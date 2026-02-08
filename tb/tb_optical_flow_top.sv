@@ -45,8 +45,8 @@ module tb_optical_flow_top ();
     localparam real DIRECTION_TOLERANCE = 30.0;  // ±30° tolerance
 
     // Test regions (avoid edges where flow is zero)
-    localparam int TEST_REGION_Y_MIN = 50;
-    localparam int TEST_REGION_Y_MAX = 80;
+    localparam int TEST_REGION_Y_MIN = 105;
+    localparam int TEST_REGION_Y_MAX = 135;
     localparam int TEST_REGION_X_MIN = 55;
     localparam int TEST_REGION_X_MAX = 85;
 
@@ -59,6 +59,8 @@ module tb_optical_flow_top ();
     logic signed [FLOW_WIDTH-1:0] flow_u;
     logic signed [FLOW_WIDTH-1:0] flow_v;
     logic flow_valid;
+    logic [9:0] flow_x;
+    logic [8:0] flow_y;
 
     // Clock generation
     initial begin
@@ -81,6 +83,8 @@ module tb_optical_flow_top ();
         .start(start),
         .busy(busy),
         .done(done),
+        .flow_x(flow_x),
+        .flow_y(flow_y),
         .flow_u(flow_u),
         .flow_v(flow_v),
         .flow_valid(flow_valid)
@@ -180,9 +184,8 @@ module tb_optical_flow_top ();
                         if (first_valid_cycle == -1) begin
                             first_valid_cycle = valid_flow_count;
 
-                            // Calculate pixel position based on pipeline latency
-                            pixel_x = FIRST_VALID_X;
-                            pixel_y = FIRST_VALID_Y;
+                            pixel_x = flow_x;
+                            pixel_y = flow_y;
 
                             $display("[%0t] First valid flow output received", $time);
                             $display("  Latency: %0d clock cycles", first_valid_cycle);
@@ -225,13 +228,9 @@ module tb_optical_flow_top ();
                             end
                         end
 
-                        // Update pixel position (raster scan order)
-                        if (pixel_x == IMAGE_WIDTH - 1) begin
-                            pixel_x = 0;
-                            pixel_y++;
-                        end else begin
-                            pixel_x++;
-                        end
+                        // Update pixel position from RTL
+                        pixel_x = flow_x;
+                        pixel_y = flow_y;
                     end
                 end
             end

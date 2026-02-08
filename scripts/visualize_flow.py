@@ -338,13 +338,13 @@ def main() -> None:
     parser.add_argument(
         "--stride",
         type=int,
-        default=10,
+        default=16,
         help="Arrow subsampling stride",
     )
     parser.add_argument(
         "--scale",
         type=float,
-        default=20.0,
+        default=7.0,
         help="Arrow scale factor",
     )
 

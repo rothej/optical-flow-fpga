@@ -62,6 +62,8 @@ module optical_flow_top #(
     // Gradient computation
     logic signed [GRAD_WIDTH-1:0] grad_x, grad_y, grad_t;
     logic grad_valid;
+    logic [9:0] pixel_x_grad;
+    logic [8:0] pixel_y_grad;
 
     gradient_compute #(
         .PIXEL_WIDTH(PIXEL_WIDTH),
@@ -72,6 +74,10 @@ module optical_flow_top #(
         .pixel_curr(pixel_curr),
         .pixel_prev(pixel_prev),
         .pixel_valid(pixel_valid),
+        .pixel_x_in('0),
+        .pixel_y_in('0),
+        .pixel_x_out(pixel_x_grad),
+        .pixel_y_out(pixel_y_grad),
         .grad_x(grad_x),
         .grad_y(grad_y),
         .grad_t(grad_t),
@@ -82,6 +88,8 @@ module optical_flow_top #(
     logic signed [ACCUM_WIDTH-1:0] sum_IxIx, sum_IyIy, sum_IxIy;
     logic signed [ACCUM_WIDTH-1:0] sum_IxIt, sum_IyIt;
     logic accum_valid;
+    logic [9:0] pixel_x_accum;
+    logic [8:0] pixel_y_accum;
 
     window_accumulator #(
         .WIDTH(IMAGE_WIDTH),
@@ -96,6 +104,8 @@ module optical_flow_top #(
         .grad_y(grad_y),
         .grad_t(grad_t),
         .grad_valid(grad_valid),
+        .accum_x_coord(pixel_x_accum),
+        .accum_y_coord(pixel_y_accum),
         .sum_IxIx(sum_IxIx),
         .sum_IyIy(sum_IyIy),
         .sum_IxIy(sum_IxIy),
@@ -118,6 +128,10 @@ module optical_flow_top #(
         .sum_IxIt(sum_IxIt),
         .sum_IyIt(sum_IyIt),
         .accum_valid(accum_valid),
+        .pixel_x_in(pixel_x_accum),
+        .pixel_y_in(pixel_y_accum),
+        .pixel_x_out(flow_x),
+        .pixel_y_out(flow_y),
         .flow_u(flow_u),
         .flow_v(flow_v),
         .flow_valid(flow_valid)

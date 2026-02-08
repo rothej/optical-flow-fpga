@@ -140,9 +140,28 @@ module line_buffer_5x5 #(
 
     assign window_valid = valid_q;
 
-    // Window center position (corresponds to window[2][2])
-    // Current pixel is at (col, row), but window is centered 2 pixels/lines back
-    assign window_x = (col >= 2) ? (col - 2) : (WIDTH + col - 2);
-    assign window_y = (row >= 2) ? (row - 2) : (HEIGHT + row - 2);
+    // Window center position
+    always_comb begin
+        if (valid_q && col >= 2 && row >= 2) begin
+            window_x = col - 2;
+            window_y = row - 2;
+        end else begin
+            window_x = '0;
+            window_y = '0;
+        end
+    end
+
+    // DEBUG: Print coordinates when they change (after the always_comb block)
+    always_ff @(posedge clk) begin
+        if (data_valid && valid_q) begin
+            // Only print for pixel (60, 60) to avoid spam
+            if (window_x == 60 && window_y == 60) begin
+                $display("[LINE_BUFFER DEBUG @ %0t] Window (60, 60):", $time);
+                $display("  Internal state: col=%0d, row=%0d", col, row);
+                $display("  valid_q = %b", valid_q);
+                $display("  window_x = %0d, window_y = %0d", window_x, window_y);
+            end
+        end
+    end
 
 endmodule : line_buffer_5x5

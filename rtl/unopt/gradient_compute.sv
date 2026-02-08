@@ -128,8 +128,8 @@ module gradient_compute #(
             2 * $signed({1'b0, avg_window[2][1]}) + $signed({1'b0, avg_window[2][2]});
         sobel_y_comb = sobel_y_accum >>> 3;
 
-        // Temporal gradient: It = I_curr - I_prev
-        temporal_comb = $signed({1'b0, window_curr[1][1]}) - $signed({1'b0, window_prev[1][1]});
+        // Temporal gradient: Zero-extend to GRAD_WIDTH, then It = I_prev - I_curr
+        temporal_comb = $signed({4'b0, window_prev[1][1]}) - $signed({4'b0, window_curr[1][1]});
     end
 
     // Register outputs

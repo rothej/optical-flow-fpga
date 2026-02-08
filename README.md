@@ -50,9 +50,7 @@ This RTL implements single-scale Lucas-Kanade, suitable for motions <5 pixels. P
 
 ## Verification
 
-### Verification
-
-#### Quick Start
+### Quick Start
 
 ```bash
 # Generate test patterns
@@ -65,7 +63,7 @@ python python/optical_flow_verifier.py
 python python/optical_flow_verifier.py --pattern translate_medium rotate_small
 ```
 
-#### Regression Testing
+### Regression Testing
 
 Automated baseline comparison for catching algorithm changes.
 ```bash
