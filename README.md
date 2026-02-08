@@ -2,6 +2,21 @@
 
 Real-time Lucas-Kanade optical flow implementation on Nexys A7-100T FPGA.
 
+## Test Pattern
+
+Verification uses natural texture from this panoramic image:
+
+<div align="center">
+  <img src="python/test_data/mountain_texture.jpg" alt="Fronalpstock mountain in Swiss Alps" width="600"/>
+  <br>
+  <em>
+    <strong>Fronalpstock, Swiss Alps (Canton of Schwyz)</strong><br>
+    Photographer: <a href="https://commons.wikimedia.org/wiki/User:Hannes_R%C3%B6st">Hannes Röst</a><br>
+    Source: <a href="https://commons.wikimedia.org/w/index.php?curid=11301841">Wikimedia Commons (12-frame panorama)</a><br>
+    License: <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>
+  </em>
+</div>
+
 ---
 
 ## Folder Structure
@@ -140,22 +155,22 @@ python python/optical_flow_verifier.py --pattern translate_medium rotate_small
 
 | Pattern           | Ground Truth | Single-Scale MAE | Pyramidal MAE | Single Status | Pyramidal Status |
 |-------------------|--------------|------------------|---------------|---------------|------------------|
-| translate_small   | (0.5, 0.5)   | 0.31 / 0.27      | 0.65 / 0.72   | Pass          | Warning          |
-| translate_medium  | (2.0, 0.0)   | 1.34 / 0.77      | 0.53 / 0.37   | Warning       | Warning          |
-| translate_large   | (15.0, 0.0)  | 14.82 / 2.06     | 6.04 / 4.90   | Fail          | Fail             |
-| rotate_small      | (0.0, 0.0)   | 1.21 / 1.14      | 0.78 / 0.94   | Warning       | Pass             |
-| rotate_medium     | (0.0, 0.0)   | 1.09 / 1.57      | 1.78 / 1.89   | Warning       | Warning          |
-| zoom_in           | (0.0, 0.0)   | 1.17 / 1.74      | 2.02 / 2.10   | Warning       | Warning          |
-| translate_rotate  | (5.0, 5.0)   | 4.78 / 4.85      | 1.13 / 1.29   | Fail          | Warning          |
+| translate_small   | (0.5, 0.5)   | 0.27 / 0.25      | 0.64 / 0.63   | Pass          | Warning          |
+| translate_medium  | (2.0, 0.0)   | 0.89 / 0.47      | 0.55 / 0.40   | Warning       | Warning          |
+| translate_large   | (15.0, 0.0)  | 14.74 / 2.28     | 6.04 / 5.09   | Fail          | Fail             |
+| rotate_small      | (0.0, 0.0)   | 1.08 / 1.08      | 0.75 / 0.83   | Warning       | Pass             |
+| rotate_medium     | (0.0, 0.0)   | 1.29 / 1.39      | 1.77 / 1.80   | Warning       | Warning          |
+| zoom_in           | (0.0, 0.0)   | 1.35 / 1.53      | 2.01 / 2.04   | Warning       | Warning          |
+| translate_rotate  | (5.0, 5.0)   | 4.59 / 4.83      | 1.11 / 1.18   | Warning       | Pass             |
 | no_motion         | (0.0, 0.0)   | 0.00 / 0.00      | 0.00 / 0.00   | Pass          | Pass             |
-| translate_extreme | (30.0, 20.0) | 29.65 / 18.93    | 34.24 / 21.15 | Fail          | Fail             |
+| translate_extreme | (30.0, 20.0) | 29.38 / 18.69    | 36.12 / 22.05 | Fail          | Fail             |
 
 *MAE (Mean Absolute Error) format: horizontal / vertical (pixels). Full metrics in `python/verification_results.md`.*
 
 ##### Summary of Results
-- Single-scale excels at sub-pixel motion (0.31px MAE on small translation)
-- Pyramidal approach reduces error by ~59% on large translations (14.8 to 6.0px)
-- Combined motion benefits most from pyramid (4.8 to 1.3px MAE improvement)
+- Single-scale excels at sub-pixel motion (0.27px MAE on small translation)
+- Pyramidal approach reduces error by ~59% on large translations (0.89 to 0.55px)
+- Combined motion benefits most from pyramid (4.59 to 1.11px MAE improvement)
 - Both methods struggle with extreme motion (>20px) which is expected
 
 #### Visual Comparison: Medium Translation (2px)
@@ -370,8 +385,6 @@ python python/generate_test_frames_natural.py --displacement-x 15
 # Compare methods
 python python/lucas_kanade_pyramidal.py --compare
 ```
-
-**Note**: The `python/test_data/` directory contains cached image(s) used for test frame generation (source: Wikimedia Commons).
 
 ### RTL Simulation
 
