@@ -13,6 +13,11 @@ import numpy as np
 import numpy.typing as npt
 from lucas_kanade_core import compute_gradients, lucas_kanade_single_scale
 
+SCRIPT_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = SCRIPT_DIR.parent
+DEFAULT_FRAME_DIR = PROJECT_ROOT / "tb" / "test_frames"
+DEFAULT_OUTPUT_DIR = SCRIPT_DIR / "output"
+
 
 def visualize_flow(
     u: npt.NDArray[np.float32], v: npt.NDArray[np.float32], output_path: Path, scale: float = 10.0
@@ -104,14 +109,17 @@ def main() -> None:
     parser.add_argument(
         "--frame-dir",
         type=str,
-        default="tb/test_frames",
+        default=str(DEFAULT_FRAME_DIR),
         help="Directory containing frame_00.bin and frame_01.bin",
     )
     parser.add_argument("--width", type=int, default=320, help="Frame width")
     parser.add_argument("--height", type=int, default=240, help="Frame height")
     parser.add_argument("--window-size", type=int, default=5, help="Window size for Lucas-Kanade")
     parser.add_argument(
-        "--output-dir", type=str, default="python/output", help="Output directory for results"
+        "--output-dir",
+        type=str,
+        default=str(DEFAULT_OUTPUT_DIR),
+        help="Output directory for results",
     )
 
     args = parser.parse_args()

@@ -15,6 +15,10 @@ import numpy.typing as npt
 from lucas_kanade_core import lucas_kanade_single_scale
 from scipy.ndimage import map_coordinates
 
+SCRIPT_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = SCRIPT_DIR.parent
+DEFAULT_FRAME_DIR = PROJECT_ROOT / "tb" / "test_frames"
+
 
 def build_gaussian_pyramid(
     image: npt.NDArray[np.float32], num_levels: int, scale_factor: float = 0.5
@@ -353,7 +357,7 @@ def main() -> None:
     parser.add_argument(
         "--frame-dir",
         type=str,
-        default="tb/test_frames",
+        default=str(DEFAULT_FRAME_DIR),
         help="Directory containing frame_00.bin and frame_01.bin",
     )
     parser.add_argument("--width", type=int, default=320, help="Frame width")
