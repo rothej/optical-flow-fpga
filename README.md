@@ -153,17 +153,21 @@ python python/optical_flow_verifier.py --pattern translate_medium rotate_small
 
 #### Tabulated Results
 
-| Pattern           | Ground Truth | Single-Scale MAE | Pyramidal MAE | Single Status | Pyramidal Status |
-|-------------------|--------------|------------------|---------------|---------------|------------------|
-| translate_small   | (0.5, 0.5)   | 0.27 / 0.25      | 0.64 / 0.63   | Pass          | Warning          |
-| translate_medium  | (2.0, 0.0)   | 0.89 / 0.47      | 0.55 / 0.40   | Warning       | Warning          |
-| translate_large   | (15.0, 0.0)  | 14.74 / 2.28     | 6.04 / 5.09   | Fail          | Fail             |
-| rotate_small      | (0.0, 0.0)   | 1.08 / 1.08      | 0.75 / 0.83   | Warning       | Pass             |
-| rotate_medium     | (0.0, 0.0)   | 1.29 / 1.39      | 1.77 / 1.80   | Warning       | Warning          |
-| zoom_in           | (0.0, 0.0)   | 1.35 / 1.53      | 2.01 / 2.04   | Warning       | Warning          |
-| translate_rotate  | (5.0, 5.0)   | 4.59 / 4.83      | 1.11 / 1.18   | Warning       | Pass             |
-| no_motion         | (0.0, 0.0)   | 0.00 / 0.00      | 0.00 / 0.00   | Pass          | Pass             |
-| translate_extreme | (30.0, 20.0) | 29.38 / 18.69    | 36.12 / 22.05 | Fail          | Fail             |
+| Pattern            | Ground Truth  | Single-Scale MAE | Pyramidal MAE | Single Status | Pyramidal Status |
+|--------------------|---------------|------------------|---------------|---------------|------------------|
+| translate_small    | (0.5, 0.5)    | 0.27 / 0.25      | 0.64 / 0.63   | Pass          | Warning          |
+| translate_medium   | (2.0, 0.0)    | 0.89 / 0.47      | 0.55 / 0.40   | Warning       | Warning          |
+| translate_large    | (15.0, 0.0)   | 14.74 / 2.28     | 6.04 / 5.09   | Fail          | Fail             |
+| translate_vertical | (0.0, 10.0)   | 2.22 / 8.45      | 5.66 / 2.56   | Fail          | Fail             |
+| translate_diagonal | (10.0, 10.0)  | 9.53 / 8.69      | 7.77 / 4.80   | Fail          | Fail             |
+| rotate_small       | (0.0, 0.0)    | 1.08 / 1.08      | 0.75 / 0.83   | Warning       | Pass             |
+| rotate_medium      | (0.0, 0.0)    | 1.29 / 1.39      | 1.77 / 1.80   | Warning       | Warning          |
+| rotate_large       | (0.0, 0.0)    | 1.24 / 1.60      | 5.21 / 5.30   | Warning       | Fail             |
+| zoom_in            | (0.0, 0.0)    | 1.35 / 1.53      | 2.01 / 2.04   | Warning       | Warning          |
+| zoom_out           | (0.0, 0.0)    | 1.36 / 1.54      | 2.07 / 2.17   | Warning       | Warning          |
+| translate_rotate   | (5.0, 5.0)    | 4.59 / 4.83      | 1.11 / 1.18   | Warning       | Pass             |
+| no_motion          | (0.0, 0.0)    | 0.00 / 0.00      | 0.00 / 0.00   | Pass          | Pass             |
+| translate_extreme  | (30.0, 20.0)  | 29.38 / 18.69    | 36.12 / 22.05 | Fail          | Fail             |
 
 *MAE (Mean Absolute Error) format: horizontal / vertical (pixels). Full metrics in `python/verification_results.md`.*
 

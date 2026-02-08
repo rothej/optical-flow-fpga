@@ -1,7 +1,36 @@
 {
   "version": "1.0",
-  "timestamp": "2026-02-08T03:44:29.656063+00:00",
+  "timestamp": "2026-02-08T04:22:09.833759+00:00",
   "patterns": {
+    "translate_small": {
+      "pattern_name": "translate_small",
+      "ground_truth": {
+        "u": 0.5,
+        "v": 0.5
+      },
+      "num_test_pixels": 66000,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 0.26486149430274963,
+          "mae_v": 0.24537961184978485,
+          "rmse": 0.46628132462501526,
+          "epe": 0.39136627316474915,
+          "aae": 13.601577758789062
+        },
+        "status": "Pass"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 0.6382198929786682,
+          "mae_v": 0.6276947259902954,
+          "rmse": 1.8214707374572754,
+          "epe": 0.9969235062599182,
+          "aae": 31.1785945892334
+        },
+        "status": "Warning",
+        "config": "default"
+      }
+    },
     "translate_medium": {
       "pattern_name": "translate_medium",
       "ground_truth": {
@@ -31,6 +60,93 @@
         "config": "default"
       }
     },
+    "translate_large": {
+      "pattern_name": "translate_large",
+      "ground_truth": {
+        "u": 15.0,
+        "v": 0.0
+      },
+      "num_test_pixels": 66000,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 14.735334396362305,
+          "mae_v": 2.279996633529663,
+          "rmse": 15.438329696655273,
+          "epe": 15.120492935180664,
+          "aae": 82.86846923828125
+        },
+        "status": "Fail"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 6.039097309112549,
+          "mae_v": 5.092398166656494,
+          "rmse": 16.349365234375,
+          "epe": 8.933886528015137,
+          "aae": 28.642871856689453
+        },
+        "status": "Fail",
+        "config": "default"
+      }
+    },
+    "translate_vertical": {
+      "pattern_name": "translate_vertical",
+      "ground_truth": {
+        "u": 0.0,
+        "v": 10.0
+      },
+      "num_test_pixels": 66000,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 2.221079111099243,
+          "mae_v": 8.451958656311035,
+          "rmse": 9.774096488952637,
+          "epe": 9.166460990905762,
+          "aae": 67.3945541381836
+        },
+        "status": "Fail"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 5.662843704223633,
+          "mae_v": 2.56188702583313,
+          "rmse": 27.116809844970703,
+          "epe": 6.793494701385498,
+          "aae": 14.204252243041992
+        },
+        "status": "Fail",
+        "config": "default"
+      }
+    },
+    "translate_diagonal": {
+      "pattern_name": "translate_diagonal",
+      "ground_truth": {
+        "u": 10.0,
+        "v": 10.0
+      },
+      "num_test_pixels": 66000,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 9.531388282775879,
+          "mae_v": 8.685442924499512,
+          "rmse": 13.872655868530273,
+          "epe": 13.308838844299316,
+          "aae": 72.2899398803711
+        },
+        "status": "Fail"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 7.77371883392334,
+          "mae_v": 4.803170204162598,
+          "rmse": 24.80750846862793,
+          "epe": 10.223433494567871,
+          "aae": 24.54112434387207
+        },
+        "status": "Fail",
+        "config": "default"
+      }
+    },
     "rotate_small": {
       "pattern_name": "rotate_small",
       "ground_truth": {
@@ -55,6 +171,180 @@
           "rmse": 1.3697348833084106,
           "epe": 1.2274612188339233,
           "aae": 47.086395263671875
+        },
+        "status": "Pass",
+        "config": "default"
+      }
+    },
+    "rotate_medium": {
+      "pattern_name": "rotate_medium",
+      "ground_truth": {
+        "u": 0.0,
+        "v": 0.0
+      },
+      "num_test_pixels": 6400,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 1.285035252571106,
+          "mae_v": 1.3907006978988647,
+          "rmse": 2.3316664695739746,
+          "epe": 2.0918054580688477,
+          "aae": 59.65082931518555
+        },
+        "status": "Warning"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 1.7712888717651367,
+          "mae_v": 1.7958040237426758,
+          "rmse": 2.9435863494873047,
+          "epe": 2.738192081451416,
+          "aae": 66.5191879272461
+        },
+        "status": "Warning",
+        "config": "default"
+      }
+    },
+    "rotate_large": {
+      "pattern_name": "rotate_large",
+      "ground_truth": {
+        "u": 0.0,
+        "v": 0.0
+      },
+      "num_test_pixels": 6400,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 1.2432746887207031,
+          "mae_v": 1.6028307676315308,
+          "rmse": 2.7415506839752197,
+          "epe": 2.2566587924957275,
+          "aae": 58.820682525634766
+        },
+        "status": "Warning"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 5.208287239074707,
+          "mae_v": 5.3037333488464355,
+          "rmse": 8.726263046264648,
+          "epe": 8.068428039550781,
+          "aae": 80.91212463378906
+        },
+        "status": "Fail",
+        "config": "default"
+      }
+    },
+    "zoom_in": {
+      "pattern_name": "zoom_in",
+      "ground_truth": {
+        "u": 0.0,
+        "v": 0.0
+      },
+      "num_test_pixels": 6400,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 1.3463728427886963,
+          "mae_v": 1.5301225185394287,
+          "rmse": 2.6164112091064453,
+          "epe": 2.270812749862671,
+          "aae": 61.11924743652344
+        },
+        "status": "Warning"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 2.013018846511841,
+          "mae_v": 2.037519693374634,
+          "rmse": 3.3297736644744873,
+          "epe": 3.1138739585876465,
+          "aae": 69.03158569335938
+        },
+        "status": "Warning",
+        "config": "default"
+      }
+    },
+    "zoom_out": {
+      "pattern_name": "zoom_out",
+      "ground_truth": {
+        "u": 0.0,
+        "v": 0.0
+      },
+      "num_test_pixels": 6400,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 1.3622204065322876,
+          "mae_v": 1.5377615690231323,
+          "rmse": 2.8012964725494385,
+          "epe": 2.2989351749420166,
+          "aae": 60.395816802978516
+        },
+        "status": "Warning"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 2.066779375076294,
+          "mae_v": 2.1656765937805176,
+          "rmse": 3.533810615539551,
+          "epe": 3.2682294845581055,
+          "aae": 69.62110137939453
+        },
+        "status": "Warning",
+        "config": "default"
+      }
+    },
+    "translate_rotate": {
+      "pattern_name": "translate_rotate",
+      "ground_truth": {
+        "u": 5.0,
+        "v": 5.0
+      },
+      "num_test_pixels": 6400,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 4.588893890380859,
+          "mae_v": 4.834445953369141,
+          "rmse": 7.284928798675537,
+          "epe": 6.881406307220459,
+          "aae": 71.27367401123047
+        },
+        "status": "Warning"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 1.1065635681152344,
+          "mae_v": 1.1764215230941772,
+          "rmse": 1.9379298686981201,
+          "epe": 1.7637966871261597,
+          "aae": 9.089102745056152
+        },
+        "status": "Pass",
+        "config": "default"
+      }
+    },
+    "no_motion": {
+      "pattern_name": "no_motion",
+      "ground_truth": {
+        "u": 0.0,
+        "v": 0.0
+      },
+      "num_test_pixels": 66000,
+      "single_scale": {
+        "metrics": {
+          "mae_u": 0.0,
+          "mae_v": 0.0,
+          "rmse": 0.0,
+          "epe": 0.0,
+          "aae": 0.0
+        },
+        "status": "Pass"
+      },
+      "pyramidal": {
+        "metrics": {
+          "mae_u": 0.0,
+          "mae_v": 0.0,
+          "rmse": 0.0,
+          "epe": 0.0,
+          "aae": 0.0
         },
         "status": "Pass",
         "config": "default"
