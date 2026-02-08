@@ -7,6 +7,7 @@ Used to verify FPGA implementation and generate test vectors.
 
 import argparse
 from pathlib import Path
+from typing import Optional
 
 import numpy as np
 import numpy.typing as npt
@@ -67,6 +68,34 @@ def visualize_flow(
     plt.tight_layout()
     plt.savefig(output_path, dpi=150)
     print(f"Flow visualization saved: {output_path}")
+
+
+def export_flow_field_txt(
+    u: np.ndarray,
+    v: np.ndarray,
+    output_path: Path,
+    width: int,
+    height: int,
+    test_region: Optional[dict] = None,
+) -> None:
+    """Export flow field in text format for visualization script."""
+    with open(output_path, "w") as f:
+        f.write("# Optical flow field data (Python reference)\n")
+        f.write("# Format: x y u v\n")
+        f.write(f"# Image size: {width}x{height}\n")
+
+        # Add test region
+        if test_region:
+            f.write(
+                f"# Test region: x[{test_region['x_min']}:{test_region['x_max']}], "
+                f"y[{test_region['y_min']}:{test_region['y_max']}]\n"
+            )
+
+        for y_idx in range(height):
+            for x_idx in range(width):
+                f.write(f"{x_idx} {y_idx} {u[y_idx, x_idx]:.6f} {v[y_idx, x_idx]:.6f}\n")
+
+    print(f"Flow field text export: {output_path}")
 
 
 def main() -> None:
@@ -147,6 +176,18 @@ def main() -> None:
     u.tofile(output_dir / "flow_u.bin")
     v.tofile(output_dir / "flow_v.bin")
     print(f"\nFlow fields saved to {output_dir}")
+
+    # Export text format for visualization
+    test_region = {"x_min": 55, "x_max": 85, "y_min": 105, "y_max": 135}
+
+    export_flow_field_txt(
+        u=u,
+        v=v,
+        output_path=output_dir / "flow_field_python.txt",
+        width=args.width,
+        height=args.height,
+        test_region=test_region,
+    )
 
     # Visualize
     try:

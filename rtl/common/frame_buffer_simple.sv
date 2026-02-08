@@ -11,6 +11,8 @@
  *              Streams out pixels from two frames sequentially.
  */
 
+`timescale 1ns / 1ps
+
 module frame_buffer_simple #(
     parameter int    PIXEL_WIDTH  = 8,
     parameter int    IMAGE_WIDTH  = 320,
@@ -21,6 +23,8 @@ module frame_buffer_simple #(
     input  logic                   clk,
     input  logic                   rst_n,
     input  logic                   start,
+    output logic [            9:0] pixel_x,
+    output logic [            8:0] pixel_y,
     output logic [PIXEL_WIDTH-1:0] pixel_curr,
     output logic [PIXEL_WIDTH-1:0] pixel_prev,
     output logic                   pixel_valid,
@@ -46,6 +50,12 @@ module frame_buffer_simple #(
     // Pixel counter
     logic [$clog2(TOTAL_PIXELS):0] pixel_cnt;
     logic streaming;
+
+    // Calculate x,y from linear pixel counter
+    always_comb begin
+        pixel_x = pixel_cnt % IMAGE_WIDTH;
+        pixel_y = pixel_cnt / IMAGE_WIDTH;
+    end
 
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
@@ -83,4 +93,4 @@ module frame_buffer_simple #(
         end
     end
 
-endmodule
+endmodule : frame_buffer_simple

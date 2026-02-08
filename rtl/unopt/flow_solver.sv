@@ -32,6 +32,11 @@ module flow_solver #(
     input logic signed [ACCUM_WIDTH-1:0] sum_IyIt,
     input logic                          accum_valid,
 
+    input  logic [9:0] pixel_x_in,
+    input  logic [8:0] pixel_y_in,
+    output logic [9:0] pixel_x_out,
+    output logic [8:0] pixel_y_out,
+
     output logic signed [FLOW_WIDTH-1:0] flow_u,
     output logic signed [FLOW_WIDTH-1:0] flow_v,
     output logic                         flow_valid
@@ -49,8 +54,12 @@ module flow_solver #(
     logic solvable;
 
     always_comb begin
-        // Compute determinant: det = IxIx * IyIy - IxIy * IxIy
+        // Declare intermediate variables at top of block
         logic signed [2*ACCUM_WIDTH-1:0] prod1, prod2;
+        logic signed [2*ACCUM_WIDTH-1:0] temp1, temp2;
+        logic signed [ACCUM_WIDTH+FRAC_BITS-1:0] scaled_num_u, scaled_num_v;
+
+        // Compute determinant: det = IxIx * IyIy - IxIy * IxIy
         prod1 = sum_IxIx * sum_IyIy;
         prod2 = sum_IxIy * sum_IxIy;
         det = prod1[ACCUM_WIDTH-1:0] - prod2[ACCUM_WIDTH-1:0];
@@ -61,27 +70,38 @@ module flow_solver #(
         // Compute numerators using Cramer's rule:
         // u = (IyIy * (-IxIt) - IxIy * (-IyIt)) / det
         // v = (IxIx * (-IyIt) - IxIy * (-IxIt)) / det
-        logic signed [2*ACCUM_WIDTH-1:0] temp1, temp2;
+        // Note: sum_IxIt and sum_IyIt already have correct sign from It = I_prev - I_curr
 
         // Numerator for u
-        temp1 = sum_IyIy * (-sum_IxIt);
-        temp2 = sum_IxIy * (-sum_IyIt);
+        temp1 = sum_IyIy * sum_IxIt;
+        temp2 = sum_IxIy * sum_IyIt;
         numerator_u = temp1[ACCUM_WIDTH-1:0] - temp2[ACCUM_WIDTH-1:0];
 
         // Numerator for v
-        temp1 = sum_IxIx * (-sum_IyIt);
-        temp2 = sum_IxIy * (-sum_IxIt);
+        temp1 = sum_IxIx * sum_IyIt;
+        temp2 = sum_IxIy * sum_IxIt;
         numerator_v = temp1[ACCUM_WIDTH-1:0] - temp2[ACCUM_WIDTH-1:0];
 
-        // Division (NON-PIPELINED - massive critical path!)
-        // Scale to fixed-point S8.7 format
+        // Division with fixed-point scaling
         if (solvable) begin
-            logic signed [ACCUM_WIDTH+FRAC_BITS-1:0] scaled_num_u, scaled_num_v;
             scaled_num_u = numerator_u <<< FRAC_BITS;
             scaled_num_v = numerator_v <<< FRAC_BITS;
 
             flow_u_comb  = scaled_num_u / det;
             flow_v_comb  = scaled_num_v / det;
+
+            // Clamp to ±8 pixels (1024 in S8.7 fixed-point) and use signed comparision
+            if (flow_u_comb > $signed(16'sd1024)) begin
+                flow_u_comb = $signed(16'sd1024);  // +8.0
+            end else if (flow_u_comb < $signed(-16'sd1024)) begin
+                flow_u_comb = $signed(-16'sd1024);  // -8.0
+            end
+
+            if (flow_v_comb > $signed(16'sd1024)) begin
+                flow_v_comb = $signed(16'sd1024);  // +8.0
+            end else if (flow_v_comb < $signed(-16'sd1024)) begin
+                flow_v_comb = $signed(-16'sd1024);  // -8.0
+            end
         end else begin
             flow_u_comb = '0;
             flow_v_comb = '0;
@@ -91,13 +111,17 @@ module flow_solver #(
     // Register outputs
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            flow_u     <= '0;
-            flow_v     <= '0;
-            flow_valid <= 1'b0;
+            flow_u      <= '0;
+            flow_v      <= '0;
+            flow_valid  <= 1'b0;
+            pixel_x_out <= '0;
+            pixel_y_out <= '0;
         end else begin
-            flow_u     <= flow_u_comb;
-            flow_v     <= flow_v_comb;
-            flow_valid <= accum_valid;
+            flow_u      <= flow_u_comb;
+            flow_v      <= flow_v_comb;
+            flow_valid  <= accum_valid;
+            pixel_x_out <= pixel_x_in;
+            pixel_y_out <= pixel_y_in;
         end
     end
 

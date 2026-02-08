@@ -14,7 +14,6 @@
  *              Not timing critical.
  */
 
-
 `timescale 1ns / 1ps
 
 module line_buffer_5x5 #(
@@ -28,8 +27,10 @@ module line_buffer_5x5 #(
     input logic signed [DATA_WIDTH-1:0] data_in,
     input logic                         data_valid,
 
-    output logic signed [DATA_WIDTH-1:0] window      [5][5],
-    output logic                         window_valid
+    output logic signed [    DATA_WIDTH-1:0] window      [5][5],
+    output logic                             window_valid,
+    output logic        [ $clog2(WIDTH)-1:0] window_x,
+    output logic        [$clog2(HEIGHT)-1:0] window_y
 );
 
     // Line buffer storage (4 lines + current row)
@@ -98,42 +99,69 @@ module line_buffer_5x5 #(
 
     // Output window assignment (combinational)
     always_comb begin
-        // Row 0 (oldest)
-        window[0][0] = line3[col];
-        window[0][1] = (col == 0) ? line3[WIDTH-1] : line3[col-1];
-        window[0][2] = (col <= 1) ? line3[WIDTH-2+col] : line3[col-2];
-        window[0][3] = (col <= 2) ? line3[WIDTH-3+col] : line3[col-3];
-        window[0][4] = (col <= 3) ? line3[WIDTH-4+col] : line3[col-4];
+        // Boundary condition: Window only valid when col >= 4 (checked by valid_q)
+        // When col < 4, these values are don't-care since window_valid = 0
 
-        // Row 1
-        window[1][0] = line2[col];
-        window[1][1] = (col == 0) ? line2[WIDTH-1] : line2[col-1];
-        window[1][2] = (col <= 1) ? line2[WIDTH-2+col] : line2[col-2];
-        window[1][3] = (col <= 2) ? line2[WIDTH-3+col] : line2[col-3];
-        window[1][4] = (col <= 3) ? line2[WIDTH-4+col] : line2[col-4];
+        // Row 0 (oldest - 4 lines back)
+        window[0][0] = (col >= 4) ? line3[col-4] : '0;
+        window[0][1] = (col >= 3) ? line3[col-3] : '0;
+        window[0][2] = (col >= 2) ? line3[col-2] : '0;
+        window[0][3] = (col >= 1) ? line3[col-1] : '0;
+        window[0][4] = line3[col];
 
-        // Row 2
-        window[2][0] = line1[col];
-        window[2][1] = (col == 0) ? line1[WIDTH-1] : line1[col-1];
-        window[2][2] = (col <= 1) ? line1[WIDTH-2+col] : line1[col-2];
-        window[2][3] = (col <= 2) ? line1[WIDTH-3+col] : line1[col-3];
-        window[2][4] = (col <= 3) ? line1[WIDTH-4+col] : line1[col-4];
+        // Row 1 (3 lines back)
+        window[1][0] = (col >= 4) ? line2[col-4] : '0;
+        window[1][1] = (col >= 3) ? line2[col-3] : '0;
+        window[1][2] = (col >= 2) ? line2[col-2] : '0;
+        window[1][3] = (col >= 1) ? line2[col-1] : '0;
+        window[1][4] = line2[col];
 
-        // Row 3
-        window[3][0] = line0[col];
-        window[3][1] = (col == 0) ? line0[WIDTH-1] : line0[col-1];
-        window[3][2] = (col <= 1) ? line0[WIDTH-2+col] : line0[col-2];
-        window[3][3] = (col <= 2) ? line0[WIDTH-3+col] : line0[col-3];
-        window[3][4] = (col <= 3) ? line0[WIDTH-4+col] : line0[col-4];
+        // Row 2 (2 lines back)
+        window[2][0] = (col >= 4) ? line1[col-4] : '0;
+        window[2][1] = (col >= 3) ? line1[col-3] : '0;
+        window[2][2] = (col >= 2) ? line1[col-2] : '0;
+        window[2][3] = (col >= 1) ? line1[col-1] : '0;
+        window[2][4] = line1[col];
 
-        // Row 4 (current)
-        window[4][0] = current[0];
-        window[4][1] = current[1];
-        window[4][2] = current[2];
-        window[4][3] = current[3];
-        window[4][4] = current[4];
+        // Row 3 (1 line back)
+        window[3][0] = (col >= 4) ? line0[col-4] : '0;
+        window[3][1] = (col >= 3) ? line0[col-3] : '0;
+        window[3][2] = (col >= 2) ? line0[col-2] : '0;
+        window[3][3] = (col >= 1) ? line0[col-1] : '0;
+        window[3][4] = line0[col];
+
+        // Row 4 (current row - newest)
+        window[4][0] = current[4];
+        window[4][1] = current[3];
+        window[4][2] = current[2];  // Center of 5×5 window
+        window[4][3] = current[1];
+        window[4][4] = current[0];  // Newest input pixel
     end
 
     assign window_valid = valid_q;
 
-endmodule
+    // Window center position
+    always_comb begin
+        if (valid_q && col >= 2 && row >= 2) begin
+            window_x = col - 2;
+            window_y = row - 2;
+        end else begin
+            window_x = '0;
+            window_y = '0;
+        end
+    end
+
+    // DEBUG: Print coordinates when they change (after the always_comb block)
+    always_ff @(posedge clk) begin
+        if (data_valid && valid_q) begin
+            // Only print for pixel (60, 60) to avoid spam
+            if (window_x == 60 && window_y == 60) begin
+                $display("[LINE_BUFFER DEBUG @ %0t] Window (60, 60):", $time);
+                $display("  Internal state: col=%0d, row=%0d", col, row);
+                $display("  valid_q = %b", valid_q);
+                $display("  window_x = %0d, window_y = %0d", window_x, window_y);
+            end
+        end
+    end
+
+endmodule : line_buffer_5x5

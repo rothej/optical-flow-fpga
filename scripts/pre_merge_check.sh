@@ -51,14 +51,8 @@ test -f python/verification_summary.md && echo -e "${GREEN}verification_summary.
 test -f python/verification_results.json && echo -e "${GREEN}verification_results.json${NC}"
 echo ""
 
-# Create/update baseline
-echo "5. Updating baseline..."
-python python/optical_flow_verifier.py --no-visualizations --update-baseline > /dev/null 2>&1
-test -f python/verification_baseline.json && echo -e "${GREEN}Baseline updated${NC}"
-echo ""
-
 # Regression test
-echo "6. Running regression check..."
+echo "5. Running regression check..."
 python python/optical_flow_verifier.py \
   --compare-baseline \
   --no-visualizations \
@@ -74,7 +68,7 @@ fi
 echo ""
 
 # Lint check
-echo "7. Running linters..."
+echo "6. Running linters..."
 flake8 python/ --count --select=E9,F63,F7,F82 --show-source --statistics > /tmp/lint_output.txt 2>&1
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}No critical lint errors${NC}"
@@ -83,7 +77,7 @@ else
 fi
 echo ""
 
-# Step 9: Git status
+# Step Git status
 echo "9. Checking git status..."
 if [ -n "$(git status --porcelain)" ]; then
     echo -e "${YELLOW}  Uncommitted changes:${NC}"
@@ -97,6 +91,4 @@ echo ""
 echo "========================================="
 echo -e "${GREEN}ALL PRE-MERGE CHECKS PASSED${NC}"
 echo "========================================="
-echo ""
-echo "Ready to merge!"
 echo ""
