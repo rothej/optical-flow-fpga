@@ -486,16 +486,19 @@ Note: Single-scale L-K underestimates smooth motion
 </div>
 
 **Interpretation:**
-- **Top-left (Quiver):** Flow vectors overlay - arrows point right (correct direction)
-- **Top-right (Magnitude):** Red regions show detected motion, black = low texture (no reliable flow)
-- **Bottom-left (Distribution):** Histogram peaks at ~1.0 pixels horizontal (expected L-K underestimation vs 2.0 GT)
-- **Bottom-right (Error Map):** Purple/blue = 1-2 pixel error (typical for single-scale L-K on smooth motion)
+- **Top-left (Quiver):** Vector field overlaid on the input grayscale frame. Each arrow represents the computed motion at that pixel location. Length is for visualization purposes, color represents magnitude (blue is small, green is medium, yellow is large). Confirms horizontal motion of image.
+- **Top-right (Magnitude):** Scalar field showing flow magnitude (speed) at each pizel, direction agnostic. Red (1-2 px motion) matches ground truth magnitude.
+- **Bottom-left (Distribution):** Histogram shows statistical distribution  of horizontal and vertical flow components across entire image. Average of ~1.8 pixels for horizontal, aiming for 0 pixels vertical but noise exists.
+- **Bottom-right (Error Map):** Maps error magnitude verus ground truth. Shows 1-2 pixel error (typical for single-scale L-K on smooth motion).
 
-This validates correct RTL implementation with expected Lucas-Kanade algorithmic characteristics.
+This validates correct RTL implementation of the Lucas-Kanade algorithm.
 
 To regenerate (developers):
 
 ```bash
+# Generate test frames (if not done already)
+python python/generate_test_frames_natural.py --displacement-x 2
+
 # Run simulation (exports flow_field_rtl.txt)
 ./scripts/run_sim.sh tb_optical_flow_top
 
