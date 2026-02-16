@@ -1,0 +1,28 @@
+=== UNOPTIMIZED BASELINE METRICS ===
+Date: 2026-02-16
+Commit: (run git rev-parse --short HEAD)
+Branch: feature/hdl_unopt_synth
+
+TIMING (Post-Route):
+WNS: -130.409 ns
+TNS: -67998.801 ns
+Target Clock: 100 MHz (10.0 ns period)
+Achievable Freq: ~7.7 MHz
+
+RESOURCE UTILIZATION:
+LUTs: (manually insert from utilization_postroute_unopt.rpt)
+Registers: (manually insert from utilization_postroute_unopt.rpt)
+DSP48E1: 222 / 240 (92.50%)
+BRAM: 132 / 135 (from build artifacts)
+
+CRITICAL PATH SUMMARY:
+Start Point: accumulator outputs (sum_IxIx, sum_IyIy, etc.)
+End Point: flow_solver outputs (flow_u, flow_v)
+Bottleneck: Combinational 32-bit division
+Logic Levels: ~100+ (division cascade)
+
+ARCHITECTURE NOTES:
+- 3-level pyramid (L0: 320x240, L1: 160x120, L2: 80x60)
+- 5x5 window accumulation per level
+- Lucas-Kanade solver per pyramid level
+- DSP inference successful: 222 DSPs utilized for gradient products

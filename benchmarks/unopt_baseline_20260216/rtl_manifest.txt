@@ -1,0 +1,62 @@
+=== RTL FILE MANIFEST ===
+Generated: Mon Feb 16 02:44:00 AM MST 2026
+
+File Hashes (SHA256):
+210211e6ccf8611b22147fa7afab99394277dd64c844980ebeaaa36f8412ab1c  bram_read_arbiter.sv
+5c04f59835d12bca803c2b51af102050e629147a1bc9b998dfb38a27e6cb791a  flow_accumulator.sv
+fe21234b43108230cd0fcb9e6dc6f46891a45449f60bec907e48a52d6d48276d  flow_solver.sv
+f087a1d6e88ed92ebd4fec3526f59c703e00a5583cdb70d1b37cd7eafc6b1ea6  flow_upsampler.sv
+db80f187227cfbbf16db676aa0a63fc852c02da9d4380a79ee7b0246b482af1e  frame_memory.sv
+22faacba4a4b21d7a5089b64e165c202b03e9c821b986ac96eb6ae1938af20b9  frame_warper.sv
+45b6b8391462b32d02223f788bf162720cde6de7e2290991ffd5bd58b38a3ea4  gradient_compute.sv
+2ffd5d6aaa823ff9c17c92f46442a15a23627222465e175562645e0f4e9409d6  optical_flow_top_pyramidal.sv
+44d39bf6b275774ab2e32a4f270eaf3609dfcca0740d9796144c9569e446419e  optical_flow_top.sv
+f12085f9239b51af39276a19303b0d1de07ffb4a55b868d3291d73607d6c717b  pixel_sequencer.sv
+5f76a91331c0585c51c4ba4cbc4407c86615b62521063c8619d9d3affbef7823  pyramid_builder.sv
+b86bf2f1f97af6d425dd62d9f9440dbf9f26c90634a00d3981f0953a032dde6c  pyramid_control_fsm.sv
+e3d982eb9c4d0f08bb07818373849fb7932514f7f965f414d2673593fd03dabd  window_accumulator.sv
+
+File Line Counts:
+    63 rtl/unopt/bram_read_arbiter.sv
+   131 rtl/unopt/flow_accumulator.sv
+   168 rtl/unopt/flow_solver.sv
+   224 rtl/unopt/flow_upsampler.sv
+    50 rtl/unopt/frame_memory.sv
+   243 rtl/unopt/frame_warper.sv
+   165 rtl/unopt/gradient_compute.sv
+  1424 rtl/unopt/optical_flow_top_pyramidal.sv
+   160 rtl/unopt/optical_flow_top.sv
+    97 rtl/unopt/pixel_sequencer.sv
+   391 rtl/unopt/pyramid_builder.sv
+   241 rtl/unopt/pyramid_control_fsm.sv
+   192 rtl/unopt/window_accumulator.sv
+  3549 total
+
+Git Status:
+MM rtl/unopt/flow_solver.sv
+MM rtl/unopt/gradient_compute.sv
+ M rtl/unopt/window_accumulator.sv
+?? rtl/unopt/bram_read_arbiter.sv
+?? rtl/unopt/flow_accumulator.sv
+?? rtl/unopt/flow_upsampler.sv
+?? rtl/unopt/frame_memory.sv
+?? rtl/unopt/frame_warper.sv
+?? rtl/unopt/optical_flow_top_pyramidal.sv
+?? rtl/unopt/pixel_sequencer.sv
+?? rtl/unopt/pyramid_builder.sv
+?? rtl/unopt/pyramid_control_fsm.sv
+
+Last Modified:
+rtl/unopt/bram_read_arbiter.sv : Feb 8 19:05
+rtl/unopt/flow_accumulator.sv : Feb 8 19:37
+rtl/unopt/flow_solver.sv : Feb 16 02:24
+rtl/unopt/flow_upsampler.sv : Feb 13 23:30
+rtl/unopt/frame_memory.sv : Feb 8 11:41
+rtl/unopt/frame_warper.sv : Feb 16 01:48
+rtl/unopt/gradient_compute.sv : Feb 16 02:26
+rtl/unopt/optical_flow_top_pyramidal.sv : Feb 16 02:08
+rtl/unopt/optical_flow_top.sv : Feb 7 12:18
+rtl/unopt/pixel_sequencer.sv : Feb 16 01:24
+rtl/unopt/pyramid_builder.sv : Feb 8 19:11
+rtl/unopt/pyramid_control_fsm.sv : Feb 13 23:35
+rtl/unopt/window_accumulator.sv : Feb 16 02:23

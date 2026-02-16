@@ -4,8 +4,6 @@
 
 Python implementations of Lucas-Kanade optical flow for RTL verification and prototyping.
 
----
-
 ## Quick Start
 
 ```bash
@@ -18,8 +16,6 @@ python python/generate_test_suite.py
 # Run verification
 python python/optical_flow_verifier.py
 ```
-
----
 
 ## Folder Structure
 
@@ -36,53 +32,74 @@ python/
 └── verification_plots/        # Visual comparison outputs
 ```
 
----
-
 # Core Implementations
 
 ### Single-Scale Lucas-Kanade
 
-Single-Scale Lucas-Kanade (`lucas_kanade_core.py`), suitable for low motion (>5 px) and fast prototyping/verification.
+Single-Scale Lucas-Kanade (`lucas_kanade_core.py`), suitable for low motion (>5 px).
 
-Standard L-K implementation suitable for small motions:
+Standard L-K implementation:
 ```python
 from lucas_kanade_core import LucasKanade
 
 # Initialize
-lk = LucasKanade(window_size=5, sigma=1.0)
+from lucas_kanade_core import lucas_kanade_single_scale
 
 # Compute flow
-u, v = lk.compute_flow(frame1, frame2)
+u, v = lucas_kanade_single_scale(frame1, frame2, window_size=5)
 ```
 
-Parameters:
-- `window_size`: Integration window (3, 5, 7, 9, 11)
-- `sigma`: Gaussian weighting (1.0 = standard, 1.5 = smoother)
+`window_size`: Integration window (3, 5, 7, 9, 11)
+
+#### Algorithm Summary:
+
+1. Compute spatial gradients $I_x$, $I_y$ via Sobel operators
+2. Compute temporal gradient $I_t = I_{prev} - I_{curr}$
+3. Accumulate structure tensor over 5×5 window:
+$$
+A = \begin{bmatrix}
+\sum I_x^2 & \sum I_x I_y \\
+\sum I_x I_y & \sum I_y^2
+\end{bmatrix},
+\quad
+\mathbf{b} = -\begin{bmatrix}
+\sum I_x I_t \\
+\sum I_y I_t
+\end{bmatrix}
+$$
+4. Solve for flow: $\mathbf{u} = A^{-1} \mathbf{b}$
 
 ### Pyramidal Lucas-Kanade
 
-Pyramidal Lucas-Kanade (`lucas_kanade_pyramidal.py`), suitable for larger motion (>5px) and complex motion patterns.
+Pyramidal Lucas-Kanade (`lucas_kanade_pyramidal.py`), suitable for larger motion.
 
-Coarse-to-fine pyramid for large motions:
+Standard implementation:
 ```python
-from lucas_kanade_pyramidal import PyramidalLucasKanade
+from lucas_kanade_pyramidal import lucas_kanade_pyramidal
 
-# Initialize
-plk = PyramidalLucasKanade(
-    pyramid_levels=3,
-    iterations_per_level=3,
+# Compute flow with 3-level pyramid
+u, v = lucas_kanade_pyramidal(
+    frame1,
+    frame2,
+    num_levels=3,
     window_size=5,
-    sigma=1.0
+    num_iterations=3
 )
-
-# Compute flow
-u, v = plk.compute_flow(frame1, frame2)
 ```
 
+#### Coarse-to-Fine Refinement:
+
+1. Build Gaussian pyramid (3 levels: 1/4×, 1/2×, 1× resolution)
+2. Solve at coarsest level with zero initial flow
+3. Upsample flow and warp current frame
+4. Compute residual flow at next finer level
+5. Accumulate: $\mathbf{u}{fine} = \mathbf{u}{coarse} + \Delta\mathbf{u}$
+
 Parameters:
-- `pyramid_levels`: Number of scales (2-4 typical)
-- `iterations_per_level`: Refinement iterations (2-5)
-- `window_size, sigma`: Same as single-scale
+
+- `num_levels`: Number of pyramid scales (2-4 typical)
+- `num_iterations`: Refinement iterations per level (2-5)
+- `window_size`: Same as single-scale
 
 ---
 

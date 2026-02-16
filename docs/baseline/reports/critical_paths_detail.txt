@@ -1,0 +1,203 @@
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (VIOLATED) :        -110.051ns  (required time - arrival time)
+  Source:                 u_window_accumulator/sum_IyIy0__22/CLK
+                            (rising edge-triggered cell DSP48E1 clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_flow_solver/flow_u_reg[10]/D
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (sys_clk rise@10.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        119.914ns  (logic 97.743ns (81.511%)  route 22.172ns (18.490%))
+  Logic Levels:           485  (CARRY4=438 DSP48E1=2 LUT1=2 LUT2=11 LUT5=30 LUT6=2)
+  Clock Path Skew:        -0.145ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.130ns = ( 12.130 - 10.000 )
+    Source Clock Delay      (SCD):    2.454ns
+    Clock Pessimism Removal (CPR):    0.179ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r
+                                                      0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+                         IBUF (Prop_ibuf_I_O)         0.971     0.971 r  clk_IBUF_inst/O
+                         net (fo=1, unplaced)         0.803     1.774    clk_IBUF
+                         BUFG (Prop_bufg_I_O)         0.096     1.870 r  clk_IBUF_BUFG_inst/O
+                         net (fo=134, unplaced)       0.584     2.454    u_window_accumulator/clk_IBUF_BUFG
+                         DSP48E1                                      r  u_window_accumulator/sum_IyIy0__22/CLK
+  -------------------------------------------------------------------    -------------------
+                         DSP48E1 (Prop_dsp48e1_CLK_P[16])
+                                                      0.434     2.888 r  u_window_accumulator/sum_IyIy0__22/P[16]
+                         net (fo=1, unplaced)         0.803     3.691    u_window_accumulator/sum_IyIy0__22_n_89
+                         LUT2 (Prop_lut2_I0_O)        0.124     3.815 r  u_window_accumulator/flow_u_comb4__2_i_16/O
+                         net (fo=4, unplaced)         0.803     4.618    u_flow_solver/sum_IyIy[16]
+                         DSP48E1 (Prop_dsp48e1_A[16]_PCOUT[47])
+                                                      4.036     8.654 r  u_flow_solver/flow_u_comb8__3/PCOUT[47]
+                         net (fo=1, unplaced)         0.000     8.654    u_flow_solver/flow_u_comb8__3_n_106
+                         DSP48E1 (Prop_dsp48e1_PCIN[47]_P[0])
+                                                      1.518    10.172 r  u_flow_solver/flow_u_comb8__4/P[0]
+                         net (fo=2, unplaced)         0.803    10.975    u_flow_solver/flow_u_comb8__4_n_105
+                         LUT2 (Prop_lut2_I0_O)        0.124    11.099 r  u_flow_solver/flow_u[15]_i_233/O
+                         net (fo=1, unplaced)         0.000    11.099    u_flow_solver/flow_u[15]_i_233_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    11.632 r  u_flow_solver/flow_u_reg[15]_i_169/CO[3]
+                         net (fo=1, unplaced)         0.000    11.632    u_flow_solver/flow_u_reg[15]_i_169_n_0
+                         CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.337    11.969 r  u_flow_solver/flow_u_reg[15]_i_116/O[1]
+                         net (fo=2, unplaced)         0.622    12.591    u_flow_solver/flow_u_reg[15]_i_116_n_6
+                         LUT2 (Prop_lut2_I0_O)        0.306    12.897 r  u_flow_solver/flow_u[15]_i_119/O
+                         net (fo=1, unplaced)         0.000    12.897    u_flow_solver/flow_u[15]_i_119_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    13.430 r  u_flow_solver/flow_u_reg[15]_i_71/CO[3]
+                         net (fo=1, unplaced)         0.000    13.430    u_flow_solver/flow_u_reg[15]_i_71_n_0
+                         CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.331    13.761 f  u_flow_solver/flow_u_reg[15]_i_45/O[3]
+                         net (fo=3, unplaced)         0.466    14.227    p_0_in[34]
+                         LUT1 (Prop_lut1_I0_O)        0.307    14.534 r  flow_u[15]_i_1340/O
+                         net (fo=1, unplaced)         0.000    14.534    flow_u[15]_i_1340_n_0
+                         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.513    15.047 r  flow_u_reg[15]_i_1284/CO[3]
+                         net (fo=1, unplaced)         0.000    15.047    flow_u_reg[15]_i_1284_n_0
+                         CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.232    15.279 r  flow_u_reg[15]_i_1470/O[0]
+                         net (fo=2, unplaced)         0.322    15.601    flow_u_reg[15]_i_1470_n_7
+                         LUT2 (Prop_lut2_I0_O)        0.287    15.888 r  flow_u[15]_i_1465/O
+                         net (fo=1, unplaced)         0.000    15.888    flow_u_comb40_in[38]
+                         CARRY4 (Prop_carry4_DI[0]_CO[3])
+                                                      0.576    16.464 r  flow_u_reg[15]_i_1383/CO[3]
+                         net (fo=1, unplaced)         0.000    16.464    flow_u_reg[15]_i_1383_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.581 r  flow_u_reg[15]_i_1378/CO[3]
+                         net (fo=1, unplaced)         0.000    16.581    flow_u_reg[15]_i_1378_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.698 r  flow_u_reg[15]_i_1373/CO[3]
+                         net (fo=1, unplaced)         0.000    16.698    flow_u_reg[15]_i_1373_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.815 r  flow_u_reg[15]_i_1368/CO[3]
+                         net (fo=1, unplaced)         0.000    16.815    flow_u_reg[15]_i_1368_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.932 r  flow_u_reg[15]_i_1363/CO[3]
+                         net (fo=1, unplaced)         0.000    16.932    flow_u_reg[15]_i_1363_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    17.049 r  flow_u_reg[15]_i_1358/CO[3]
+                         net (fo=1, unplaced)         0.000    17.049    flow_u_reg[15]_i_1358_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    17.166 r  flow_u_reg[15]_i_1353/CO[3]
+                         net (fo=1, unplaced)         0.000    17.166    flow_u_reg[15]_i_1353_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    17.283 r  flow_u_reg[15]_i_1348/CO[3]
+                         net (fo=1, unplaced)         0.000    17.283    flow_u_reg[15]_i_1348_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    17.400 r  flow_u_reg[15]_i_1343/CO[3]
+                         net (fo=1, unplaced)         0.000    17.400    flow_u_reg[15]_i_1343_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    17.517 r  flow_u_reg[15]_i_1341/CO[3]
+                         net (fo=42, unplaced)        0.898    18.415    u_flow_solver/CO[0]
+                         CARRY4 (Prop_carry4_CYINIT_CO[3])
+--
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             7.131ns  (required time - arrival time)
+  Source:                 rst_n
+                            (input port clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            busy_reg/CLR
+                            (recovery check against rising-edge clock sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             **async_default**
+  Path Type:              Recovery (Max at Slow Process Corner)
+  Requirement:            10.000ns  (sys_clk rise@10.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        2.612ns  (logic 1.095ns (41.932%)  route 1.517ns (58.068%))
+  Logic Levels:           2  (IBUF=1 LUT1=1)
+  Input Delay:            2.000ns
+  Clock Path Skew:        2.130ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.130ns = ( 12.130 - 10.000 )
+    Source Clock Delay      (SCD):    0.000ns
+    Clock Pessimism Removal (CPR):    0.000ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r
+                         input delay                  2.000     2.000
+                                                      0.000     2.000 r  rst_n (IN)
+                         net (fo=0)                   0.000     2.000    rst_n
+                         IBUF (Prop_ibuf_I_O)         0.971     2.971 r  rst_n_IBUF_inst/O
+                         net (fo=1, unplaced)         0.803     3.774    u_flow_solver/rst_n_IBUF
+                         LUT1 (Prop_lut1_I0_O)        0.124     3.898 f  u_flow_solver/pixel_cnt[17]_i_3/O
+                         net (fo=129, unplaced)       0.714     4.612    u_flow_solver_n_1
+                         FDCE                                         f  busy_reg/CLR
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)   10.000    10.000 r
+                                                      0.000    10.000 r  clk (IN)
+                         net (fo=0)                   0.000    10.000    clk
+                         IBUF (Prop_ibuf_I_O)         0.838    10.838 r  clk_IBUF_inst/O
+                         net (fo=1, unplaced)         0.763    11.600    clk_IBUF
+                         BUFG (Prop_bufg_I_O)         0.091    11.691 r  clk_IBUF_BUFG_inst/O
+                         net (fo=134, unplaced)       0.439    12.130    clk_IBUF_BUFG
+                         FDCE                                         r  busy_reg/C
+                         clock pessimism              0.000    12.130
+                         clock uncertainty           -0.035    12.095
+                         FDCE (Recov_fdce_C_CLR)     -0.352    11.743    busy_reg
+  -------------------------------------------------------------------
+                         required time                         11.743
+                         arrival time                          -4.612
+  -------------------------------------------------------------------
+                         slack                                  7.131
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             1.904ns  (arrival time - required time)
+  Source:                 rst_n
+                            (input port clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            busy_reg/CLR
+                            (removal check against rising-edge clock sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             **async_default**
+  Path Type:              Removal (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.885ns  (logic 0.245ns (27.713%)  route 0.639ns (72.287%))
+  Logic Levels:           2  (IBUF=1 LUT1=1)
+  Input Delay:            2.000ns
+  Clock Path Skew:        1.033ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.033ns
+    Source Clock Delay      (SCD):    0.000ns
+    Clock Pessimism Removal (CPR):    -0.000ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r
+                         input delay                  2.000     2.000
+                                                      0.000     2.000 r  rst_n (IN)
+                         net (fo=0)                   0.000     2.000    rst_n
+                         IBUF (Prop_ibuf_I_O)         0.200     2.200 r  rst_n_IBUF_inst/O
+                         net (fo=1, unplaced)         0.338     2.539    u_flow_solver/rst_n_IBUF
+                         LUT1 (Prop_lut1_I0_O)        0.045     2.584 f  u_flow_solver/pixel_cnt[17]_i_3/O
+                         net (fo=129, unplaced)       0.301     2.885    u_flow_solver_n_1
+                         FDCE                                         f  busy_reg/CLR
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r
+                                                      0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+                         IBUF (Prop_ibuf_I_O)         0.389     0.389 r  clk_IBUF_inst/O
+                         net (fo=1, unplaced)         0.356     0.745    clk_IBUF
+                         BUFG (Prop_bufg_I_O)         0.029     0.774 r  clk_IBUF_BUFG_inst/O
+                         net (fo=134, unplaced)       0.259     1.033    clk_IBUF_BUFG
+                         FDCE                                         r  busy_reg/C

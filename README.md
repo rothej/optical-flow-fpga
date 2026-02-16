@@ -2,7 +2,20 @@
 
 Real-time Lucas-Kanade optical flow implementation on Nexys A7-100T FPGA.
 
----
+## Test Pattern
+
+Verification uses natural texture from this panoramic image:
+
+<div align="center">
+  <img src="python/test_data/mountain_texture.jpg" alt="Fronalpstock mountain in Swiss Alps" width="600"/>
+  <br>
+  <em>
+    <strong>Fronalpstock, Swiss Alps (Canton of Schwyz)</strong><br>
+    Photographer: <a href="https://commons.wikimedia.org/wiki/User:Hannes_R%C3%B6st">Hannes Röst</a><br>
+    Source: <a href="https://commons.wikimedia.org/w/index.php?curid=11301841">Wikimedia Commons (12-frame panorama)</a><br>
+    License: <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>
+  </em>
+</div>
 
 ## Folder Structure
 ```
@@ -24,29 +37,29 @@ optical-flow-fpga/
   └── test_frames/ # Generated .mem files
 ```
 
----
-
 ## Hardware
 
 - **Board:** Digilent Nexys A7-100T
 - **FPGA:** Xilinx Artix-7 (xc7a100tcsg324-1)
 - **Resources:** 15,850 slices, 240 DSP48E1 slices, 4,860 Kb BRAM
 
----
-
 ## Architecture
 
 ### Lucas-Kanade Optical Flow
 
-3-stage pipeline:
+3-stage pipeline implementing an L-K algorithm:
 
-1. **Gradient Compute**: Sobel operators -> spatial gradients (Ix, Iy) + temporal difference (It)
-2. **Window Accumulator**: 5×5 sliding window -> structure tensor components (Σ Ix², Σ Iy², Σ IxIy, etc.)
-3. **Flow Solver**: Cramer's rule -> solve 2×2 system for (u, v) flow vectors
+1. **Gradient Computation**:
+    - Sobel operators compute spatial gradients ($I_x$, $I_y$) on averaged frames
+    - Temporal difference: $I_t = I_{prev} - I_{curr}$
+2. **Window Accumulator**:
+    - Accumulates structure tensor over 5×5 sliding window:
+    $$A = \begin{bmatrix} \sum I_x^2 & \sum I_x I_y \\ \sum I_x I_y & \sum I_y^2 \end{bmatrix}, \quad \mathbf{b} = -\begin{bmatrix} \sum I_x I_t \\ \sum I_y I_t \end{bmatrix}$$
 
-This RTL implements single-scale Lucas-Kanade, suitable for motions <5 pixels. Python reference includes both single-scale and pyramidal implementations.
+3. **Flow Solver**:
+    - Uses Cramer's rule to solve $A \mathbf{u} = \mathbf{b}$ for flow vector $\mathbf{u} = [u, v]^T$
 
----
+**Single-Scale Limitation:** This RTL implements single-scale Lucas-Kanade, suitable for motions < 5 pixels. Python reference includes both single-scale and pyramidal (coarse-to-fine) implementations for larger displacements.
 
 ## Verification
 
@@ -138,24 +151,28 @@ python python/optical_flow_verifier.py --pattern translate_medium rotate_small
 
 #### Tabulated Results
 
-| Pattern           | Ground Truth | Single-Scale MAE | Pyramidal MAE | Single Status | Pyramidal Status |
-|-------------------|--------------|------------------|---------------|---------------|------------------|
-| translate_small   | (0.5, 0.5)   | 0.31 / 0.27      | 0.65 / 0.72   | Pass          | Warning          |
-| translate_medium  | (2.0, 0.0)   | 1.34 / 0.77      | 0.53 / 0.37   | Warning       | Warning          |
-| translate_large   | (15.0, 0.0)  | 14.82 / 2.06     | 6.04 / 4.90   | Fail          | Fail             |
-| rotate_small      | (0.0, 0.0)   | 1.21 / 1.14      | 0.78 / 0.94   | Warning       | Pass             |
-| rotate_medium     | (0.0, 0.0)   | 1.09 / 1.57      | 1.78 / 1.89   | Warning       | Warning          |
-| zoom_in           | (0.0, 0.0)   | 1.17 / 1.74      | 2.02 / 2.10   | Warning       | Warning          |
-| translate_rotate  | (5.0, 5.0)   | 4.78 / 4.85      | 1.13 / 1.29   | Fail          | Warning          |
-| no_motion         | (0.0, 0.0)   | 0.00 / 0.00      | 0.00 / 0.00   | Pass          | Pass             |
-| translate_extreme | (30.0, 20.0) | 29.65 / 18.93    | 34.24 / 21.15 | Fail          | Fail             |
+| Pattern            | Ground Truth  | Single-Scale MAE | Pyramidal MAE | Single Status | Pyramidal Status |
+|--------------------|---------------|------------------|---------------|---------------|------------------|
+| translate_small    | (0.5, 0.5)    | 0.27 / 0.25      | 0.64 / 0.63   | Pass          | Warning          |
+| translate_medium   | (2.0, 0.0)    | 0.89 / 0.47      | 0.55 / 0.40   | Warning       | Warning          |
+| translate_large    | (15.0, 0.0)   | 14.74 / 2.28     | 6.04 / 5.09   | Fail          | Fail             |
+| translate_vertical | (0.0, 10.0)   | 2.22 / 8.45      | 5.66 / 2.56   | Fail          | Fail             |
+| translate_diagonal | (10.0, 10.0)  | 9.53 / 8.69      | 7.77 / 4.80   | Fail          | Fail             |
+| rotate_small       | (0.0, 0.0)    | 1.08 / 1.08      | 0.75 / 0.83   | Warning       | Pass             |
+| rotate_medium      | (0.0, 0.0)    | 1.29 / 1.39      | 1.77 / 1.80   | Warning       | Warning          |
+| rotate_large       | (0.0, 0.0)    | 1.24 / 1.60      | 5.21 / 5.30   | Warning       | Fail             |
+| zoom_in            | (0.0, 0.0)    | 1.35 / 1.53      | 2.01 / 2.04   | Warning       | Warning          |
+| zoom_out           | (0.0, 0.0)    | 1.36 / 1.54      | 2.07 / 2.17   | Warning       | Warning          |
+| translate_rotate   | (5.0, 5.0)    | 4.59 / 4.83      | 1.11 / 1.18   | Warning       | Pass             |
+| no_motion          | (0.0, 0.0)    | 0.00 / 0.00      | 0.00 / 0.00   | Pass          | Pass             |
+| translate_extreme  | (30.0, 20.0)  | 29.38 / 18.69    | 36.12 / 22.05 | Fail          | Fail             |
 
-*MAE (Mean Absolute Error) format: horizontal / vertical (pixels). Full metrics in `python/verification_results.md`.*
+*MAE (Mean Absolute Error) format: horizontal / vertical (pixels). Full metrics in `python/verification_results.md`. Failures on large motion (>5px) and rotation (>5°) are expected - Lucas-Kanade assumes small, translational motion.*
 
 ##### Summary of Results
-- Single-scale excels at sub-pixel motion (0.31px MAE on small translation)
-- Pyramidal approach reduces error by ~59% on large translations (14.8 to 6.0px)
-- Combined motion benefits most from pyramid (4.8 to 1.3px MAE improvement)
+- Single-scale excels at sub-pixel motion (0.27px MAE on small translation)
+- Pyramidal approach reduces error by ~59% on large translations (0.89 to 0.55px)
+- Combined motion benefits most from pyramid (4.59 to 1.11px MAE improvement)
 - Both methods struggle with extreme motion (>20px) which is expected
 
 #### Visual Comparison: Medium Translation (2px)
@@ -179,7 +196,7 @@ python python/optical_flow_verifier.py --pattern translate_medium rotate_small
       </td>
       <td align="center">
         <img src="python/verification_plots/translate_medium/error_pyramidal.png" alt="Pyramidal error heatmap" width="400"/>
-        <br><em>Error distribution: pyramidal (more uniform)</em>
+        <br><em>Error distribution: pyramidal (lower, uniform)</em>
       </td>
     </tr>
   </table>
@@ -283,8 +300,6 @@ Expected: u=15.0, v=0.0 (from generate_test_frames_natural.py --displacement-x 1
 
 Flow field visualizations regenerate automatically when running the comparison script.
 
----
-
 ## Tools
 
 ### Required
@@ -297,8 +312,6 @@ Flow field visualizations regenerate automatically when running the comparison s
 - **Environment**: [direnv](https://direnv.net/) for automatic venv activation
 
 > **Note**: Other Vivado/Python versions may work but are untested.
-
----
 
 ## Building
 
@@ -314,12 +327,44 @@ Optimized:
 ./scripts/build.sh opt
 ```
 
+### Running Implementation (Place & Route)
+
+By default, `build.sh` only runs synthesis (generates logic netlist with estimated timing). To get real timing results with physical routing delays, add the impl flag:
+
+```bash
+# Synthesis only (fast, ~1 minute)
+./scripts/build.sh unopt
+```
+
+```bash
+# Synthesis + implementation (slower, ~7-10 minutes)
+./scripts/build.sh unopt impl
+```
+
+Implementation provides:
+- Post-synthesis timing: Optimistic logic-only delays (what build.sh reports by default)
+- Post-route timing: Realistic timing including wire delays, clock skew, and routing congestion
+- Typical difference: 2-5 ns worse than synthesis estimates
+
+Implementation generates additional reports:
+-`prj/<config>/timing_postroute_<config>.rpt` - Real critical path analysis
+-`prj/<config>/utilization_postroute_<config>.rpt `- Final resource usage
+-`prj/<config>/route_status_<config>.rpt` - Routing quality metrics
+
+Reports generated in `prj/<config>/`:
+- Synthesis reports:
+  - Critical path analysis - `timing_summary_<config>.rpt`
+  - Resource usage - `utilization_<config>.rpt`
+- Implementation reports (when using impl flag):
+  - Post-route timing - `timing_postroute_<config>.rpt`
+  - Final utilization - `utilization_postroute_<config>.rpt`
+   - Routing quality - `route_status_<config>.rpt`
+
+
 Reports generated in `prj/<config>/`:
 
 - Critical path analysis - `timing_summary_<config>.rpt`
 - Resource usage - `utilization_<config>.rpt`
-
----
 
 ## Testing
 
@@ -371,8 +416,6 @@ python python/generate_test_frames_natural.py --displacement-x 15
 python python/lucas_kanade_pyramidal.py --compare
 ```
 
-**Note**: The `python/test_data/` directory contains cached image(s) used for test frame generation (source: Wikimedia Commons).
-
 ### RTL Simulation
 
 #### Option 1: Vivado GUI
@@ -394,6 +437,16 @@ To enable waveform dump, run this instead:
 ```bash
 ./scripts/run_sim.sh tb_optical_flow_top 1
 ```
+
+##### Pyramidal L-K Implementation
+
+The previous example is for single-scale L-K implementation For pyramidal, run:
+
+```bash
+./scripts/run_sim.sh tb_optical_flow_top_pyramidal 0 500ms
+```
+
+Can set `0` to `1` to enable waveform dump. Following results are for single-scale L-K.
 
 #### RTL Simulation Results
 
@@ -518,8 +571,6 @@ Optional comparision of RTL and Python:
 python scripts/visualize_flow.py flow_field_rtl.txt --compare
 ```
 
----
-
 ## Setup
 
 ### Environmental Setup (Required)
@@ -569,13 +620,9 @@ These tools are not required for building or simulating the design.
 
 Verify all pre-merge checks run by running `scripts/pre_merge_check.sh` before submitting a PR. Will need to run `git add .` one last time after the script runs - be sure to squash commits when merging PR.
 
----
-
 ## License
 
-MIT License (MIT) - See LICENSE file for details.
-
----
+MIT License (MIT) - See [LICENSE](LICENSE) file for details.
 
 ## Author
 

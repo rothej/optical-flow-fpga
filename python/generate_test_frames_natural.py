@@ -11,7 +11,8 @@ from numpy.typing import NDArray
 from PIL import Image
 
 # Cache directory for image(s)
-CACHE_DIR = Path(__file__).parent / "test_data"
+SCRIPT_DIR = Path(__file__).resolve().parent
+CACHE_DIR = SCRIPT_DIR / "test_data"
 CACHED_IMAGE = CACHE_DIR / "mountain_texture.jpg"
 
 
@@ -81,9 +82,9 @@ def main() -> None:
     parser.add_argument("--height", type=int, default=240)
     parser.add_argument("--output-dir", type=str, default="tb/test_frames")
     parser.add_argument(
-        "--use-natural",
+        "--use-synthetic",
         action="store_true",
-        help="Use natural mountain image texture",
+        help="Use synthetic pattern (for debug)",
     )
 
     args = parser.parse_args()
@@ -93,13 +94,13 @@ def main() -> None:
 
     print(f"Generating {args.width}x{args.height} test frames...")
     print(f"Motion vector: ({args.displacement_x}, {args.displacement_y}) pixels")
-    print(f"Pattern type: {'Natural' if args.use_natural else 'Smooth synthetic'}")
+    print(f"Pattern type: {'Smooth synthetic' if args.use_synthetic else 'Natural'}")
 
     # Generate base pattern
-    if args.use_natural:
-        frame_0 = generate_natural_pattern(args.width, args.height)
-    else:
+    if args.use_synthetic:
         frame_0 = generate_smooth_synthetic(args.width, args.height)
+    else:
+        frame_0 = generate_natural_pattern(args.width, args.height)
 
     # Apply motion to create frame 1
     frame_1 = apply_motion(frame_0, args.displacement_x, args.displacement_y)
