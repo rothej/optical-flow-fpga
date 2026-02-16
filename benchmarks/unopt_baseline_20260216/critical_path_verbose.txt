@@ -1,0 +1,150 @@
+
+
+------------------------------------------------------------------------------------------------
+| Timing Details
+| --------------
+------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  sys_clk
+  To Clock:  sys_clk
+
+Setup :         1765  Failing Endpoints,  Worst Slack     -130.411ns,  Total Violation   -14858.282ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.054ns,  Total Violation        0.000ns
+PW    :            0  Failing Endpoints,  Worst Slack        4.500ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (VIOLATED) :        -130.411ns  (required time - arrival time)
+  Source:                 flow_v_reg[15]_i_63/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_flow_solver_l0/flow_v_reg[9]/D
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (sys_clk rise@10.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        140.308ns  (logic 91.216ns (65.011%)  route 49.092ns (34.989%))
+  Logic Levels:           484  (CARRY4=438 LUT1=2 LUT2=8 LUT3=3 LUT5=31 LUT6=2)
+  Clock Path Skew:        -0.099ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.495ns = ( 14.495 - 10.000 )
+    Source Clock Delay      (SCD):    4.854ns
+    Clock Pessimism Removal (CPR):    0.259ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r
+    N15                                               0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    N15                  IBUF (Prop_ibuf_I_O)         0.948     0.948 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.016     2.963    clk_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     3.059 r  clk_IBUF_BUFG_inst/O
+                         net (fo=4955, routed)        1.794     4.854    clk_IBUF_BUFG
+    SLICE_X55Y155        FDCE                                         r  flow_v_reg[15]_i_63/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X55Y155        FDCE (Prop_fdce_C_Q)         0.456     5.310 r  flow_v_reg[15]_i_63/Q
+                         net (fo=58, routed)          0.730     6.039    u_flow_solver_l0/flow_v_reg[15]_i_153_0
+    SLICE_X53Y155        LUT3 (Prop_lut3_I0_O)        0.124     6.163 r  u_flow_solver_l0/flow_v[15]_i_152/O
+                         net (fo=1, routed)           0.000     6.163    u_flow_solver_l0/flow_v[15]_i_152_n_0
+    SLICE_X53Y155        CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550     6.713 r  u_flow_solver_l0/flow_v_reg[15]_i_91/CO[3]
+                         net (fo=1, routed)           0.000     6.713    u_flow_solver_l0/flow_v_reg[15]_i_91_n_0
+    SLICE_X53Y156        CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.334     7.047 r  u_flow_solver_l0/flow_v_reg[15]_i_49/O[1]
+                         net (fo=2, routed)           0.624     7.671    u_flow_solver_l0/prod_num_v1_reg[21]
+    SLICE_X52Y156        LUT2 (Prop_lut2_I0_O)        0.303     7.974 r  u_flow_solver_l0/flow_v[15]_i_52/O
+                         net (fo=1, routed)           0.000     7.974    u_flow_solver_l0/flow_v[15]_i_52_n_0
+    SLICE_X52Y156        CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.550     8.524 r  u_flow_solver_l0/flow_v_reg[15]_i_25/CO[3]
+                         net (fo=1, routed)           0.000     8.524    u_flow_solver_l0/flow_v_reg[15]_i_25_n_0
+    SLICE_X52Y157        CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     8.638 r  u_flow_solver_l0/flow_v_reg[15]_i_16/CO[3]
+                         net (fo=1, routed)           0.000     8.638    u_flow_solver_l0/flow_v_reg[15]_i_16_n_0
+    SLICE_X52Y158        CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.222     8.860 f  u_flow_solver_l0/flow_v_reg[15]_i_5/O[0]
+                         net (fo=3, routed)           0.610     9.470    flow_v_comb70_out[28]
+    SLICE_X50Y156        LUT1 (Prop_lut1_I0_O)        0.299     9.769 r  flow_v[15]_i_1304/O
+                         net (fo=1, routed)           0.000     9.769    flow_v[15]_i_1304_n_0
+    SLICE_X50Y156        CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    10.302 r  flow_v_reg[15]_i_1249/CO[3]
+                         net (fo=1, routed)           0.000    10.302    flow_v_reg[15]_i_1249_n_0
+    SLICE_X50Y157        CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.219    10.521 r  flow_v_reg[15]_i_1435/O[0]
+                         net (fo=2, routed)           1.007    11.528    flow_v_comb51_in[38]
+    SLICE_X41Y146        LUT3 (Prop_lut3_I2_O)        0.295    11.823 r  flow_v[15]_i_1434/O
+                         net (fo=1, routed)           0.000    11.823    flow_v[15]_i_1434_n_0
+    SLICE_X41Y146        CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532    12.355 r  flow_v_reg[15]_i_1348/CO[3]
+                         net (fo=1, routed)           0.000    12.355    flow_v_reg[15]_i_1348_n_0
+    SLICE_X41Y147        CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    12.469 r  flow_v_reg[15]_i_1343/CO[3]
+                         net (fo=1, routed)           0.000    12.469    flow_v_reg[15]_i_1343_n_0
+    SLICE_X41Y148        CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    12.583 r  flow_v_reg[15]_i_1338/CO[3]
+                         net (fo=1, routed)           0.000    12.583    flow_v_reg[15]_i_1338_n_0
+    SLICE_X41Y149        CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    12.697 r  flow_v_reg[15]_i_1333/CO[3]
+                         net (fo=1, routed)           0.001    12.698    flow_v_reg[15]_i_1333_n_0
+    SLICE_X41Y150        CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    12.812 r  flow_v_reg[15]_i_1328/CO[3]
+                         net (fo=1, routed)           0.000    12.812    flow_v_reg[15]_i_1328_n_0
+    SLICE_X41Y151        CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    12.926 r  flow_v_reg[15]_i_1323/CO[3]
+                         net (fo=1, routed)           0.000    12.926    flow_v_reg[15]_i_1323_n_0
+    SLICE_X41Y152        CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    13.040 r  flow_v_reg[15]_i_1318/CO[3]
+                         net (fo=1, routed)           0.000    13.040    flow_v_reg[15]_i_1318_n_0
+    SLICE_X41Y153        CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    13.154 r  flow_v_reg[15]_i_1313/CO[3]
+                         net (fo=1, routed)           0.000    13.154    flow_v_reg[15]_i_1313_n_0
+    SLICE_X41Y154        CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    13.268 r  flow_v_reg[15]_i_1308/CO[3]
+                         net (fo=1, routed)           0.000    13.268    flow_v_reg[15]_i_1308_n_0
+    SLICE_X41Y155        CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114    13.382 r  flow_v_reg[15]_i_1306/CO[3]
+                         net (fo=42, routed)          1.808    15.190    u_flow_solver_l0/flow_v_reg[15]_i_1253_0[0]
+    SLICE_X42Y146        LUT5 (Prop_lut5_I0_O)        0.124    15.314 r  u_flow_solver_l0/flow_v[15]_i_1356/O
+                         net (fo=1, routed)           0.000    15.314    u_flow_solver_l0/flow_v[15]_i_1356_n_0
+    SLICE_X42Y146        CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    15.847 r  u_flow_solver_l0/flow_v_reg[15]_i_1293/CO[3]
+                         net (fo=1, routed)           0.000    15.847    u_flow_solver_l0/flow_v_reg[15]_i_1293_n_0
+    SLICE_X42Y147        CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    15.964 r  u_flow_solver_l0/flow_v_reg[15]_i_1288/CO[3]
+                         net (fo=1, routed)           0.000    15.964    u_flow_solver_l0/flow_v_reg[15]_i_1288_n_0
+    SLICE_X42Y148        CARRY4 (Prop_carry4_CI_CO[3])
+--
+
+Check Type        Corner  Lib Pin             Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location       Pin
+Min Period        n/a     RAMB36E1/CLKARDCLK  n/a            3.363         10.000      6.637      RAMB36_X2Y2    u_mem_l2_flow_u/mem_reg_0_0/CLKARDCLK
+Low Pulse Width   Slow    FDCE/C              n/a            0.500         5.000       4.500      SLICE_X40Y139  flow_u_reg[15]_i_107__1/C
+High Pulse Width  Slow    FDCE/C              n/a            0.500         5.000       4.500      SLICE_X40Y139  flow_u_reg[15]_i_107__1/C
+
+
+
+---------------------------------------------------------------------------------------------------
+Path Group:  **async_default**
+From Clock:  sys_clk
+  To Clock:  sys_clk
+
+Setup :         2927  Failing Endpoints,  Worst Slack      -36.557ns,  Total Violation   -53145.697ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.188ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (VIOLATED) :        -36.557ns  (required time - arrival time)
+  Source:                 rst_n
+                            (input port clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_window_accumulator_l0/sum_IxIx_reg[28]/CLR
+                            (recovery check against rising-edge clock sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             **async_default**
+  Path Type:              Recovery (Max at Slow Process Corner)
+  Requirement:            10.000ns  (sys_clk rise@10.000ns - sys_clk rise@0.000ns)

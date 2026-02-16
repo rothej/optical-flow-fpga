@@ -92,12 +92,55 @@ module window_accumulator #(
     );
 
     /*
-    * Structure Tensor Accumulation
+    * Structure Tensor Accumulation with DSP Inference
     *
-    * - 5 products computed per window position (25 positions)
-    * - All 25 values summed in a linear chain
-    * Total: ~125 operations in one combinational path
+    * Stage 1: Compute 5 products per window position (uses DSP48E1 multipliers)
+    * Stage 2: Accumulate 25 values
     */
+
+    // Stage 1: Pipelined multiplications (125 products total)
+    (* use_dsp = "yes" *) logic signed [2*GRAD_WIDTH-1:0] prod_IxIx_pipe[WINDOW_SIZE][WINDOW_SIZE];
+    (* use_dsp = "yes" *) logic signed [2*GRAD_WIDTH-1:0] prod_IyIy_pipe[WINDOW_SIZE][WINDOW_SIZE];
+    (* use_dsp = "yes" *) logic signed [2*GRAD_WIDTH-1:0] prod_IxIy_pipe[WINDOW_SIZE][WINDOW_SIZE];
+    (* use_dsp = "yes" *) logic signed [2*GRAD_WIDTH-1:0] prod_IxIt_pipe[WINDOW_SIZE][WINDOW_SIZE];
+    (* use_dsp = "yes" *) logic signed [2*GRAD_WIDTH-1:0] prod_IyIt_pipe[WINDOW_SIZE][WINDOW_SIZE];
+
+    logic window_valid_d1;
+    logic [$clog2(WIDTH)-1:0] window_x_Ix_d1;
+    logic [$clog2(HEIGHT)-1:0] window_y_Ix_d1;
+
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            for (int i = 0; i < WINDOW_SIZE; i++) begin
+                for (int j = 0; j < WINDOW_SIZE; j++) begin
+                    prod_IxIx_pipe[i][j] <= '0;
+                    prod_IyIy_pipe[i][j] <= '0;
+                    prod_IxIy_pipe[i][j] <= '0;
+                    prod_IxIt_pipe[i][j] <= '0;
+                    prod_IyIt_pipe[i][j] <= '0;
+                end
+            end
+            window_valid_d1 <= 1'b0;
+            window_x_Ix_d1  <= '0;
+            window_y_Ix_d1  <= '0;
+        end else begin
+            // Pipeline stage 1: Multiply (infers DSP48E1)
+            for (int i = 0; i < WINDOW_SIZE; i++) begin
+                for (int j = 0; j < WINDOW_SIZE; j++) begin
+                    prod_IxIx_pipe[i][j] <= $signed(window_Ix[i][j]) * $signed(window_Ix[i][j]);
+                    prod_IyIy_pipe[i][j] <= $signed(window_Iy[i][j]) * $signed(window_Iy[i][j]);
+                    prod_IxIy_pipe[i][j] <= $signed(window_Ix[i][j]) * $signed(window_Iy[i][j]);
+                    prod_IxIt_pipe[i][j] <= $signed(window_Ix[i][j]) * $signed(window_It[i][j]);
+                    prod_IyIt_pipe[i][j] <= $signed(window_Iy[i][j]) * $signed(window_It[i][j]);
+                end
+            end
+            window_valid_d1 <= window_valid;
+            window_x_Ix_d1  <= window_x_Ix;
+            window_y_Ix_d1  <= window_y_Ix;
+        end
+    end
+
+    // Stage 2: Combinational accumulation (linear adder chain)
     logic signed [ACCUM_WIDTH-1:0] accum_IxIx;
     logic signed [ACCUM_WIDTH-1:0] accum_IyIy;
     logic signed [ACCUM_WIDTH-1:0] accum_IxIy;
@@ -111,29 +154,14 @@ module window_accumulator #(
         accum_IxIt = '0;
         accum_IyIt = '0;
 
-        // Linear accumulation (long adder chain)
+        // Accumulate pipelined products
         for (int i = 0; i < WINDOW_SIZE; i++) begin
             for (int j = 0; j < WINDOW_SIZE; j++) begin
-                // Compute products (unsigned to signed extension)
-                logic signed [2*GRAD_WIDTH-1:0] prod_IxIx;
-                logic signed [2*GRAD_WIDTH-1:0] prod_IyIy;
-                logic signed [2*GRAD_WIDTH-1:0] prod_IxIy;
-                logic signed [2*GRAD_WIDTH-1:0] prod_IxIt;
-                logic signed [2*GRAD_WIDTH-1:0] prod_IyIt;
-
-                // Explicit signed multiplication (for synth)
-                prod_IxIx  = $signed(window_Ix[i][j]) * $signed(window_Ix[i][j]);
-                prod_IyIy  = $signed(window_Iy[i][j]) * $signed(window_Iy[i][j]);
-                prod_IxIy  = $signed(window_Ix[i][j]) * $signed(window_Iy[i][j]);
-                prod_IxIt  = $signed(window_Ix[i][j]) * $signed(window_It[i][j]);
-                prod_IyIt  = $signed(window_Iy[i][j]) * $signed(window_It[i][j]);
-
-                // Accumulate (linear chain)
-                accum_IxIx = accum_IxIx + prod_IxIx;
-                accum_IyIy = accum_IyIy + prod_IyIy;
-                accum_IxIy = accum_IxIy + prod_IxIy;
-                accum_IxIt = accum_IxIt + prod_IxIt;
-                accum_IyIt = accum_IyIt + prod_IyIt;
+                accum_IxIx = accum_IxIx + prod_IxIx_pipe[i][j];
+                accum_IyIy = accum_IyIy + prod_IyIy_pipe[i][j];
+                accum_IxIy = accum_IxIy + prod_IxIy_pipe[i][j];
+                accum_IxIt = accum_IxIt + prod_IxIt_pipe[i][j];
+                accum_IyIt = accum_IyIt + prod_IyIt_pipe[i][j];
             end
         end
     end
@@ -155,9 +183,9 @@ module window_accumulator #(
             sum_IxIy    <= accum_IxIy;
             sum_IxIt    <= accum_IxIt;
             sum_IyIt    <= accum_IyIt;
-            accum_valid <= window_valid;
-            accum_x_coord <= {1'b0, window_x_Ix};
-            accum_y_coord <= {1'b0, window_y_Ix};
+            accum_valid <= window_valid_d1;
+            accum_x_coord <= {1'b0, window_x_Ix_d1};
+            accum_y_coord <= {1'b0, window_y_Ix_d1};
         end
     end
 

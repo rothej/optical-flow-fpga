@@ -3,6 +3,7 @@
 
 TB_NAME=${1:-tb_optical_flow_top}
 WAVES=${2:-0}
+RUN_TIME=${3:-100ms}
 
 echo "=========================================="
 echo "Running simulation: $TB_NAME"
@@ -20,9 +21,9 @@ fi
 # Run simulation
 if [ "$WAVES" == "1" ]; then
     echo "Waveform dumping enabled"
-    vivado -mode batch -source scripts/run_sim.tcl -tclargs $TB_NAME +dump_waves
+    vivado -mode batch -source scripts/run_sim.tcl -tclargs $TB_NAME $RUN_TIME +dump_waves
 else
-    vivado -mode batch -source scripts/run_sim.tcl -tclargs $TB_NAME
+    vivado -mode batch -source scripts/run_sim.tcl -tclargs $TB_NAME $RUN_TIME
 fi
 
 if [ $? -eq 0 ]; then

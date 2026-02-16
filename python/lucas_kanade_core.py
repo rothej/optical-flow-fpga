@@ -18,6 +18,9 @@ def compute_gradients(
     """
     Compute spatial and temporal gradients using Sobel operators.
 
+    Spatial gradients (Ix, Iy) use Sobel kernels applied to the averaged frame.
+    Temporal gradient is the simple frame difference: It = I_prev - I_curr.
+
     Args:
         frame_prev: Previous frame (grayscale, float32)
         frame_curr: Current frame (grayscale, float32)
@@ -74,7 +77,13 @@ def lucas_kanade_from_gradients(
     window_size: int = 5,
 ) -> Tuple[npt.NDArray[np.float32], npt.NDArray[np.float32]]:
     """
-    Compute optical flow from pre-computed gradients.
+    Compute optical flow from pre-computed gradients using least-squares.
+
+    Solves the Lucas-Kanade system:
+        A * [u, v]^T = b
+
+    Where A is the structure tensor (sum of gradient products over window)
+    and b is the negative correlation of spatial and temporal gradients.
 
     This is useful when you want to separate gradient computation from flow solving,
     or when gradients are provided externally (e.g., warped frames in pyramidal LK).

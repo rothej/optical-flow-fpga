@@ -8,11 +8,10 @@
  * Filename: rtl/unopt/flow_solver.sv
  *
  * Description: Computes optical flow by solving a 2x2 system:
- *                 [ sum_IxIx  sum_IxIy ] [ u ]   [ -sum_IxIt ]
- *                 [ sum_IxIy  sum_IyIy ] [ v ] = [ -sum_IyIt ]
+ *                 [ sum_Ix^2  sum_IxIy ] [ u ]   [ -sum_IxIt ]
+ *                 [ sum_IxIy  sum_Iy^2 ] [ v ] = [ -sum_IyIt ]
  *              Solution computes using determinant calculation (2 mult, 1 sub), matrix adjugate,
- *              and two division operations (u and v components). All done in one cycle - should
- *              fail timing.
+ *              and two division operations (u and v components). All done in one cycle.
  */
 
 `timescale 1ns / 1ps
@@ -46,43 +45,84 @@ module flow_solver #(
     localparam logic signed [ACCUM_WIDTH-1:0] DET_THRESHOLD = 1000;
 
     /*
-    * Combinational Matrix Inversion.
+    * Matrix Inversion with DSP Inference
+    *
+    * Stage 1: Compute determinant and numerators using pipelined multipliers
+    * Stage 2: Division (combinational)
     */
+
+    // Stage 1: Pipelined matrix products (uses DSP48E1)
+    (* use_dsp = "yes" *) logic signed [2*ACCUM_WIDTH-1:0] prod_det1, prod_det2;
+    (* use_dsp = "yes" *) logic signed [2*ACCUM_WIDTH-1:0] prod_num_u1, prod_num_u2;
+    (* use_dsp = "yes" *) logic signed [2*ACCUM_WIDTH-1:0] prod_num_v1, prod_num_v2;
+
+    logic signed [ACCUM_WIDTH-1:0] sum_IxIx_d1, sum_IyIy_d1, sum_IxIy_d1;
+    logic signed [ACCUM_WIDTH-1:0] sum_IxIt_d1, sum_IyIt_d1;
+    logic accum_valid_d1;
+    logic [9:0] pixel_x_in_d1;
+    logic [8:0] pixel_y_in_d1;
+
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            prod_det1 <= '0;
+            prod_det2 <= '0;
+            prod_num_u1 <= '0;
+            prod_num_u2 <= '0;
+            prod_num_v1 <= '0;
+            prod_num_v2 <= '0;
+            sum_IxIx_d1 <= '0;
+            sum_IyIy_d1 <= '0;
+            sum_IxIy_d1 <= '0;
+            sum_IxIt_d1 <= '0;
+            sum_IyIt_d1 <= '0;
+            accum_valid_d1 <= 1'b0;
+            pixel_x_in_d1 <= '0;
+            pixel_y_in_d1 <= '0;
+        end else begin
+            // Determinant products: det = IxIx*IyIy - IxIy*IxIy
+            prod_det1 <= sum_IxIx * sum_IyIy;
+            prod_det2 <= sum_IxIy * sum_IxIy;
+
+            // Numerator products for u: IyIy*IxIt - IxIy*IyIt
+            prod_num_u1 <= sum_IyIy * sum_IxIt;
+            prod_num_u2 <= sum_IxIy * sum_IyIt;
+
+            // Numerator products for v: IxIx*IyIt - IxIy*IxIt
+            prod_num_v1 <= sum_IxIx * sum_IyIt;
+            prod_num_v2 <= sum_IxIy * sum_IxIt;
+
+            // Pipeline control signals
+            sum_IxIx_d1 <= sum_IxIx;
+            sum_IyIy_d1 <= sum_IyIy;
+            sum_IxIy_d1 <= sum_IxIy;
+            sum_IxIt_d1 <= sum_IxIt;
+            sum_IyIt_d1 <= sum_IyIt;
+            accum_valid_d1 <= accum_valid;
+            pixel_x_in_d1 <= pixel_x_in;
+            pixel_y_in_d1 <= pixel_y_in;
+        end
+    end
+
+    // Stage 2: Combinational division and result selection
     logic signed [ACCUM_WIDTH-1:0] det;
     logic signed [ACCUM_WIDTH-1:0] numerator_u, numerator_v;
     logic signed [FLOW_WIDTH-1:0] flow_u_comb, flow_v_comb;
     logic solvable;
 
     always_comb begin
-        // Declare intermediate variables at top of block
-        logic signed [2*ACCUM_WIDTH-1:0] prod1, prod2;
-        logic signed [2*ACCUM_WIDTH-1:0] temp1, temp2;
         logic signed [ACCUM_WIDTH+FRAC_BITS-1:0] scaled_num_u, scaled_num_v;
 
-        // Compute determinant: det = IxIx * IyIy - IxIy * IxIy
-        prod1 = sum_IxIx * sum_IyIy;
-        prod2 = sum_IxIy * sum_IxIy;
-        det = prod1[ACCUM_WIDTH-1:0] - prod2[ACCUM_WIDTH-1:0];
+        // Compute determinant from pipelined products
+        det = prod_det1[ACCUM_WIDTH-1:0] - prod_det2[ACCUM_WIDTH-1:0];
 
-        // Check if system is solvable (sufficient texture)
+        // Compute numerators from pipelined products
+        numerator_u = prod_num_u1[ACCUM_WIDTH-1:0] - prod_num_u2[ACCUM_WIDTH-1:0];
+        numerator_v = prod_num_v1[ACCUM_WIDTH-1:0] - prod_num_v2[ACCUM_WIDTH-1:0];
+
+        // Check if system is solvable
         solvable = (det > DET_THRESHOLD) || (det < -DET_THRESHOLD);
 
-        // Compute numerators using Cramer's rule:
-        // u = (IyIy * (-IxIt) - IxIy * (-IyIt)) / det
-        // v = (IxIx * (-IyIt) - IxIy * (-IxIt)) / det
-        // Note: sum_IxIt and sum_IyIt already have correct sign from It = I_prev - I_curr
-
-        // Numerator for u
-        temp1 = sum_IyIy * sum_IxIt;
-        temp2 = sum_IxIy * sum_IyIt;
-        numerator_u = temp1[ACCUM_WIDTH-1:0] - temp2[ACCUM_WIDTH-1:0];
-
-        // Numerator for v
-        temp1 = sum_IxIx * sum_IyIt;
-        temp2 = sum_IxIy * sum_IxIt;
-        numerator_v = temp1[ACCUM_WIDTH-1:0] - temp2[ACCUM_WIDTH-1:0];
-
-        // Division with fixed-point scaling
+        // Division with fixed-point scaling (combinational)
         if (solvable) begin
             scaled_num_u = numerator_u <<< FRAC_BITS;
             scaled_num_v = numerator_v <<< FRAC_BITS;
@@ -90,17 +130,17 @@ module flow_solver #(
             flow_u_comb  = scaled_num_u / det;
             flow_v_comb  = scaled_num_v / det;
 
-            // Clamp to ±8 pixels (1024 in S8.7 fixed-point) and use signed comparision
+            // Clamp to ±8 pixels
             if (flow_u_comb > $signed(16'sd1024)) begin
-                flow_u_comb = $signed(16'sd1024);  // +8.0
+                flow_u_comb = $signed(16'sd1024);
             end else if (flow_u_comb < $signed(-16'sd1024)) begin
-                flow_u_comb = $signed(-16'sd1024);  // -8.0
+                flow_u_comb = $signed(-16'sd1024);
             end
 
             if (flow_v_comb > $signed(16'sd1024)) begin
-                flow_v_comb = $signed(16'sd1024);  // +8.0
+                flow_v_comb = $signed(16'sd1024);
             end else if (flow_v_comb < $signed(-16'sd1024)) begin
-                flow_v_comb = $signed(-16'sd1024);  // -8.0
+                flow_v_comb = $signed(-16'sd1024);
             end
         end else begin
             flow_u_comb = '0;
@@ -119,9 +159,9 @@ module flow_solver #(
         end else begin
             flow_u      <= flow_u_comb;
             flow_v      <= flow_v_comb;
-            flow_valid  <= accum_valid;
-            pixel_x_out <= pixel_x_in;
-            pixel_y_out <= pixel_y_in;
+            flow_valid  <= accum_valid_d1;
+            pixel_x_out <= pixel_x_in_d1;
+            pixel_y_out <= pixel_y_in_d1;
         end
     end
 

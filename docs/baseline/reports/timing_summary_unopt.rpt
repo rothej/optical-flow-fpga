@@ -1,0 +1,1857 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2022.2 (lin64) Build 3671981 Fri Oct 14 04:59:54 MDT 2022
+| Date         : Sat Feb  7 22:21:54 2026
+| Host         : rothej-Legion-5-15AHP10 running 64-bit Linux Mint 22.3
+| Command      : report_timing_summary -file prj/unopt/timing_summary_unopt.rpt
+| Design       : optical_flow_top
+| Device       : 7a100t-csg324
+| Speed File   : -1  PRODUCTION 1.23 2018-06-13
+------------------------------------------------------------------------------------
+
+Timing Summary Report
+
+------------------------------------------------------------------------------------------------
+| Timer Settings
+| --------------
+------------------------------------------------------------------------------------------------
+
+  Enable Multi Corner Analysis               :  Yes
+  Enable Pessimism Removal                   :  Yes
+  Pessimism Removal Resolution               :  Nearest Common Node
+  Enable Input Delay Default Clock           :  No
+  Enable Preset / Clear Arcs                 :  No
+  Disable Flight Delays                      :  No
+  Ignore I/O Paths                           :  No
+  Timing Early Launch at Borrowing Latches   :  No
+  Borrow Time for Max Delay Exceptions       :  Yes
+  Merge Timing Exceptions                    :  Yes
+
+  Corner  Analyze    Analyze
+  Name    Max Paths  Min Paths
+  ------  ---------  ---------
+  Slow    Yes        Yes
+  Fast    Yes        Yes
+
+
+------------------------------------------------------------------------------------------------
+| Report Methodology
+| ------------------
+------------------------------------------------------------------------------------------------
+
+No report available as report_methodology has not been run prior. Run report_methodology on the current design for the summary of methodology violations.
+
+
+
+check_timing report
+
+Table of Contents
+-----------------
+1. checking no_clock (0)
+2. checking constant_clock (0)
+3. checking pulse_width_clock (0)
+4. checking unconstrained_internal_endpoints (0)
+5. checking no_input_delay (0)
+6. checking no_output_delay (19)
+7. checking multiple_clock (0)
+8. checking generated_clocks (0)
+9. checking loops (0)
+10. checking partial_input_delay (0)
+11. checking partial_output_delay (0)
+12. checking latch_loops (0)
+
+1. checking no_clock (0)
+------------------------
+ There are 0 register/latch pins with no clock.
+
+
+2. checking constant_clock (0)
+------------------------------
+ There are 0 register/latch pins with constant_clock.
+
+
+3. checking pulse_width_clock (0)
+---------------------------------
+ There are 0 register/latch pins which need pulse_width check
+
+
+4. checking unconstrained_internal_endpoints (0)
+------------------------------------------------
+ There are 0 pins that are not constrained for maximum delay.
+
+ There are 0 pins that are not constrained for maximum delay due to constant clock.
+
+
+5. checking no_input_delay (0)
+------------------------------
+ There are 0 input ports with no input delay specified.
+
+ There are 0 input ports with no input delay but user has a false path constraint.
+
+
+6. checking no_output_delay (19)
+--------------------------------
+ There are 19 ports with no output delay specified. (HIGH)
+
+ There are 0 ports with no output delay but user has a false path constraint
+
+ There are 0 ports with no output delay but with a timing clock defined on it or propagating through it
+
+
+7. checking multiple_clock (0)
+------------------------------
+ There are 0 register/latch pins with multiple clocks.
+
+
+8. checking generated_clocks (0)
+--------------------------------
+ There are 0 generated clocks that are not connected to a clock source.
+
+
+9. checking loops (0)
+---------------------
+ There are 0 combinational loops in the design.
+
+
+10. checking partial_input_delay (0)
+------------------------------------
+ There are 0 input ports with partial input delay specified.
+
+
+11. checking partial_output_delay (0)
+-------------------------------------
+ There are 0 ports with partial output delay specified.
+
+
+12. checking latch_loops (0)
+----------------------------
+ There are 0 combinational latch loops in the design through latch input
+
+
+
+------------------------------------------------------------------------------------------------
+| Design Timing Summary
+| ---------------------
+------------------------------------------------------------------------------------------------
+
+    WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints
+    -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------
+   -110.051    -3520.810                     32                  345        0.137        0.000                      0                  345        4.500        0.000                       0                   135
+
+
+Timing constraints are not met.
+
+
+------------------------------------------------------------------------------------------------
+| Clock Summary
+| -------------
+------------------------------------------------------------------------------------------------
+
+Clock    Waveform(ns)       Period(ns)      Frequency(MHz)
+-----    ------------       ----------      --------------
+sys_clk  {0.000 5.000}      10.000          100.000
+
+
+------------------------------------------------------------------------------------------------
+| Intra Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+Clock             WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints
+-----             -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------
+sys_clk          -110.051    -3520.810                     32                  216        0.137        0.000                      0                  216        4.500        0.000                       0                   135
+
+
+------------------------------------------------------------------------------------------------
+| Inter Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints
+----------    --------          -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------
+
+
+------------------------------------------------------------------------------------------------
+| Other Path Groups Table
+| -----------------------
+------------------------------------------------------------------------------------------------
+
+Path Group         From Clock         To Clock               WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints
+----------         ----------         --------               -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------
+**async_default**  sys_clk            sys_clk                  7.131        0.000                      0                  129        1.904        0.000                      0                  129
+
+
+------------------------------------------------------------------------------------------------
+| Timing Details
+| --------------
+------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  sys_clk
+  To Clock:  sys_clk
+
+Setup :           32  Failing Endpoints,  Worst Slack     -110.051ns,  Total Violation    -3520.810ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.137ns,  Total Violation        0.000ns
+PW    :            0  Failing Endpoints,  Worst Slack        4.500ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (VIOLATED) :        -110.051ns  (required time - arrival time)
+  Source:                 u_window_accumulator/sum_IyIy0__22/CLK
+                            (rising edge-triggered cell DSP48E1 clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_flow_solver/flow_u_reg[10]/D
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (sys_clk rise@10.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        119.914ns  (logic 97.743ns (81.511%)  route 22.172ns (18.490%))
+  Logic Levels:           485  (CARRY4=438 DSP48E1=2 LUT1=2 LUT2=11 LUT5=30 LUT6=2)
+  Clock Path Skew:        -0.145ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.130ns = ( 12.130 - 10.000 )
+    Source Clock Delay      (SCD):    2.454ns
+    Clock Pessimism Removal (CPR):    0.179ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r
+                                                      0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+                         IBUF (Prop_ibuf_I_O)         0.971     0.971 r  clk_IBUF_inst/O
+                         net (fo=1, unplaced)         0.803     1.774    clk_IBUF
+                         BUFG (Prop_bufg_I_O)         0.096     1.870 r  clk_IBUF_BUFG_inst/O
+                         net (fo=134, unplaced)       0.584     2.454    u_window_accumulator/clk_IBUF_BUFG
+                         DSP48E1                                      r  u_window_accumulator/sum_IyIy0__22/CLK
+  -------------------------------------------------------------------    -------------------
+                         DSP48E1 (Prop_dsp48e1_CLK_P[16])
+                                                      0.434     2.888 r  u_window_accumulator/sum_IyIy0__22/P[16]
+                         net (fo=1, unplaced)         0.803     3.691    u_window_accumulator/sum_IyIy0__22_n_89
+                         LUT2 (Prop_lut2_I0_O)        0.124     3.815 r  u_window_accumulator/flow_u_comb4__2_i_16/O
+                         net (fo=4, unplaced)         0.803     4.618    u_flow_solver/sum_IyIy[16]
+                         DSP48E1 (Prop_dsp48e1_A[16]_PCOUT[47])
+                                                      4.036     8.654 r  u_flow_solver/flow_u_comb8__3/PCOUT[47]
+                         net (fo=1, unplaced)         0.000     8.654    u_flow_solver/flow_u_comb8__3_n_106
+                         DSP48E1 (Prop_dsp48e1_PCIN[47]_P[0])
+                                                      1.518    10.172 r  u_flow_solver/flow_u_comb8__4/P[0]
+                         net (fo=2, unplaced)         0.803    10.975    u_flow_solver/flow_u_comb8__4_n_105
+                         LUT2 (Prop_lut2_I0_O)        0.124    11.099 r  u_flow_solver/flow_u[15]_i_233/O
+                         net (fo=1, unplaced)         0.000    11.099    u_flow_solver/flow_u[15]_i_233_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    11.632 r  u_flow_solver/flow_u_reg[15]_i_169/CO[3]
+                         net (fo=1, unplaced)         0.000    11.632    u_flow_solver/flow_u_reg[15]_i_169_n_0
+                         CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.337    11.969 r  u_flow_solver/flow_u_reg[15]_i_116/O[1]
+                         net (fo=2, unplaced)         0.622    12.591    u_flow_solver/flow_u_reg[15]_i_116_n_6
+                         LUT2 (Prop_lut2_I0_O)        0.306    12.897 r  u_flow_solver/flow_u[15]_i_119/O
+                         net (fo=1, unplaced)         0.000    12.897    u_flow_solver/flow_u[15]_i_119_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    13.430 r  u_flow_solver/flow_u_reg[15]_i_71/CO[3]
+                         net (fo=1, unplaced)         0.000    13.430    u_flow_solver/flow_u_reg[15]_i_71_n_0
+                         CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.331    13.761 f  u_flow_solver/flow_u_reg[15]_i_45/O[3]
+                         net (fo=3, unplaced)         0.466    14.227    p_0_in[34]
+                         LUT1 (Prop_lut1_I0_O)        0.307    14.534 r  flow_u[15]_i_1340/O
+                         net (fo=1, unplaced)         0.000    14.534    flow_u[15]_i_1340_n_0
+                         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.513    15.047 r  flow_u_reg[15]_i_1284/CO[3]
+                         net (fo=1, unplaced)         0.000    15.047    flow_u_reg[15]_i_1284_n_0
+                         CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.232    15.279 r  flow_u_reg[15]_i_1470/O[0]
+                         net (fo=2, unplaced)         0.322    15.601    flow_u_reg[15]_i_1470_n_7
+                         LUT2 (Prop_lut2_I0_O)        0.287    15.888 r  flow_u[15]_i_1465/O
+                         net (fo=1, unplaced)         0.000    15.888    flow_u_comb40_in[38]
+                         CARRY4 (Prop_carry4_DI[0]_CO[3])
+                                                      0.576    16.464 r  flow_u_reg[15]_i_1383/CO[3]
+                         net (fo=1, unplaced)         0.000    16.464    flow_u_reg[15]_i_1383_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.581 r  flow_u_reg[15]_i_1378/CO[3]
+                         net (fo=1, unplaced)         0.000    16.581    flow_u_reg[15]_i_1378_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.698 r  flow_u_reg[15]_i_1373/CO[3]
+                         net (fo=1, unplaced)         0.000    16.698    flow_u_reg[15]_i_1373_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.815 r  flow_u_reg[15]_i_1368/CO[3]
+                         net (fo=1, unplaced)         0.000    16.815    flow_u_reg[15]_i_1368_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    16.932 r  flow_u_reg[15]_i_1363/CO[3]
+                         net (fo=1, unplaced)         0.000    16.932    flow_u_reg[15]_i_1363_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    17.049 r  flow_u_reg[15]_i_1358/CO[3]
+                         net (fo=1, unplaced)         0.000    17.049    flow_u_reg[15]_i_1358_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    17.166 r  flow_u_reg[15]_i_1353/CO[3]
+                         net (fo=1, unplaced)         0.000    17.166    flow_u_reg[15]_i_1353_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    17.283 r  flow_u_reg[15]_i_1348/CO[3]
+                         net (fo=1, unplaced)         0.000    17.283    flow_u_reg[15]_i_1348_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    17.400 r  flow_u_reg[15]_i_1343/CO[3]
+                         net (fo=1, unplaced)         0.000    17.400    flow_u_reg[15]_i_1343_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    17.517 r  flow_u_reg[15]_i_1341/CO[3]
+                         net (fo=42, unplaced)        0.898    18.415    u_flow_solver/CO[0]
+                         CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595    19.010 r  u_flow_solver/flow_u_reg[15]_i_1328/CO[3]
+                         net (fo=1, unplaced)         0.000    19.010    u_flow_solver/flow_u_reg[15]_i_1328_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    19.127 r  u_flow_solver/flow_u_reg[15]_i_1323/CO[3]
+                         net (fo=1, unplaced)         0.000    19.127    u_flow_solver/flow_u_reg[15]_i_1323_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    19.244 r  u_flow_solver/flow_u_reg[15]_i_1318/CO[3]
+                         net (fo=1, unplaced)         0.000    19.244    u_flow_solver/flow_u_reg[15]_i_1318_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    19.361 r  u_flow_solver/flow_u_reg[15]_i_1313/CO[3]
+                         net (fo=1, unplaced)         0.000    19.361    u_flow_solver/flow_u_reg[15]_i_1313_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    19.478 r  u_flow_solver/flow_u_reg[15]_i_1308/CO[3]
+                         net (fo=1, unplaced)         0.000    19.478    u_flow_solver/flow_u_reg[15]_i_1308_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    19.595 r  u_flow_solver/flow_u_reg[15]_i_1303/CO[3]
+                         net (fo=1, unplaced)         0.000    19.595    u_flow_solver/flow_u_reg[15]_i_1303_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    19.712 r  u_flow_solver/flow_u_reg[15]_i_1298/CO[3]
+                         net (fo=1, unplaced)         0.000    19.712    u_flow_solver/flow_u_reg[15]_i_1298_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    19.829 r  u_flow_solver/flow_u_reg[15]_i_1293/CO[3]
+                         net (fo=1, unplaced)         0.000    19.829    u_flow_solver/flow_u_reg[15]_i_1293_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    19.946 r  u_flow_solver/flow_u_reg[15]_i_1288/CO[3]
+                         net (fo=1, unplaced)         0.000    19.946    u_flow_solver/flow_u_reg[15]_i_1288_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    20.063 r  u_flow_solver/flow_u_reg[15]_i_1287/CO[3]
+                         net (fo=1, unplaced)         0.000    20.063    u_flow_solver/flow_u_reg[15]_i_1287_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    20.344 r  u_flow_solver/flow_u_reg[15]_i_1285/CO[0]
+                         net (fo=42, unplaced)        0.389    20.733    u_flow_solver_n_41
+                         LUT5 (Prop_lut5_I1_O)        0.367    21.100 r  flow_u[15]_i_1336/O
+                         net (fo=1, unplaced)         0.000    21.100    flow_u[15]_i_1336_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    21.633 r  flow_u_reg[15]_i_1275/CO[3]
+                         net (fo=1, unplaced)         0.000    21.633    flow_u_reg[15]_i_1275_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    21.750 r  flow_u_reg[15]_i_1270/CO[3]
+                         net (fo=1, unplaced)         0.000    21.750    flow_u_reg[15]_i_1270_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    21.867 r  flow_u_reg[15]_i_1265/CO[3]
+                         net (fo=1, unplaced)         0.000    21.867    flow_u_reg[15]_i_1265_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    21.984 r  flow_u_reg[15]_i_1260/CO[3]
+                         net (fo=1, unplaced)         0.000    21.984    flow_u_reg[15]_i_1260_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    22.101 r  flow_u_reg[15]_i_1255/CO[3]
+                         net (fo=1, unplaced)         0.000    22.101    flow_u_reg[15]_i_1255_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    22.218 r  flow_u_reg[15]_i_1250/CO[3]
+                         net (fo=1, unplaced)         0.000    22.218    flow_u_reg[15]_i_1250_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    22.335 r  flow_u_reg[15]_i_1245/CO[3]
+                         net (fo=1, unplaced)         0.000    22.335    flow_u_reg[15]_i_1245_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    22.452 r  flow_u_reg[15]_i_1240/CO[3]
+                         net (fo=1, unplaced)         0.000    22.452    flow_u_reg[15]_i_1240_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    22.569 r  flow_u_reg[15]_i_1235/CO[3]
+                         net (fo=1, unplaced)         0.000    22.569    flow_u_reg[15]_i_1235_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    22.686 r  flow_u_reg[15]_i_1234/CO[3]
+                         net (fo=1, unplaced)         0.000    22.686    flow_u_reg[15]_i_1234_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    22.967 r  flow_u_reg[15]_i_1232/CO[0]
+                         net (fo=42, unplaced)        0.389    23.356    flow_u_reg[15]_i_1232_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    23.723 r  flow_u[15]_i_1283/O
+                         net (fo=1, unplaced)         0.000    23.723    flow_u[15]_i_1283_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    24.256 r  flow_u_reg[15]_i_1223/CO[3]
+                         net (fo=1, unplaced)         0.000    24.256    flow_u_reg[15]_i_1223_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    24.373 r  flow_u_reg[15]_i_1218/CO[3]
+                         net (fo=1, unplaced)         0.000    24.373    flow_u_reg[15]_i_1218_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    24.490 r  flow_u_reg[15]_i_1213/CO[3]
+                         net (fo=1, unplaced)         0.000    24.490    flow_u_reg[15]_i_1213_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    24.607 r  flow_u_reg[15]_i_1208/CO[3]
+                         net (fo=1, unplaced)         0.000    24.607    flow_u_reg[15]_i_1208_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    24.724 r  flow_u_reg[15]_i_1203/CO[3]
+                         net (fo=1, unplaced)         0.000    24.724    flow_u_reg[15]_i_1203_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    24.841 r  flow_u_reg[15]_i_1198/CO[3]
+                         net (fo=1, unplaced)         0.000    24.841    flow_u_reg[15]_i_1198_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    24.958 r  flow_u_reg[15]_i_1193/CO[3]
+                         net (fo=1, unplaced)         0.000    24.958    flow_u_reg[15]_i_1193_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    25.075 r  flow_u_reg[15]_i_1188/CO[3]
+                         net (fo=1, unplaced)         0.000    25.075    flow_u_reg[15]_i_1188_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    25.192 r  flow_u_reg[15]_i_1183/CO[3]
+                         net (fo=1, unplaced)         0.000    25.192    flow_u_reg[15]_i_1183_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    25.309 r  flow_u_reg[15]_i_1182/CO[3]
+                         net (fo=1, unplaced)         0.000    25.309    flow_u_reg[15]_i_1182_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    25.590 r  flow_u_reg[15]_i_1180/CO[0]
+                         net (fo=42, unplaced)        0.389    25.979    flow_u_reg[15]_i_1180_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    26.346 r  flow_u[15]_i_1231/O
+                         net (fo=1, unplaced)         0.000    26.346    flow_u[15]_i_1231_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    26.879 r  flow_u_reg[15]_i_1171/CO[3]
+                         net (fo=1, unplaced)         0.000    26.879    flow_u_reg[15]_i_1171_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    26.996 r  flow_u_reg[15]_i_1166/CO[3]
+                         net (fo=1, unplaced)         0.000    26.996    flow_u_reg[15]_i_1166_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    27.113 r  flow_u_reg[15]_i_1161/CO[3]
+                         net (fo=1, unplaced)         0.000    27.113    flow_u_reg[15]_i_1161_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    27.230 r  flow_u_reg[15]_i_1156/CO[3]
+                         net (fo=1, unplaced)         0.000    27.230    flow_u_reg[15]_i_1156_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    27.347 r  flow_u_reg[15]_i_1151/CO[3]
+                         net (fo=1, unplaced)         0.000    27.347    flow_u_reg[15]_i_1151_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    27.464 r  flow_u_reg[15]_i_1146/CO[3]
+                         net (fo=1, unplaced)         0.000    27.464    flow_u_reg[15]_i_1146_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    27.581 r  flow_u_reg[15]_i_1141/CO[3]
+                         net (fo=1, unplaced)         0.000    27.581    flow_u_reg[15]_i_1141_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    27.698 r  flow_u_reg[15]_i_1136/CO[3]
+                         net (fo=1, unplaced)         0.000    27.698    flow_u_reg[15]_i_1136_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    27.815 r  flow_u_reg[15]_i_1131/CO[3]
+                         net (fo=1, unplaced)         0.000    27.815    flow_u_reg[15]_i_1131_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    27.932 r  flow_u_reg[15]_i_1130/CO[3]
+                         net (fo=1, unplaced)         0.000    27.932    flow_u_reg[15]_i_1130_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    28.213 r  flow_u_reg[15]_i_1128/CO[0]
+                         net (fo=42, unplaced)        0.389    28.602    flow_u_reg[15]_i_1128_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    28.969 r  flow_u[15]_i_1179/O
+                         net (fo=1, unplaced)         0.000    28.969    flow_u[15]_i_1179_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    29.502 r  flow_u_reg[15]_i_1115/CO[3]
+                         net (fo=1, unplaced)         0.000    29.502    flow_u_reg[15]_i_1115_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    29.619 r  flow_u_reg[15]_i_1110/CO[3]
+                         net (fo=1, unplaced)         0.000    29.619    flow_u_reg[15]_i_1110_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    29.736 r  flow_u_reg[15]_i_1105/CO[3]
+                         net (fo=1, unplaced)         0.000    29.736    flow_u_reg[15]_i_1105_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    29.853 r  flow_u_reg[15]_i_1100/CO[3]
+                         net (fo=1, unplaced)         0.000    29.853    flow_u_reg[15]_i_1100_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    29.970 r  flow_u_reg[15]_i_1095/CO[3]
+                         net (fo=1, unplaced)         0.000    29.970    flow_u_reg[15]_i_1095_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    30.087 r  flow_u_reg[15]_i_1090/CO[3]
+                         net (fo=1, unplaced)         0.000    30.087    flow_u_reg[15]_i_1090_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    30.204 r  flow_u_reg[15]_i_1085/CO[3]
+                         net (fo=1, unplaced)         0.000    30.204    flow_u_reg[15]_i_1085_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    30.321 r  flow_u_reg[15]_i_1080/CO[3]
+                         net (fo=1, unplaced)         0.000    30.321    flow_u_reg[15]_i_1080_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    30.438 r  flow_u_reg[15]_i_1075/CO[3]
+                         net (fo=1, unplaced)         0.000    30.438    flow_u_reg[15]_i_1075_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    30.555 r  flow_u_reg[15]_i_1074/CO[3]
+                         net (fo=1, unplaced)         0.000    30.555    flow_u_reg[15]_i_1074_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    30.836 r  flow_u_reg[15]_i_1072/CO[0]
+                         net (fo=42, unplaced)        0.389    31.225    flow_u_reg[15]_i_1072_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    31.592 r  flow_u[15]_i_1123/O
+                         net (fo=1, unplaced)         0.000    31.592    flow_u[15]_i_1123_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    32.125 r  flow_u_reg[15]_i_1062/CO[3]
+                         net (fo=1, unplaced)         0.000    32.125    flow_u_reg[15]_i_1062_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    32.242 r  flow_u_reg[15]_i_1057/CO[3]
+                         net (fo=1, unplaced)         0.000    32.242    flow_u_reg[15]_i_1057_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    32.359 r  flow_u_reg[15]_i_1052/CO[3]
+                         net (fo=1, unplaced)         0.000    32.359    flow_u_reg[15]_i_1052_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    32.476 r  flow_u_reg[15]_i_1047/CO[3]
+                         net (fo=1, unplaced)         0.000    32.476    flow_u_reg[15]_i_1047_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    32.593 r  flow_u_reg[15]_i_1042/CO[3]
+                         net (fo=1, unplaced)         0.000    32.593    flow_u_reg[15]_i_1042_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    32.710 r  flow_u_reg[15]_i_1037/CO[3]
+                         net (fo=1, unplaced)         0.000    32.710    flow_u_reg[15]_i_1037_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    32.827 r  flow_u_reg[15]_i_1032/CO[3]
+                         net (fo=1, unplaced)         0.000    32.827    flow_u_reg[15]_i_1032_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    32.944 r  flow_u_reg[15]_i_1027/CO[3]
+                         net (fo=1, unplaced)         0.000    32.944    flow_u_reg[15]_i_1027_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    33.061 r  flow_u_reg[15]_i_1022/CO[3]
+                         net (fo=1, unplaced)         0.000    33.061    flow_u_reg[15]_i_1022_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    33.178 r  flow_u_reg[15]_i_1021/CO[3]
+                         net (fo=1, unplaced)         0.000    33.178    flow_u_reg[15]_i_1021_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    33.459 r  flow_u_reg[15]_i_1019/CO[0]
+                         net (fo=42, unplaced)        0.389    33.848    flow_u_reg[15]_i_1019_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    34.215 r  flow_u[15]_i_1070/O
+                         net (fo=1, unplaced)         0.000    34.215    flow_u[15]_i_1070_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    34.748 r  flow_u_reg[15]_i_1010/CO[3]
+                         net (fo=1, unplaced)         0.000    34.748    flow_u_reg[15]_i_1010_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    34.865 r  flow_u_reg[15]_i_1005/CO[3]
+                         net (fo=1, unplaced)         0.000    34.865    flow_u_reg[15]_i_1005_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    34.982 r  flow_u_reg[15]_i_1000/CO[3]
+                         net (fo=1, unplaced)         0.000    34.982    flow_u_reg[15]_i_1000_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    35.099 r  flow_u_reg[15]_i_995/CO[3]
+                         net (fo=1, unplaced)         0.000    35.099    flow_u_reg[15]_i_995_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    35.216 r  flow_u_reg[15]_i_990/CO[3]
+                         net (fo=1, unplaced)         0.000    35.216    flow_u_reg[15]_i_990_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    35.333 r  flow_u_reg[15]_i_985/CO[3]
+                         net (fo=1, unplaced)         0.000    35.333    flow_u_reg[15]_i_985_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    35.450 r  flow_u_reg[15]_i_980/CO[3]
+                         net (fo=1, unplaced)         0.000    35.450    flow_u_reg[15]_i_980_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    35.567 r  flow_u_reg[15]_i_975/CO[3]
+                         net (fo=1, unplaced)         0.000    35.567    flow_u_reg[15]_i_975_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    35.684 r  flow_u_reg[15]_i_970/CO[3]
+                         net (fo=1, unplaced)         0.000    35.684    flow_u_reg[15]_i_970_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    35.801 r  flow_u_reg[15]_i_969/CO[3]
+                         net (fo=1, unplaced)         0.000    35.801    flow_u_reg[15]_i_969_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    36.082 r  flow_u_reg[15]_i_967/CO[0]
+                         net (fo=42, unplaced)        0.389    36.471    flow_u_reg[15]_i_967_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    36.838 r  flow_u[15]_i_1018/O
+                         net (fo=1, unplaced)         0.000    36.838    flow_u[15]_i_1018_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    37.371 r  flow_u_reg[15]_i_958/CO[3]
+                         net (fo=1, unplaced)         0.000    37.371    flow_u_reg[15]_i_958_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    37.488 r  flow_u_reg[15]_i_953/CO[3]
+                         net (fo=1, unplaced)         0.000    37.488    flow_u_reg[15]_i_953_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    37.605 r  flow_u_reg[15]_i_948/CO[3]
+                         net (fo=1, unplaced)         0.000    37.605    flow_u_reg[15]_i_948_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    37.722 r  flow_u_reg[15]_i_943/CO[3]
+                         net (fo=1, unplaced)         0.000    37.722    flow_u_reg[15]_i_943_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    37.839 r  flow_u_reg[15]_i_938/CO[3]
+                         net (fo=1, unplaced)         0.000    37.839    flow_u_reg[15]_i_938_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    37.956 r  flow_u_reg[15]_i_933/CO[3]
+                         net (fo=1, unplaced)         0.000    37.956    flow_u_reg[15]_i_933_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    38.073 r  flow_u_reg[15]_i_928/CO[3]
+                         net (fo=1, unplaced)         0.000    38.073    flow_u_reg[15]_i_928_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    38.190 r  flow_u_reg[15]_i_923/CO[3]
+                         net (fo=1, unplaced)         0.000    38.190    flow_u_reg[15]_i_923_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    38.307 r  flow_u_reg[15]_i_918/CO[3]
+                         net (fo=1, unplaced)         0.000    38.307    flow_u_reg[15]_i_918_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    38.424 r  flow_u_reg[15]_i_917/CO[3]
+                         net (fo=1, unplaced)         0.000    38.424    flow_u_reg[15]_i_917_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    38.705 r  flow_u_reg[15]_i_915/CO[0]
+                         net (fo=42, unplaced)        0.389    39.094    flow_u_reg[15]_i_915_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    39.461 r  flow_u[15]_i_966/O
+                         net (fo=1, unplaced)         0.000    39.461    flow_u[15]_i_966_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    39.994 r  flow_u_reg[15]_i_902/CO[3]
+                         net (fo=1, unplaced)         0.000    39.994    flow_u_reg[15]_i_902_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    40.111 r  flow_u_reg[15]_i_897/CO[3]
+                         net (fo=1, unplaced)         0.000    40.111    flow_u_reg[15]_i_897_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    40.228 r  flow_u_reg[15]_i_892/CO[3]
+                         net (fo=1, unplaced)         0.000    40.228    flow_u_reg[15]_i_892_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    40.345 r  flow_u_reg[15]_i_887/CO[3]
+                         net (fo=1, unplaced)         0.000    40.345    flow_u_reg[15]_i_887_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    40.462 r  flow_u_reg[15]_i_882/CO[3]
+                         net (fo=1, unplaced)         0.000    40.462    flow_u_reg[15]_i_882_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    40.579 r  flow_u_reg[15]_i_877/CO[3]
+                         net (fo=1, unplaced)         0.000    40.579    flow_u_reg[15]_i_877_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    40.696 r  flow_u_reg[15]_i_872/CO[3]
+                         net (fo=1, unplaced)         0.000    40.696    flow_u_reg[15]_i_872_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    40.813 r  flow_u_reg[15]_i_867/CO[3]
+                         net (fo=1, unplaced)         0.000    40.813    flow_u_reg[15]_i_867_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    40.930 r  flow_u_reg[15]_i_862/CO[3]
+                         net (fo=1, unplaced)         0.000    40.930    flow_u_reg[15]_i_862_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    41.047 r  flow_u_reg[15]_i_861/CO[3]
+                         net (fo=1, unplaced)         0.000    41.047    flow_u_reg[15]_i_861_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    41.328 r  flow_u_reg[15]_i_859/CO[0]
+                         net (fo=42, unplaced)        0.389    41.717    flow_u_reg[15]_i_859_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    42.084 r  flow_u[15]_i_910/O
+                         net (fo=1, unplaced)         0.000    42.084    flow_u[15]_i_910_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    42.617 r  flow_u_reg[15]_i_849/CO[3]
+                         net (fo=1, unplaced)         0.000    42.617    flow_u_reg[15]_i_849_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.734 r  flow_u_reg[15]_i_844/CO[3]
+                         net (fo=1, unplaced)         0.000    42.734    flow_u_reg[15]_i_844_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.851 r  flow_u_reg[15]_i_839/CO[3]
+                         net (fo=1, unplaced)         0.000    42.851    flow_u_reg[15]_i_839_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    42.968 r  flow_u_reg[15]_i_834/CO[3]
+                         net (fo=1, unplaced)         0.000    42.968    flow_u_reg[15]_i_834_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    43.085 r  flow_u_reg[15]_i_829/CO[3]
+                         net (fo=1, unplaced)         0.000    43.085    flow_u_reg[15]_i_829_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    43.202 r  flow_u_reg[15]_i_824/CO[3]
+                         net (fo=1, unplaced)         0.000    43.202    flow_u_reg[15]_i_824_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    43.319 r  flow_u_reg[15]_i_819/CO[3]
+                         net (fo=1, unplaced)         0.000    43.319    flow_u_reg[15]_i_819_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    43.436 r  flow_u_reg[15]_i_814/CO[3]
+                         net (fo=1, unplaced)         0.000    43.436    flow_u_reg[15]_i_814_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    43.553 r  flow_u_reg[15]_i_809/CO[3]
+                         net (fo=1, unplaced)         0.000    43.553    flow_u_reg[15]_i_809_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    43.670 r  flow_u_reg[15]_i_808/CO[3]
+                         net (fo=1, unplaced)         0.000    43.670    flow_u_reg[15]_i_808_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    43.951 r  flow_u_reg[15]_i_806/CO[0]
+                         net (fo=42, unplaced)        0.389    44.340    flow_u_reg[15]_i_806_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    44.707 r  flow_u[15]_i_857/O
+                         net (fo=1, unplaced)         0.000    44.707    flow_u[15]_i_857_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    45.240 r  flow_u_reg[15]_i_797/CO[3]
+                         net (fo=1, unplaced)         0.000    45.240    flow_u_reg[15]_i_797_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    45.357 r  flow_u_reg[15]_i_792/CO[3]
+                         net (fo=1, unplaced)         0.000    45.357    flow_u_reg[15]_i_792_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    45.474 r  flow_u_reg[15]_i_787/CO[3]
+                         net (fo=1, unplaced)         0.000    45.474    flow_u_reg[15]_i_787_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    45.591 r  flow_u_reg[15]_i_782/CO[3]
+                         net (fo=1, unplaced)         0.000    45.591    flow_u_reg[15]_i_782_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    45.708 r  flow_u_reg[15]_i_777/CO[3]
+                         net (fo=1, unplaced)         0.000    45.708    flow_u_reg[15]_i_777_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    45.825 r  flow_u_reg[15]_i_772/CO[3]
+                         net (fo=1, unplaced)         0.000    45.825    flow_u_reg[15]_i_772_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    45.942 r  flow_u_reg[15]_i_767/CO[3]
+                         net (fo=1, unplaced)         0.000    45.942    flow_u_reg[15]_i_767_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    46.059 r  flow_u_reg[15]_i_762/CO[3]
+                         net (fo=1, unplaced)         0.000    46.059    flow_u_reg[15]_i_762_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    46.176 r  flow_u_reg[15]_i_757/CO[3]
+                         net (fo=1, unplaced)         0.000    46.176    flow_u_reg[15]_i_757_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    46.293 r  flow_u_reg[15]_i_756/CO[3]
+                         net (fo=1, unplaced)         0.000    46.293    flow_u_reg[15]_i_756_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    46.574 r  flow_u_reg[15]_i_742/CO[0]
+                         net (fo=42, unplaced)        0.389    46.963    flow_u_reg[15]_i_742_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    47.330 r  flow_u[15]_i_805/O
+                         net (fo=1, unplaced)         0.000    47.330    flow_u[15]_i_805_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    47.863 r  flow_u_reg[15]_i_733/CO[3]
+                         net (fo=1, unplaced)         0.000    47.863    flow_u_reg[15]_i_733_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    47.980 r  flow_u_reg[15]_i_728/CO[3]
+                         net (fo=1, unplaced)         0.000    47.980    flow_u_reg[15]_i_728_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    48.097 r  flow_u_reg[15]_i_723/CO[3]
+                         net (fo=1, unplaced)         0.000    48.097    flow_u_reg[15]_i_723_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    48.214 r  flow_u_reg[15]_i_718/CO[3]
+                         net (fo=1, unplaced)         0.000    48.214    flow_u_reg[15]_i_718_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    48.331 r  flow_u_reg[15]_i_713/CO[3]
+                         net (fo=1, unplaced)         0.000    48.331    flow_u_reg[15]_i_713_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    48.448 r  flow_u_reg[15]_i_708/CO[3]
+                         net (fo=1, unplaced)         0.000    48.448    flow_u_reg[15]_i_708_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    48.565 r  flow_u_reg[15]_i_703/CO[3]
+                         net (fo=1, unplaced)         0.000    48.565    flow_u_reg[15]_i_703_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    48.682 r  flow_u_reg[15]_i_698/CO[3]
+                         net (fo=1, unplaced)         0.000    48.682    flow_u_reg[15]_i_698_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    48.799 r  flow_u_reg[15]_i_693/CO[3]
+                         net (fo=1, unplaced)         0.000    48.799    flow_u_reg[15]_i_693_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    48.916 r  flow_u_reg[15]_i_692/CO[3]
+                         net (fo=1, unplaced)         0.000    48.916    flow_u_reg[15]_i_692_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    49.197 r  flow_u_reg[15]_i_687/CO[0]
+                         net (fo=42, unplaced)        0.389    49.586    flow_u_reg[15]_i_687_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    49.953 r  flow_u[15]_i_741/O
+                         net (fo=1, unplaced)         0.000    49.953    flow_u[15]_i_741_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    50.486 r  flow_u_reg[15]_i_678/CO[3]
+                         net (fo=1, unplaced)         0.000    50.486    flow_u_reg[15]_i_678_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    50.603 r  flow_u_reg[15]_i_673/CO[3]
+                         net (fo=1, unplaced)         0.000    50.603    flow_u_reg[15]_i_673_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    50.720 r  flow_u_reg[15]_i_668/CO[3]
+                         net (fo=1, unplaced)         0.000    50.720    flow_u_reg[15]_i_668_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    50.837 r  flow_u_reg[15]_i_663/CO[3]
+                         net (fo=1, unplaced)         0.000    50.837    flow_u_reg[15]_i_663_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    50.954 r  flow_u_reg[15]_i_658/CO[3]
+                         net (fo=1, unplaced)         0.000    50.954    flow_u_reg[15]_i_658_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    51.071 r  flow_u_reg[15]_i_653/CO[3]
+                         net (fo=1, unplaced)         0.000    51.071    flow_u_reg[15]_i_653_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    51.188 r  flow_u_reg[15]_i_648/CO[3]
+                         net (fo=1, unplaced)         0.000    51.188    flow_u_reg[15]_i_648_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    51.305 r  flow_u_reg[15]_i_643/CO[3]
+                         net (fo=1, unplaced)         0.000    51.305    flow_u_reg[15]_i_643_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    51.422 r  flow_u_reg[15]_i_638/CO[3]
+                         net (fo=1, unplaced)         0.000    51.422    flow_u_reg[15]_i_638_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    51.539 r  flow_u_reg[15]_i_637/CO[3]
+                         net (fo=1, unplaced)         0.000    51.539    flow_u_reg[15]_i_637_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    51.820 r  flow_u_reg[15]_i_599/CO[0]
+                         net (fo=42, unplaced)        0.389    52.209    flow_u_reg[15]_i_599_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    52.576 r  flow_u[15]_i_686/O
+                         net (fo=1, unplaced)         0.000    52.576    flow_u[15]_i_686_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    53.109 r  flow_u_reg[15]_i_594/CO[3]
+                         net (fo=1, unplaced)         0.000    53.109    flow_u_reg[15]_i_594_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    53.226 r  flow_u_reg[15]_i_589/CO[3]
+                         net (fo=1, unplaced)         0.000    53.226    flow_u_reg[15]_i_589_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    53.343 r  flow_u_reg[15]_i_584/CO[3]
+                         net (fo=1, unplaced)         0.000    53.343    flow_u_reg[15]_i_584_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    53.460 r  flow_u_reg[15]_i_579/CO[3]
+                         net (fo=1, unplaced)         0.000    53.460    flow_u_reg[15]_i_579_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    53.577 r  flow_u_reg[15]_i_574/CO[3]
+                         net (fo=1, unplaced)         0.000    53.577    flow_u_reg[15]_i_574_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    53.694 r  flow_u_reg[15]_i_569/CO[3]
+                         net (fo=1, unplaced)         0.000    53.694    flow_u_reg[15]_i_569_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    53.811 r  flow_u_reg[15]_i_564/CO[3]
+                         net (fo=1, unplaced)         0.000    53.811    flow_u_reg[15]_i_564_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    53.928 r  flow_u_reg[15]_i_559/CO[3]
+                         net (fo=1, unplaced)         0.000    53.928    flow_u_reg[15]_i_559_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    54.045 r  flow_u_reg[15]_i_554/CO[3]
+                         net (fo=1, unplaced)         0.000    54.045    flow_u_reg[15]_i_554_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    54.162 r  flow_u_reg[15]_i_553/CO[3]
+                         net (fo=1, unplaced)         0.000    54.162    flow_u_reg[15]_i_553_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    54.443 r  flow_u_reg[15]_i_510/CO[0]
+                         net (fo=42, unplaced)        0.389    54.832    flow_u_reg[15]_i_510_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    55.199 r  flow_u[15]_i_636/O
+                         net (fo=1, unplaced)         0.000    55.199    flow_u[15]_i_636_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    55.732 r  flow_u_reg[15]_i_548/CO[3]
+                         net (fo=1, unplaced)         0.000    55.732    flow_u_reg[15]_i_548_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    55.849 r  flow_u_reg[15]_i_505/CO[3]
+                         net (fo=1, unplaced)         0.000    55.849    flow_u_reg[15]_i_505_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    55.966 r  flow_u_reg[15]_i_500/CO[3]
+                         net (fo=1, unplaced)         0.000    55.966    flow_u_reg[15]_i_500_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    56.083 r  flow_u_reg[15]_i_495/CO[3]
+                         net (fo=1, unplaced)         0.000    56.083    flow_u_reg[15]_i_495_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    56.200 r  flow_u_reg[15]_i_490/CO[3]
+                         net (fo=1, unplaced)         0.000    56.200    flow_u_reg[15]_i_490_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    56.317 r  flow_u_reg[15]_i_485/CO[3]
+                         net (fo=1, unplaced)         0.000    56.317    flow_u_reg[15]_i_485_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    56.434 r  flow_u_reg[15]_i_480/CO[3]
+                         net (fo=1, unplaced)         0.000    56.434    flow_u_reg[15]_i_480_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    56.551 r  flow_u_reg[15]_i_475/CO[3]
+                         net (fo=1, unplaced)         0.000    56.551    flow_u_reg[15]_i_475_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    56.668 r  flow_u_reg[15]_i_470/CO[3]
+                         net (fo=1, unplaced)         0.000    56.668    flow_u_reg[15]_i_470_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    56.785 r  flow_u_reg[15]_i_469/CO[3]
+                         net (fo=1, unplaced)         0.000    56.785    flow_u_reg[15]_i_469_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    57.066 r  flow_u_reg[15]_i_427/CO[0]
+                         net (fo=42, unplaced)        0.389    57.455    flow_u_reg[15]_i_427_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    57.822 r  flow_u[15]_i_632/O
+                         net (fo=1, unplaced)         0.000    57.822    flow_u[15]_i_632_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    58.355 r  flow_u_reg[15]_i_543/CO[3]
+                         net (fo=1, unplaced)         0.000    58.355    flow_u_reg[15]_i_543_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    58.472 r  flow_u_reg[15]_i_464/CO[3]
+                         net (fo=1, unplaced)         0.000    58.472    flow_u_reg[15]_i_464_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    58.589 r  flow_u_reg[15]_i_422/CO[3]
+                         net (fo=1, unplaced)         0.000    58.589    flow_u_reg[15]_i_422_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    58.706 r  flow_u_reg[15]_i_417/CO[3]
+                         net (fo=1, unplaced)         0.000    58.706    flow_u_reg[15]_i_417_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    58.823 r  flow_u_reg[15]_i_412/CO[3]
+                         net (fo=1, unplaced)         0.000    58.823    flow_u_reg[15]_i_412_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    58.940 r  flow_u_reg[15]_i_407/CO[3]
+                         net (fo=1, unplaced)         0.000    58.940    flow_u_reg[15]_i_407_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    59.057 r  flow_u_reg[15]_i_402/CO[3]
+                         net (fo=1, unplaced)         0.000    59.057    flow_u_reg[15]_i_402_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    59.174 r  flow_u_reg[15]_i_397/CO[3]
+                         net (fo=1, unplaced)         0.000    59.174    flow_u_reg[15]_i_397_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    59.291 r  flow_u_reg[15]_i_392/CO[3]
+                         net (fo=1, unplaced)         0.000    59.291    flow_u_reg[15]_i_392_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    59.408 r  flow_u_reg[15]_i_391/CO[3]
+                         net (fo=1, unplaced)         0.000    59.408    flow_u_reg[15]_i_391_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    59.689 r  flow_u_reg[15]_i_353/CO[0]
+                         net (fo=42, unplaced)        0.389    60.078    flow_u_reg[15]_i_353_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    60.445 r  flow_u[15]_i_628/O
+                         net (fo=1, unplaced)         0.000    60.445    flow_u[15]_i_628_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    60.978 r  flow_u_reg[15]_i_538/CO[3]
+                         net (fo=1, unplaced)         0.000    60.978    flow_u_reg[15]_i_538_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    61.095 r  flow_u_reg[15]_i_459/CO[3]
+                         net (fo=1, unplaced)         0.000    61.095    flow_u_reg[15]_i_459_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    61.212 r  flow_u_reg[15]_i_386/CO[3]
+                         net (fo=1, unplaced)         0.000    61.212    flow_u_reg[15]_i_386_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    61.329 r  flow_u_reg[15]_i_348/CO[3]
+                         net (fo=1, unplaced)         0.000    61.329    flow_u_reg[15]_i_348_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    61.446 r  flow_u_reg[15]_i_343/CO[3]
+                         net (fo=1, unplaced)         0.000    61.446    flow_u_reg[15]_i_343_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    61.563 r  flow_u_reg[15]_i_338/CO[3]
+                         net (fo=1, unplaced)         0.000    61.563    flow_u_reg[15]_i_338_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    61.680 r  flow_u_reg[15]_i_333/CO[3]
+                         net (fo=1, unplaced)         0.000    61.680    flow_u_reg[15]_i_333_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    61.797 r  flow_u_reg[15]_i_328/CO[3]
+                         net (fo=1, unplaced)         0.000    61.797    flow_u_reg[15]_i_328_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    61.914 r  flow_u_reg[15]_i_323/CO[3]
+                         net (fo=1, unplaced)         0.000    61.914    flow_u_reg[15]_i_323_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    62.031 r  flow_u_reg[15]_i_322/CO[3]
+                         net (fo=1, unplaced)         0.000    62.031    flow_u_reg[15]_i_322_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    62.312 r  flow_u_reg[15]_i_286/CO[0]
+                         net (fo=42, unplaced)        0.389    62.701    flow_u_reg[15]_i_286_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    63.068 r  flow_u[15]_i_624/O
+                         net (fo=1, unplaced)         0.000    63.068    flow_u[15]_i_624_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    63.601 r  flow_u_reg[15]_i_533/CO[3]
+                         net (fo=1, unplaced)         0.000    63.601    flow_u_reg[15]_i_533_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    63.718 r  flow_u_reg[15]_i_454/CO[3]
+                         net (fo=1, unplaced)         0.000    63.718    flow_u_reg[15]_i_454_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    63.835 r  flow_u_reg[15]_i_381/CO[3]
+                         net (fo=1, unplaced)         0.000    63.835    flow_u_reg[15]_i_381_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    63.952 r  flow_u_reg[15]_i_317/CO[3]
+                         net (fo=1, unplaced)         0.000    63.952    flow_u_reg[15]_i_317_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    64.069 r  flow_u_reg[15]_i_281/CO[3]
+                         net (fo=1, unplaced)         0.000    64.069    flow_u_reg[15]_i_281_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    64.186 r  flow_u_reg[15]_i_276/CO[3]
+                         net (fo=1, unplaced)         0.000    64.186    flow_u_reg[15]_i_276_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    64.303 r  flow_u_reg[15]_i_271/CO[3]
+                         net (fo=1, unplaced)         0.000    64.303    flow_u_reg[15]_i_271_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    64.420 r  flow_u_reg[15]_i_266/CO[3]
+                         net (fo=1, unplaced)         0.000    64.420    flow_u_reg[15]_i_266_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    64.537 r  flow_u_reg[15]_i_261/CO[3]
+                         net (fo=1, unplaced)         0.000    64.537    flow_u_reg[15]_i_261_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    64.654 r  flow_u_reg[15]_i_260/CO[3]
+                         net (fo=1, unplaced)         0.000    64.654    flow_u_reg[15]_i_260_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    64.935 r  flow_u_reg[15]_i_220/CO[0]
+                         net (fo=42, unplaced)        0.389    65.324    flow_u_reg[15]_i_220_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    65.691 r  flow_u[15]_i_620/O
+                         net (fo=1, unplaced)         0.000    65.691    flow_u[15]_i_620_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    66.224 r  flow_u_reg[15]_i_528/CO[3]
+                         net (fo=1, unplaced)         0.000    66.224    flow_u_reg[15]_i_528_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    66.341 r  flow_u_reg[15]_i_449/CO[3]
+                         net (fo=1, unplaced)         0.000    66.341    flow_u_reg[15]_i_449_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    66.458 r  flow_u_reg[15]_i_376/CO[3]
+                         net (fo=1, unplaced)         0.000    66.458    flow_u_reg[15]_i_376_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    66.575 r  flow_u_reg[15]_i_312/CO[3]
+                         net (fo=1, unplaced)         0.000    66.575    flow_u_reg[15]_i_312_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    66.692 r  flow_u_reg[15]_i_255/CO[3]
+                         net (fo=1, unplaced)         0.000    66.692    flow_u_reg[15]_i_255_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    66.809 r  flow_u_reg[15]_i_215/CO[3]
+                         net (fo=1, unplaced)         0.000    66.809    flow_u_reg[15]_i_215_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    66.926 r  flow_u_reg[15]_i_210/CO[3]
+                         net (fo=1, unplaced)         0.000    66.926    flow_u_reg[15]_i_210_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    67.043 r  flow_u_reg[15]_i_205/CO[3]
+                         net (fo=1, unplaced)         0.000    67.043    flow_u_reg[15]_i_205_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    67.160 r  flow_u_reg[15]_i_200/CO[3]
+                         net (fo=1, unplaced)         0.000    67.160    flow_u_reg[15]_i_200_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    67.277 r  flow_u_reg[15]_i_199/CO[3]
+                         net (fo=1, unplaced)         0.000    67.277    flow_u_reg[15]_i_199_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    67.558 r  flow_u_reg[15]_i_157/CO[0]
+                         net (fo=42, unplaced)        0.389    67.947    flow_u_reg[15]_i_157_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    68.314 r  flow_u[15]_i_616/O
+                         net (fo=1, unplaced)         0.000    68.314    flow_u[15]_i_616_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    68.847 r  flow_u_reg[15]_i_523/CO[3]
+                         net (fo=1, unplaced)         0.000    68.847    flow_u_reg[15]_i_523_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    68.964 r  flow_u_reg[15]_i_444/CO[3]
+                         net (fo=1, unplaced)         0.000    68.964    flow_u_reg[15]_i_444_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    69.081 r  flow_u_reg[15]_i_371/CO[3]
+                         net (fo=1, unplaced)         0.000    69.081    flow_u_reg[15]_i_371_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    69.198 r  flow_u_reg[15]_i_307/CO[3]
+                         net (fo=1, unplaced)         0.000    69.198    flow_u_reg[15]_i_307_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    69.315 r  flow_u_reg[15]_i_250/CO[3]
+                         net (fo=1, unplaced)         0.000    69.315    flow_u_reg[15]_i_250_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    69.432 r  flow_u_reg[15]_i_194/CO[3]
+                         net (fo=1, unplaced)         0.000    69.432    flow_u_reg[15]_i_194_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    69.549 r  flow_u_reg[15]_i_152/CO[3]
+                         net (fo=1, unplaced)         0.000    69.549    flow_u_reg[15]_i_152_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    69.666 r  flow_u_reg[15]_i_147/CO[3]
+                         net (fo=1, unplaced)         0.000    69.666    flow_u_reg[15]_i_147_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    69.783 r  flow_u_reg[15]_i_142/CO[3]
+                         net (fo=1, unplaced)         0.000    69.783    flow_u_reg[15]_i_142_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    69.900 r  flow_u_reg[15]_i_141/CO[3]
+                         net (fo=1, unplaced)         0.000    69.900    flow_u_reg[15]_i_141_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    70.181 r  flow_u_reg[15]_i_99/CO[0]
+                         net (fo=42, unplaced)        0.389    70.570    flow_u_reg[15]_i_99_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    70.937 r  flow_u[15]_i_612/O
+                         net (fo=1, unplaced)         0.000    70.937    flow_u[15]_i_612_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    71.470 r  flow_u_reg[15]_i_518/CO[3]
+                         net (fo=1, unplaced)         0.000    71.470    flow_u_reg[15]_i_518_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    71.587 r  flow_u_reg[15]_i_439/CO[3]
+                         net (fo=1, unplaced)         0.000    71.587    flow_u_reg[15]_i_439_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    71.704 r  flow_u_reg[15]_i_366/CO[3]
+                         net (fo=1, unplaced)         0.000    71.704    flow_u_reg[15]_i_366_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    71.821 r  flow_u_reg[15]_i_302/CO[3]
+                         net (fo=1, unplaced)         0.000    71.821    flow_u_reg[15]_i_302_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    71.938 r  flow_u_reg[15]_i_245/CO[3]
+                         net (fo=1, unplaced)         0.000    71.938    flow_u_reg[15]_i_245_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    72.055 r  flow_u_reg[15]_i_189/CO[3]
+                         net (fo=1, unplaced)         0.000    72.055    flow_u_reg[15]_i_189_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    72.172 r  flow_u_reg[15]_i_136/CO[3]
+                         net (fo=1, unplaced)         0.000    72.172    flow_u_reg[15]_i_136_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    72.289 r  flow_u_reg[15]_i_94/CO[3]
+                         net (fo=1, unplaced)         0.000    72.289    flow_u_reg[15]_i_94_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    72.406 r  flow_u_reg[15]_i_89/CO[3]
+                         net (fo=1, unplaced)         0.000    72.406    flow_u_reg[15]_i_89_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    72.523 r  flow_u_reg[15]_i_88/CO[3]
+                         net (fo=1, unplaced)         0.000    72.523    flow_u_reg[15]_i_88_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    72.804 r  flow_u_reg[15]_i_58/CO[0]
+                         net (fo=42, unplaced)        0.389    73.193    flow_u_reg[15]_i_58_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    73.560 r  flow_u[15]_i_608/O
+                         net (fo=1, unplaced)         0.000    73.560    flow_u[15]_i_608_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    74.093 r  flow_u_reg[15]_i_513/CO[3]
+                         net (fo=1, unplaced)         0.000    74.093    flow_u_reg[15]_i_513_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    74.210 r  flow_u_reg[15]_i_434/CO[3]
+                         net (fo=1, unplaced)         0.000    74.210    flow_u_reg[15]_i_434_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    74.327 r  flow_u_reg[15]_i_361/CO[3]
+                         net (fo=1, unplaced)         0.000    74.327    flow_u_reg[15]_i_361_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    74.444 r  flow_u_reg[15]_i_297/CO[3]
+                         net (fo=1, unplaced)         0.000    74.444    flow_u_reg[15]_i_297_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    74.561 r  flow_u_reg[15]_i_240/CO[3]
+                         net (fo=1, unplaced)         0.000    74.561    flow_u_reg[15]_i_240_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    74.678 r  flow_u_reg[15]_i_184/CO[3]
+                         net (fo=1, unplaced)         0.000    74.678    flow_u_reg[15]_i_184_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    74.795 r  flow_u_reg[15]_i_131/CO[3]
+                         net (fo=1, unplaced)         0.000    74.795    flow_u_reg[15]_i_131_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    74.912 r  flow_u_reg[15]_i_83/CO[3]
+                         net (fo=1, unplaced)         0.000    74.912    flow_u_reg[15]_i_83_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    75.029 r  flow_u_reg[15]_i_53/CO[3]
+                         net (fo=1, unplaced)         0.000    75.029    flow_u_reg[15]_i_53_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    75.146 r  flow_u_reg[15]_i_52/CO[3]
+                         net (fo=1, unplaced)         0.000    75.146    flow_u_reg[15]_i_52_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    75.427 r  flow_u_reg[15]_i_29/CO[0]
+                         net (fo=42, unplaced)        0.389    75.816    flow_u_reg[15]_i_29_n_3
+                         LUT5 (Prop_lut5_I1_O)        0.367    76.183 r  flow_u[15]_i_604/O
+                         net (fo=1, unplaced)         0.000    76.183    flow_u[15]_i_604_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    76.716 r  flow_u_reg[15]_i_512/CO[3]
+                         net (fo=1, unplaced)         0.000    76.716    flow_u_reg[15]_i_512_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    76.833 r  flow_u_reg[15]_i_433/CO[3]
+                         net (fo=1, unplaced)         0.000    76.833    flow_u_reg[15]_i_433_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    76.950 r  flow_u_reg[15]_i_360/CO[3]
+                         net (fo=1, unplaced)         0.000    76.950    flow_u_reg[15]_i_360_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    77.067 r  flow_u_reg[15]_i_296/CO[3]
+                         net (fo=1, unplaced)         0.000    77.067    flow_u_reg[15]_i_296_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    77.184 r  flow_u_reg[15]_i_239/CO[3]
+                         net (fo=1, unplaced)         0.000    77.184    flow_u_reg[15]_i_239_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    77.301 r  flow_u_reg[15]_i_183/CO[3]
+                         net (fo=1, unplaced)         0.000    77.301    flow_u_reg[15]_i_183_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    77.418 r  flow_u_reg[15]_i_130/CO[3]
+                         net (fo=1, unplaced)         0.000    77.418    flow_u_reg[15]_i_130_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    77.535 r  flow_u_reg[15]_i_82/CO[3]
+                         net (fo=1, unplaced)         0.000    77.535    flow_u_reg[15]_i_82_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    77.652 r  flow_u_reg[15]_i_51/CO[3]
+                         net (fo=1, unplaced)         0.000    77.652    flow_u_reg[15]_i_51_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    77.769 r  flow_u_reg[15]_i_28/CO[3]
+                         net (fo=1, unplaced)         0.000    77.769    flow_u_reg[15]_i_28_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    78.050 r  flow_u_reg[15]_i_7/CO[0]
+                         net (fo=48, unplaced)        0.392    78.442    flow_u_comb30_in[15]
+                         LUT5 (Prop_lut5_I1_O)        0.367    78.809 r  flow_u[14]_i_53/O
+                         net (fo=1, unplaced)         0.000    78.809    flow_u[14]_i_53_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    79.342 r  flow_u_reg[14]_i_45/CO[3]
+                         net (fo=1, unplaced)         0.000    79.342    flow_u_reg[14]_i_45_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    79.459 r  flow_u_reg[14]_i_40/CO[3]
+                         net (fo=1, unplaced)         0.000    79.459    flow_u_reg[14]_i_40_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    79.576 r  flow_u_reg[14]_i_35/CO[3]
+                         net (fo=1, unplaced)         0.000    79.576    flow_u_reg[14]_i_35_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    79.693 r  flow_u_reg[14]_i_30/CO[3]
+                         net (fo=1, unplaced)         0.000    79.693    flow_u_reg[14]_i_30_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    79.810 r  flow_u_reg[14]_i_25/CO[3]
+                         net (fo=1, unplaced)         0.000    79.810    flow_u_reg[14]_i_25_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    79.927 r  flow_u_reg[14]_i_20/CO[3]
+                         net (fo=1, unplaced)         0.000    79.927    flow_u_reg[14]_i_20_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    80.044 r  flow_u_reg[14]_i_15/CO[3]
+                         net (fo=1, unplaced)         0.000    80.044    flow_u_reg[14]_i_15_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    80.161 r  flow_u_reg[14]_i_10/CO[3]
+                         net (fo=1, unplaced)         0.000    80.161    flow_u_reg[14]_i_10_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    80.278 r  flow_u_reg[14]_i_5/CO[3]
+                         net (fo=1, unplaced)         0.000    80.278    flow_u_reg[14]_i_5_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    80.395 r  flow_u_reg[14]_i_3/CO[3]
+                         net (fo=1, unplaced)         0.000    80.395    flow_u_reg[14]_i_3_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    80.676 r  flow_u_reg[14]_i_2/CO[0]
+                         net (fo=48, unplaced)        0.392    81.068    flow_u_comb30_in[14]
+                         LUT5 (Prop_lut5_I1_O)        0.367    81.435 r  flow_u[13]_i_53/O
+                         net (fo=1, unplaced)         0.000    81.435    flow_u[13]_i_53_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    81.968 r  flow_u_reg[13]_i_45/CO[3]
+                         net (fo=1, unplaced)         0.000    81.968    flow_u_reg[13]_i_45_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    82.085 r  flow_u_reg[13]_i_40/CO[3]
+                         net (fo=1, unplaced)         0.000    82.085    flow_u_reg[13]_i_40_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    82.202 r  flow_u_reg[13]_i_35/CO[3]
+                         net (fo=1, unplaced)         0.000    82.202    flow_u_reg[13]_i_35_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    82.319 r  flow_u_reg[13]_i_30/CO[3]
+                         net (fo=1, unplaced)         0.000    82.319    flow_u_reg[13]_i_30_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    82.436 r  flow_u_reg[13]_i_25/CO[3]
+                         net (fo=1, unplaced)         0.000    82.436    flow_u_reg[13]_i_25_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    82.553 r  flow_u_reg[13]_i_20/CO[3]
+                         net (fo=1, unplaced)         0.000    82.553    flow_u_reg[13]_i_20_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    82.670 r  flow_u_reg[13]_i_15/CO[3]
+                         net (fo=1, unplaced)         0.000    82.670    flow_u_reg[13]_i_15_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    82.787 r  flow_u_reg[13]_i_10/CO[3]
+                         net (fo=1, unplaced)         0.000    82.787    flow_u_reg[13]_i_10_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    82.904 r  flow_u_reg[13]_i_5/CO[3]
+                         net (fo=1, unplaced)         0.000    82.904    flow_u_reg[13]_i_5_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    83.021 r  flow_u_reg[13]_i_3/CO[3]
+                         net (fo=1, unplaced)         0.000    83.021    flow_u_reg[13]_i_3_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    83.302 r  flow_u_reg[13]_i_2/CO[0]
+                         net (fo=48, unplaced)        0.392    83.694    flow_u_comb30_in[13]
+                         LUT5 (Prop_lut5_I1_O)        0.367    84.061 r  flow_u[12]_i_58/O
+                         net (fo=1, unplaced)         0.000    84.061    flow_u[12]_i_58_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    84.594 r  flow_u_reg[12]_i_50/CO[3]
+                         net (fo=1, unplaced)         0.000    84.594    flow_u_reg[12]_i_50_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    84.711 r  flow_u_reg[12]_i_45/CO[3]
+                         net (fo=1, unplaced)         0.000    84.711    flow_u_reg[12]_i_45_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    84.828 r  flow_u_reg[12]_i_40/CO[3]
+                         net (fo=1, unplaced)         0.000    84.828    flow_u_reg[12]_i_40_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    84.945 r  flow_u_reg[12]_i_35/CO[3]
+                         net (fo=1, unplaced)         0.000    84.945    flow_u_reg[12]_i_35_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    85.062 r  flow_u_reg[12]_i_30/CO[3]
+                         net (fo=1, unplaced)         0.000    85.062    flow_u_reg[12]_i_30_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    85.179 r  flow_u_reg[12]_i_25/CO[3]
+                         net (fo=1, unplaced)         0.000    85.179    flow_u_reg[12]_i_25_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    85.296 r  flow_u_reg[12]_i_20/CO[3]
+                         net (fo=1, unplaced)         0.000    85.296    flow_u_reg[12]_i_20_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    85.413 r  flow_u_reg[12]_i_15/CO[3]
+                         net (fo=1, unplaced)         0.000    85.413    flow_u_reg[12]_i_15_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    85.530 r  flow_u_reg[12]_i_10/CO[3]
+                         net (fo=1, unplaced)         0.000    85.530    flow_u_reg[12]_i_10_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    85.647 r  flow_u_reg[12]_i_8/CO[3]
+                         net (fo=1, unplaced)         0.000    85.647    flow_u_reg[12]_i_8_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    85.928 r  flow_u_reg[12]_i_3/CO[0]
+                         net (fo=48, unplaced)        0.392    86.320    flow_u_comb30_in[12]
+                         LUT5 (Prop_lut5_I1_O)        0.367    86.687 r  flow_u[11]_i_53/O
+                         net (fo=1, unplaced)         0.000    86.687    flow_u[11]_i_53_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    87.220 r  flow_u_reg[11]_i_45/CO[3]
+                         net (fo=1, unplaced)         0.000    87.220    flow_u_reg[11]_i_45_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    87.337 r  flow_u_reg[11]_i_40/CO[3]
+                         net (fo=1, unplaced)         0.000    87.337    flow_u_reg[11]_i_40_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    87.454 r  flow_u_reg[11]_i_35/CO[3]
+                         net (fo=1, unplaced)         0.000    87.454    flow_u_reg[11]_i_35_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    87.571 r  flow_u_reg[11]_i_30/CO[3]
+                         net (fo=1, unplaced)         0.000    87.571    flow_u_reg[11]_i_30_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    87.688 r  flow_u_reg[11]_i_25/CO[3]
+                         net (fo=1, unplaced)         0.000    87.688    flow_u_reg[11]_i_25_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    87.805 r  flow_u_reg[11]_i_20/CO[3]
+                         net (fo=1, unplaced)         0.000    87.805    flow_u_reg[11]_i_20_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    87.922 r  flow_u_reg[11]_i_15/CO[3]
+                         net (fo=1, unplaced)         0.000    87.922    flow_u_reg[11]_i_15_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    88.039 r  flow_u_reg[11]_i_10/CO[3]
+                         net (fo=1, unplaced)         0.000    88.039    flow_u_reg[11]_i_10_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    88.156 r  flow_u_reg[11]_i_5/CO[3]
+                         net (fo=1, unplaced)         0.000    88.156    flow_u_reg[11]_i_5_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    88.272 r  flow_u_reg[11]_i_3/CO[3]
+                         net (fo=1, unplaced)         0.000    88.272    flow_u_reg[11]_i_3_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    88.553 r  flow_u_reg[11]_i_2/CO[0]
+                         net (fo=48, unplaced)        0.392    88.945    flow_u_comb30_in[11]
+                         LUT5 (Prop_lut5_I1_O)        0.367    89.312 r  flow_u[10]_i_53/O
+                         net (fo=1, unplaced)         0.000    89.312    flow_u[10]_i_53_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    89.845 r  flow_u_reg[10]_i_45/CO[3]
+                         net (fo=1, unplaced)         0.000    89.845    flow_u_reg[10]_i_45_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    89.962 r  flow_u_reg[10]_i_40/CO[3]
+                         net (fo=1, unplaced)         0.000    89.962    flow_u_reg[10]_i_40_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    90.079 r  flow_u_reg[10]_i_35/CO[3]
+                         net (fo=1, unplaced)         0.000    90.079    flow_u_reg[10]_i_35_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    90.196 r  flow_u_reg[10]_i_30/CO[3]
+                         net (fo=1, unplaced)         0.000    90.196    flow_u_reg[10]_i_30_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    90.313 r  flow_u_reg[10]_i_25/CO[3]
+                         net (fo=1, unplaced)         0.000    90.313    flow_u_reg[10]_i_25_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    90.430 r  flow_u_reg[10]_i_20/CO[3]
+                         net (fo=1, unplaced)         0.000    90.430    flow_u_reg[10]_i_20_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    90.547 r  flow_u_reg[10]_i_15/CO[3]
+                         net (fo=1, unplaced)         0.000    90.547    flow_u_reg[10]_i_15_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    90.664 r  flow_u_reg[10]_i_10/CO[3]
+                         net (fo=1, unplaced)         0.000    90.664    flow_u_reg[10]_i_10_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    90.781 r  flow_u_reg[10]_i_5/CO[3]
+                         net (fo=1, unplaced)         0.000    90.781    flow_u_reg[10]_i_5_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    90.898 r  flow_u_reg[10]_i_3/CO[3]
+                         net (fo=1, unplaced)         0.000    90.898    flow_u_reg[10]_i_3_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    91.179 r  flow_u_reg[10]_i_2/CO[0]
+                         net (fo=47, unplaced)        0.392    91.571    flow_u_comb30_in[10]
+                         LUT5 (Prop_lut5_I1_O)        0.367    91.938 r  flow_u[9]_i_53/O
+                         net (fo=1, unplaced)         0.000    91.938    flow_u[9]_i_53_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    92.471 r  flow_u_reg[9]_i_45/CO[3]
+                         net (fo=1, unplaced)         0.000    92.471    flow_u_reg[9]_i_45_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    92.588 r  flow_u_reg[9]_i_40/CO[3]
+                         net (fo=1, unplaced)         0.000    92.588    flow_u_reg[9]_i_40_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    92.705 r  flow_u_reg[9]_i_35/CO[3]
+                         net (fo=1, unplaced)         0.000    92.705    flow_u_reg[9]_i_35_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    92.822 r  flow_u_reg[9]_i_30/CO[3]
+                         net (fo=1, unplaced)         0.000    92.822    flow_u_reg[9]_i_30_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    92.939 r  flow_u_reg[9]_i_25/CO[3]
+                         net (fo=1, unplaced)         0.000    92.939    flow_u_reg[9]_i_25_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    93.056 r  flow_u_reg[9]_i_20/CO[3]
+                         net (fo=1, unplaced)         0.000    93.056    flow_u_reg[9]_i_20_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    93.173 r  flow_u_reg[9]_i_15/CO[3]
+                         net (fo=1, unplaced)         0.000    93.173    flow_u_reg[9]_i_15_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    93.290 r  flow_u_reg[9]_i_10/CO[3]
+                         net (fo=1, unplaced)         0.000    93.290    flow_u_reg[9]_i_10_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    93.407 r  flow_u_reg[9]_i_5/CO[3]
+                         net (fo=1, unplaced)         0.000    93.407    flow_u_reg[9]_i_5_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    93.524 r  flow_u_reg[9]_i_3/CO[3]
+                         net (fo=1, unplaced)         0.000    93.524    flow_u_reg[9]_i_3_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    93.805 r  flow_u_reg[9]_i_2/CO[0]
+                         net (fo=46, unplaced)        0.391    94.196    flow_u_comb30_in[9]
+                         LUT5 (Prop_lut5_I1_O)        0.367    94.563 r  flow_u[8]_i_58/O
+                         net (fo=1, unplaced)         0.000    94.563    flow_u[8]_i_58_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    95.096 r  flow_u_reg[8]_i_50/CO[3]
+                         net (fo=1, unplaced)         0.000    95.096    flow_u_reg[8]_i_50_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    95.213 r  flow_u_reg[8]_i_45/CO[3]
+                         net (fo=1, unplaced)         0.000    95.213    flow_u_reg[8]_i_45_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    95.330 r  flow_u_reg[8]_i_40/CO[3]
+                         net (fo=1, unplaced)         0.000    95.330    flow_u_reg[8]_i_40_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    95.447 r  flow_u_reg[8]_i_35/CO[3]
+                         net (fo=1, unplaced)         0.000    95.447    flow_u_reg[8]_i_35_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    95.564 r  flow_u_reg[8]_i_30/CO[3]
+                         net (fo=1, unplaced)         0.000    95.564    flow_u_reg[8]_i_30_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    95.681 r  flow_u_reg[8]_i_25/CO[3]
+                         net (fo=1, unplaced)         0.000    95.681    flow_u_reg[8]_i_25_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    95.798 r  flow_u_reg[8]_i_20/CO[3]
+                         net (fo=1, unplaced)         0.000    95.798    flow_u_reg[8]_i_20_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    95.915 r  flow_u_reg[8]_i_15/CO[3]
+                         net (fo=1, unplaced)         0.000    95.915    flow_u_reg[8]_i_15_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    96.032 r  flow_u_reg[8]_i_10/CO[3]
+                         net (fo=1, unplaced)         0.000    96.032    flow_u_reg[8]_i_10_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    96.149 r  flow_u_reg[8]_i_8/CO[3]
+                         net (fo=1, unplaced)         0.000    96.149    flow_u_reg[8]_i_8_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    96.430 r  flow_u_reg[8]_i_3/CO[0]
+                         net (fo=46, unplaced)        0.391    96.821    flow_u_comb30_in[8]
+                         LUT5 (Prop_lut5_I1_O)        0.367    97.188 r  flow_u[7]_i_53/O
+                         net (fo=1, unplaced)         0.000    97.188    flow_u[7]_i_53_n_0
+                         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533    97.721 r  flow_u_reg[7]_i_45/CO[3]
+                         net (fo=1, unplaced)         0.000    97.721    flow_u_reg[7]_i_45_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    97.838 r  flow_u_reg[7]_i_40/CO[3]
+                         net (fo=1, unplaced)         0.000    97.838    flow_u_reg[7]_i_40_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    97.955 r  flow_u_reg[7]_i_35/CO[3]
+                         net (fo=1, unplaced)         0.000    97.955    flow_u_reg[7]_i_35_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    98.072 r  flow_u_reg[7]_i_30/CO[3]
+                         net (fo=1, unplaced)         0.000    98.072    flow_u_reg[7]_i_30_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    98.189 r  flow_u_reg[7]_i_25/CO[3]
+                         net (fo=1, unplaced)         0.000    98.189    flow_u_reg[7]_i_25_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    98.306 r  flow_u_reg[7]_i_20/CO[3]
+                         net (fo=1, unplaced)         0.000    98.306    flow_u_reg[7]_i_20_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    98.423 r  flow_u_reg[7]_i_15/CO[3]
+                         net (fo=1, unplaced)         0.000    98.423    flow_u_reg[7]_i_15_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    98.540 r  flow_u_reg[7]_i_10/CO[3]
+                         net (fo=1, unplaced)         0.000    98.540    flow_u_reg[7]_i_10_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    98.657 r  flow_u_reg[7]_i_5/CO[3]
+                         net (fo=1, unplaced)         0.000    98.657    flow_u_reg[7]_i_5_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117    98.774 r  flow_u_reg[7]_i_3/CO[3]
+                         net (fo=1, unplaced)         0.000    98.774    flow_u_reg[7]_i_3_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281    99.055 r  flow_u_reg[7]_i_2/CO[0]
+                         net (fo=47, unplaced)        0.392    99.447    flow_u_comb30_in[7]
+                         LUT2 (Prop_lut2_I1_O)        0.360    99.807 r  flow_u[6]_i_50/O
+                         net (fo=1, unplaced)         0.000    99.807    flow_u[6]_i_50_n_0
+                         CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.547   100.354 r  flow_u_reg[6]_i_45/CO[3]
+                         net (fo=1, unplaced)         0.000   100.354    flow_u_reg[6]_i_45_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   100.471 r  flow_u_reg[6]_i_40/CO[3]
+                         net (fo=1, unplaced)         0.000   100.471    flow_u_reg[6]_i_40_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   100.588 r  flow_u_reg[6]_i_35/CO[3]
+                         net (fo=1, unplaced)         0.000   100.588    flow_u_reg[6]_i_35_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   100.705 r  flow_u_reg[6]_i_30/CO[3]
+                         net (fo=1, unplaced)         0.000   100.705    flow_u_reg[6]_i_30_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   100.822 r  flow_u_reg[6]_i_25/CO[3]
+                         net (fo=1, unplaced)         0.000   100.822    flow_u_reg[6]_i_25_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   100.939 r  flow_u_reg[6]_i_20/CO[3]
+                         net (fo=1, unplaced)         0.000   100.939    flow_u_reg[6]_i_20_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   101.056 r  flow_u_reg[6]_i_15/CO[3]
+                         net (fo=1, unplaced)         0.000   101.056    flow_u_reg[6]_i_15_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   101.173 r  flow_u_reg[6]_i_10/CO[3]
+                         net (fo=1, unplaced)         0.000   101.173    flow_u_reg[6]_i_10_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   101.290 r  flow_u_reg[6]_i_5/CO[3]
+                         net (fo=1, unplaced)         0.000   101.290    flow_u_reg[6]_i_5_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   101.407 r  flow_u_reg[6]_i_3/CO[3]
+                         net (fo=1, unplaced)         0.000   101.407    flow_u_reg[6]_i_3_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281   101.688 r  flow_u_reg[6]_i_2/CO[0]
+                         net (fo=47, unplaced)        0.392   102.080    flow_u_comb30_in[6]
+                         LUT2 (Prop_lut2_I1_O)        0.360   102.440 r  flow_u[5]_i_50/O
+                         net (fo=1, unplaced)         0.000   102.440    flow_u[5]_i_50_n_0
+                         CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.547   102.987 r  flow_u_reg[5]_i_45/CO[3]
+                         net (fo=1, unplaced)         0.000   102.987    flow_u_reg[5]_i_45_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   103.104 r  flow_u_reg[5]_i_40/CO[3]
+                         net (fo=1, unplaced)         0.000   103.104    flow_u_reg[5]_i_40_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   103.221 r  flow_u_reg[5]_i_35/CO[3]
+                         net (fo=1, unplaced)         0.000   103.221    flow_u_reg[5]_i_35_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   103.338 r  flow_u_reg[5]_i_30/CO[3]
+                         net (fo=1, unplaced)         0.000   103.338    flow_u_reg[5]_i_30_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   103.455 r  flow_u_reg[5]_i_25/CO[3]
+                         net (fo=1, unplaced)         0.000   103.455    flow_u_reg[5]_i_25_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   103.572 r  flow_u_reg[5]_i_20/CO[3]
+                         net (fo=1, unplaced)         0.000   103.572    flow_u_reg[5]_i_20_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   103.689 r  flow_u_reg[5]_i_15/CO[3]
+                         net (fo=1, unplaced)         0.000   103.689    flow_u_reg[5]_i_15_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   103.806 r  flow_u_reg[5]_i_10/CO[3]
+                         net (fo=1, unplaced)         0.000   103.806    flow_u_reg[5]_i_10_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   103.923 r  flow_u_reg[5]_i_5/CO[3]
+                         net (fo=1, unplaced)         0.000   103.923    flow_u_reg[5]_i_5_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   104.040 r  flow_u_reg[5]_i_3/CO[3]
+                         net (fo=1, unplaced)         0.000   104.040    flow_u_reg[5]_i_3_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281   104.321 r  flow_u_reg[5]_i_2/CO[0]
+                         net (fo=47, unplaced)        0.392   104.713    flow_u_comb30_in[5]
+                         LUT2 (Prop_lut2_I1_O)        0.360   105.073 r  flow_u[4]_i_56/O
+                         net (fo=1, unplaced)         0.000   105.073    flow_u[4]_i_56_n_0
+                         CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.547   105.620 r  flow_u_reg[4]_i_51/CO[3]
+                         net (fo=1, unplaced)         0.000   105.620    flow_u_reg[4]_i_51_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   105.737 r  flow_u_reg[4]_i_46/CO[3]
+                         net (fo=1, unplaced)         0.000   105.737    flow_u_reg[4]_i_46_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   105.854 r  flow_u_reg[4]_i_41/CO[3]
+                         net (fo=1, unplaced)         0.000   105.854    flow_u_reg[4]_i_41_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   105.971 r  flow_u_reg[4]_i_36/CO[3]
+                         net (fo=1, unplaced)         0.000   105.971    flow_u_reg[4]_i_36_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   106.088 r  flow_u_reg[4]_i_31/CO[3]
+                         net (fo=1, unplaced)         0.000   106.088    flow_u_reg[4]_i_31_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   106.205 r  flow_u_reg[4]_i_26/CO[3]
+                         net (fo=1, unplaced)         0.000   106.205    flow_u_reg[4]_i_26_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   106.322 r  flow_u_reg[4]_i_21/CO[3]
+                         net (fo=1, unplaced)         0.000   106.322    flow_u_reg[4]_i_21_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   106.439 r  flow_u_reg[4]_i_16/CO[3]
+                         net (fo=1, unplaced)         0.000   106.439    flow_u_reg[4]_i_16_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   106.556 r  flow_u_reg[4]_i_11/CO[3]
+                         net (fo=1, unplaced)         0.000   106.556    flow_u_reg[4]_i_11_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   106.673 r  flow_u_reg[4]_i_9/CO[3]
+                         net (fo=1, unplaced)         0.000   106.673    flow_u_reg[4]_i_9_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281   106.954 r  flow_u_reg[4]_i_3/CO[0]
+                         net (fo=47, unplaced)        0.392   107.346    flow_u_comb30_in[4]
+                         LUT2 (Prop_lut2_I1_O)        0.360   107.706 r  flow_u[3]_i_50/O
+                         net (fo=1, unplaced)         0.000   107.706    flow_u[3]_i_50_n_0
+                         CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.547   108.253 r  flow_u_reg[3]_i_45/CO[3]
+                         net (fo=1, unplaced)         0.000   108.253    flow_u_reg[3]_i_45_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   108.370 r  flow_u_reg[3]_i_40/CO[3]
+                         net (fo=1, unplaced)         0.000   108.370    flow_u_reg[3]_i_40_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   108.487 r  flow_u_reg[3]_i_35/CO[3]
+                         net (fo=1, unplaced)         0.000   108.487    flow_u_reg[3]_i_35_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   108.604 r  flow_u_reg[3]_i_30/CO[3]
+                         net (fo=1, unplaced)         0.000   108.604    flow_u_reg[3]_i_30_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   108.721 r  flow_u_reg[3]_i_25/CO[3]
+                         net (fo=1, unplaced)         0.000   108.721    flow_u_reg[3]_i_25_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   108.838 r  flow_u_reg[3]_i_20/CO[3]
+                         net (fo=1, unplaced)         0.000   108.838    flow_u_reg[3]_i_20_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   108.955 r  flow_u_reg[3]_i_15/CO[3]
+                         net (fo=1, unplaced)         0.000   108.955    flow_u_reg[3]_i_15_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   109.072 r  flow_u_reg[3]_i_10/CO[3]
+                         net (fo=1, unplaced)         0.000   109.072    flow_u_reg[3]_i_10_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   109.189 r  flow_u_reg[3]_i_5/CO[3]
+                         net (fo=1, unplaced)         0.000   109.189    flow_u_reg[3]_i_5_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   109.306 r  flow_u_reg[3]_i_3/CO[3]
+                         net (fo=1, unplaced)         0.000   109.306    flow_u_reg[3]_i_3_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281   109.587 r  flow_u_reg[3]_i_2/CO[0]
+                         net (fo=47, unplaced)        0.392   109.979    flow_u_comb30_in[3]
+                         LUT2 (Prop_lut2_I1_O)        0.360   110.339 r  flow_u[2]_i_50/O
+                         net (fo=1, unplaced)         0.000   110.339    flow_u[2]_i_50_n_0
+                         CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.547   110.886 r  flow_u_reg[2]_i_45/CO[3]
+                         net (fo=1, unplaced)         0.000   110.886    flow_u_reg[2]_i_45_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   111.003 r  flow_u_reg[2]_i_40/CO[3]
+                         net (fo=1, unplaced)         0.000   111.003    flow_u_reg[2]_i_40_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   111.120 r  flow_u_reg[2]_i_35/CO[3]
+                         net (fo=1, unplaced)         0.000   111.120    flow_u_reg[2]_i_35_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   111.237 r  flow_u_reg[2]_i_30/CO[3]
+                         net (fo=1, unplaced)         0.000   111.237    flow_u_reg[2]_i_30_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   111.354 r  flow_u_reg[2]_i_25/CO[3]
+                         net (fo=1, unplaced)         0.000   111.354    flow_u_reg[2]_i_25_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   111.471 r  flow_u_reg[2]_i_20/CO[3]
+                         net (fo=1, unplaced)         0.000   111.471    flow_u_reg[2]_i_20_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   111.588 r  flow_u_reg[2]_i_15/CO[3]
+                         net (fo=1, unplaced)         0.000   111.588    flow_u_reg[2]_i_15_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   111.705 r  flow_u_reg[2]_i_10/CO[3]
+                         net (fo=1, unplaced)         0.000   111.705    flow_u_reg[2]_i_10_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   111.822 r  flow_u_reg[2]_i_5/CO[3]
+                         net (fo=1, unplaced)         0.000   111.822    flow_u_reg[2]_i_5_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   111.939 r  flow_u_reg[2]_i_3/CO[3]
+                         net (fo=1, unplaced)         0.000   111.939    flow_u_reg[2]_i_3_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281   112.220 r  flow_u_reg[2]_i_2/CO[0]
+                         net (fo=47, unplaced)        0.392   112.612    flow_u_comb30_in[2]
+                         LUT2 (Prop_lut2_I1_O)        0.360   112.972 r  flow_u[1]_i_50/O
+                         net (fo=1, unplaced)         0.000   112.972    flow_u[1]_i_50_n_0
+                         CARRY4 (Prop_carry4_DI[1]_CO[3])
+                                                      0.547   113.519 r  flow_u_reg[1]_i_45/CO[3]
+                         net (fo=1, unplaced)         0.000   113.519    flow_u_reg[1]_i_45_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   113.636 r  flow_u_reg[1]_i_40/CO[3]
+                         net (fo=1, unplaced)         0.000   113.636    flow_u_reg[1]_i_40_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   113.753 r  flow_u_reg[1]_i_35/CO[3]
+                         net (fo=1, unplaced)         0.000   113.753    flow_u_reg[1]_i_35_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   113.870 r  flow_u_reg[1]_i_30/CO[3]
+                         net (fo=1, unplaced)         0.000   113.870    flow_u_reg[1]_i_30_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   113.987 r  flow_u_reg[1]_i_25/CO[3]
+                         net (fo=1, unplaced)         0.000   113.987    flow_u_reg[1]_i_25_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   114.104 r  flow_u_reg[1]_i_20/CO[3]
+                         net (fo=1, unplaced)         0.000   114.104    flow_u_reg[1]_i_20_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   114.221 r  flow_u_reg[1]_i_15/CO[3]
+                         net (fo=1, unplaced)         0.000   114.221    flow_u_reg[1]_i_15_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   114.338 r  flow_u_reg[1]_i_10/CO[3]
+                         net (fo=1, unplaced)         0.000   114.338    flow_u_reg[1]_i_10_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   114.455 r  flow_u_reg[1]_i_5/CO[3]
+                         net (fo=1, unplaced)         0.000   114.455    flow_u_reg[1]_i_5_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   114.572 r  flow_u_reg[1]_i_3/CO[3]
+                         net (fo=1, unplaced)         0.000   114.572    flow_u_reg[1]_i_3_n_0
+                         CARRY4 (Prop_carry4_CI_CO[0])
+                                                      0.281   114.853 r  flow_u_reg[1]_i_2/CO[0]
+                         net (fo=47, unplaced)        0.392   115.245    u_flow_solver/flow_u_reg[15]_1[0]
+                         LUT2 (Prop_lut2_I1_O)        0.359   115.604 r  u_flow_solver/flow_u[0]_i_182/O
+                         net (fo=1, unplaced)         0.000   115.604    u_flow_solver/flow_u[0]_i_182_n_0
+                         CARRY4 (Prop_carry4_DI[0]_CO[3])
+                                                      0.576   116.180 r  u_flow_solver/flow_u_reg[0]_i_172/CO[3]
+                         net (fo=1, unplaced)         0.000   116.180    u_flow_solver/flow_u_reg[0]_i_172_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   116.297 r  u_flow_solver/flow_u_reg[0]_i_162/CO[3]
+                         net (fo=1, unplaced)         0.000   116.297    u_flow_solver/flow_u_reg[0]_i_162_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   116.414 r  u_flow_solver/flow_u_reg[0]_i_152/CO[3]
+                         net (fo=1, unplaced)         0.000   116.414    u_flow_solver/flow_u_reg[0]_i_152_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   116.531 r  u_flow_solver/flow_u_reg[0]_i_142/CO[3]
+                         net (fo=1, unplaced)         0.000   116.531    u_flow_solver/flow_u_reg[0]_i_142_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   116.648 r  u_flow_solver/flow_u_reg[0]_i_121/CO[3]
+                         net (fo=1, unplaced)         0.000   116.648    u_flow_solver/flow_u_reg[0]_i_121_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   116.765 r  u_flow_solver/flow_u_reg[0]_i_97/CO[3]
+                         net (fo=1, unplaced)         0.000   116.765    u_flow_solver/flow_u_reg[0]_i_97_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   116.882 r  u_flow_solver/flow_u_reg[0]_i_68/CO[3]
+                         net (fo=1, unplaced)         0.000   116.882    u_flow_solver/flow_u_reg[0]_i_68_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   116.999 r  u_flow_solver/flow_u_reg[0]_i_44/CO[3]
+                         net (fo=1, unplaced)         0.000   116.999    u_flow_solver/flow_u_reg[0]_i_44_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   117.116 r  u_flow_solver/flow_u_reg[0]_i_21/CO[3]
+                         net (fo=1, unplaced)         0.000   117.116    u_flow_solver/flow_u_reg[0]_i_21_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   117.233 f  u_flow_solver/flow_u_reg[0]_i_4/CO[3]
+                         net (fo=4, unplaced)         0.772   118.005    u_flow_solver/flow_u_comb30_in[0]
+                         LUT1 (Prop_lut1_I0_O)        0.124   118.129 r  u_flow_solver/flow_u[4]_i_4/O
+                         net (fo=1, unplaced)         0.333   118.462    u_flow_solver/flow_u[4]_i_4_n_0
+                         CARRY4 (Prop_carry4_CYINIT_CO[3])
+                                                      0.595   119.057 r  u_flow_solver/flow_u_reg[4]_i_2/CO[3]
+                         net (fo=1, unplaced)         0.000   119.057    u_flow_solver/flow_u_reg[4]_i_2_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   119.174 r  u_flow_solver/flow_u_reg[8]_i_2/CO[3]
+                         net (fo=1, unplaced)         0.000   119.174    u_flow_solver/flow_u_reg[8]_i_2_n_0
+                         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117   119.291 r  u_flow_solver/flow_u_reg[12]_i_2/CO[3]
+                         net (fo=1, unplaced)         0.000   119.291    u_flow_solver/flow_u_reg[12]_i_2_n_0
+                         CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.337   119.628 r  u_flow_solver/flow_u_reg[15]_i_6/O[1]
+                         net (fo=5, unplaced)         0.639   120.267    u_flow_solver/flow_u_reg[15]_i_6_n_6
+                         LUT6 (Prop_lut6_I2_O)        0.306   120.573 r  u_flow_solver/flow_u[15]_i_9/O
+                         net (fo=1, unplaced)         0.473   121.046    u_flow_solver/flow_u[15]_i_9_n_0
+                         CARRY4 (Prop_carry4_DI[3]_CO[3])
+                                                      0.396   121.442 r  u_flow_solver/flow_u_reg[15]_i_3/CO[3]
+                         net (fo=16, unplaced)        0.802   122.244    u_flow_solver/flow_u_comb10_in
+                         LUT6 (Prop_lut6_I5_O)        0.124   122.368 r  u_flow_solver/flow_u[10]_i_1/O
+                         net (fo=1, unplaced)         0.000   122.368    u_flow_solver/flow_u_comb[10]
+                         FDCE                                         r  u_flow_solver/flow_u_reg[10]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)   10.000    10.000 r
+                                                      0.000    10.000 r  clk (IN)
+                         net (fo=0)                   0.000    10.000    clk
+                         IBUF (Prop_ibuf_I_O)         0.838    10.838 r  clk_IBUF_inst/O
+                         net (fo=1, unplaced)         0.763    11.600    clk_IBUF
+                         BUFG (Prop_bufg_I_O)         0.091    11.691 r  clk_IBUF_BUFG_inst/O
+                         net (fo=134, unplaced)       0.439    12.130    u_flow_solver/clk_IBUF_BUFG
+                         FDCE                                         r  u_flow_solver/flow_u_reg[10]/C
+                         clock pessimism              0.179    12.309
+                         clock uncertainty           -0.035    12.274
+                         FDCE (Setup_fdce_C_D)        0.044    12.318    u_flow_solver/flow_u_reg[10]
+  -------------------------------------------------------------------
+                         required time                         12.318
+                         arrival time                        -122.368
+  -------------------------------------------------------------------
+                         slack                               -110.051
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.137ns  (arrival time - required time)
+  Source:                 u_frame_buffer/frame_done_reg/C
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            done_reg/D
+                            (rising edge-triggered cell FDCE clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             sys_clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.381ns  (logic 0.245ns (64.350%)  route 0.136ns (35.650%))
+  Logic Levels:           1  (LUT2=1)
+  Clock Path Skew:        0.145ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.033ns
+    Source Clock Delay      (SCD):    0.679ns
+    Clock Pessimism Removal (CPR):    0.210ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r
+                                                      0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+                         IBUF (Prop_ibuf_I_O)         0.200     0.200 r  clk_IBUF_inst/O
+                         net (fo=1, unplaced)         0.338     0.539    clk_IBUF
+                         BUFG (Prop_bufg_I_O)         0.026     0.565 r  clk_IBUF_BUFG_inst/O
+                         net (fo=134, unplaced)       0.114     0.679    u_frame_buffer/clk_IBUF_BUFG
+                         FDCE                                         r  u_frame_buffer/frame_done_reg/C
+  -------------------------------------------------------------------    -------------------
+                         FDCE (Prop_fdce_C_Q)         0.147     0.826 r  u_frame_buffer/frame_done_reg/Q
+                         net (fo=2, unplaced)         0.136     0.961    u_frame_buffer/frame_done
+                         LUT2 (Prop_lut2_I1_O)        0.098     1.059 r  u_frame_buffer/done_i_1/O
+                         net (fo=1, unplaced)         0.000     1.059    u_frame_buffer_n_2
+                         FDCE                                         r  done_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r
+                                                      0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+                         IBUF (Prop_ibuf_I_O)         0.389     0.389 r  clk_IBUF_inst/O
+                         net (fo=1, unplaced)         0.356     0.745    clk_IBUF
+                         BUFG (Prop_bufg_I_O)         0.029     0.774 r  clk_IBUF_BUFG_inst/O
+                         net (fo=134, unplaced)       0.259     1.033    clk_IBUF_BUFG
+                         FDCE                                         r  done_reg/C
+                         clock pessimism             -0.210     0.824
+                         FDCE (Hold_fdce_C_D)         0.099     0.923    done_reg
+  -------------------------------------------------------------------
+                         required time                         -0.923
+                         arrival time                           1.059
+  -------------------------------------------------------------------
+                         slack                                  0.137
+
+
+
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         sys_clk
+Waveform(ns):       { 0.000 5.000 }
+Period(ns):         10.000
+Sources:            { clk }
+
+Check Type        Corner  Lib Pin  Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location  Pin
+Min Period        n/a     BUFG/I   n/a            2.155         10.000      7.845                clk_IBUF_BUFG_inst/I
+Low Pulse Width   Slow    FDCE/C   n/a            0.500         5.000       4.500                busy_reg/C
+High Pulse Width  Slow    FDCE/C   n/a            0.500         5.000       4.500                busy_reg/C
+
+
+
+---------------------------------------------------------------------------------------------------
+Path Group:  **async_default**
+From Clock:  sys_clk
+  To Clock:  sys_clk
+
+Setup :            0  Failing Endpoints,  Worst Slack        7.131ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        1.904ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             7.131ns  (required time - arrival time)
+  Source:                 rst_n
+                            (input port clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            busy_reg/CLR
+                            (recovery check against rising-edge clock sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             **async_default**
+  Path Type:              Recovery (Max at Slow Process Corner)
+  Requirement:            10.000ns  (sys_clk rise@10.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        2.612ns  (logic 1.095ns (41.932%)  route 1.517ns (58.068%))
+  Logic Levels:           2  (IBUF=1 LUT1=1)
+  Input Delay:            2.000ns
+  Clock Path Skew:        2.130ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.130ns = ( 12.130 - 10.000 )
+    Source Clock Delay      (SCD):    0.000ns
+    Clock Pessimism Removal (CPR):    0.000ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r
+                         input delay                  2.000     2.000
+                                                      0.000     2.000 r  rst_n (IN)
+                         net (fo=0)                   0.000     2.000    rst_n
+                         IBUF (Prop_ibuf_I_O)         0.971     2.971 r  rst_n_IBUF_inst/O
+                         net (fo=1, unplaced)         0.803     3.774    u_flow_solver/rst_n_IBUF
+                         LUT1 (Prop_lut1_I0_O)        0.124     3.898 f  u_flow_solver/pixel_cnt[17]_i_3/O
+                         net (fo=129, unplaced)       0.714     4.612    u_flow_solver_n_1
+                         FDCE                                         f  busy_reg/CLR
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)   10.000    10.000 r
+                                                      0.000    10.000 r  clk (IN)
+                         net (fo=0)                   0.000    10.000    clk
+                         IBUF (Prop_ibuf_I_O)         0.838    10.838 r  clk_IBUF_inst/O
+                         net (fo=1, unplaced)         0.763    11.600    clk_IBUF
+                         BUFG (Prop_bufg_I_O)         0.091    11.691 r  clk_IBUF_BUFG_inst/O
+                         net (fo=134, unplaced)       0.439    12.130    clk_IBUF_BUFG
+                         FDCE                                         r  busy_reg/C
+                         clock pessimism              0.000    12.130
+                         clock uncertainty           -0.035    12.095
+                         FDCE (Recov_fdce_C_CLR)     -0.352    11.743    busy_reg
+  -------------------------------------------------------------------
+                         required time                         11.743
+                         arrival time                          -4.612
+  -------------------------------------------------------------------
+                         slack                                  7.131
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             1.904ns  (arrival time - required time)
+  Source:                 rst_n
+                            (input port clocked by sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            busy_reg/CLR
+                            (removal check against rising-edge clock sys_clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             **async_default**
+  Path Type:              Removal (Min at Fast Process Corner)
+  Requirement:            0.000ns  (sys_clk rise@0.000ns - sys_clk rise@0.000ns)
+  Data Path Delay:        0.885ns  (logic 0.245ns (27.713%)  route 0.639ns (72.287%))
+  Logic Levels:           2  (IBUF=1 LUT1=1)
+  Input Delay:            2.000ns
+  Clock Path Skew:        1.033ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.033ns
+    Source Clock Delay      (SCD):    0.000ns
+    Clock Pessimism Removal (CPR):    -0.000ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock sys_clk rise edge)    0.000     0.000 r
+                         input delay                  2.000     2.000
+                                                      0.000     2.000 r  rst_n (IN)
+                         net (fo=0)                   0.000     2.000    rst_n
+                         IBUF (Prop_ibuf_I_O)         0.200     2.200 r  rst_n_IBUF_inst/O
+                         net (fo=1, unplaced)         0.338     2.539    u_flow_solver/rst_n_IBUF
+                         LUT1 (Prop_lut1_I0_O)        0.045     2.584 f  u_flow_solver/pixel_cnt[17]_i_3/O
+                         net (fo=129, unplaced)       0.301     2.885    u_flow_solver_n_1
+                         FDCE                                         f  busy_reg/CLR
+  -------------------------------------------------------------------    -------------------
+
+                         (clock sys_clk rise edge)    0.000     0.000 r
+                                                      0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+                         IBUF (Prop_ibuf_I_O)         0.389     0.389 r  clk_IBUF_inst/O
+                         net (fo=1, unplaced)         0.356     0.745    clk_IBUF
+                         BUFG (Prop_bufg_I_O)         0.029     0.774 r  clk_IBUF_BUFG_inst/O
+                         net (fo=134, unplaced)       0.259     1.033    clk_IBUF_BUFG
+                         FDCE                                         r  busy_reg/C
+                         clock pessimism              0.000     1.033
+                         clock uncertainty            0.035     1.069
+                         FDCE (Remov_fdce_C_CLR)     -0.088     0.981    busy_reg
+  -------------------------------------------------------------------
+                         required time                         -0.981
+                         arrival time                           2.885
+  -------------------------------------------------------------------
+                         slack                                  1.904
